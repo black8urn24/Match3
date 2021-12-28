@@ -30,7 +30,7 @@ namespace Match3.Core
             xIndex = x;
             yIndex = y;
             currentGameBoard = gameBoard;
-            Debug.Log($"Tile Initialized with details - {xIndex} and {yIndex}".ToOrange().ToBold());
+            //Debug.Log($"Tile Initialized with details - {xIndex} and {yIndex}".ToOrange().ToBold());
         }
         #endregion
     }

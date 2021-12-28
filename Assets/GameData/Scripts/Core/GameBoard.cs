@@ -1,3 +1,4 @@
+using Match3.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,10 +12,13 @@ namespace Match3.Core
         [SerializeField] private int boardWidth = -1;
         [SerializeField] private int boardHeight = -1;
         [SerializeField] private float borderSize = -1f;
+        [SerializeField] private Transform gamePieceParent = null;
+        [SerializeField] private GameObject[] gamePiecePrefabs = null;
         #endregion
 
         #region Variables
         private GameTile[,] allTiles;
+        private GamePiece[,] allPieces;
         #endregion
 
         #region Unity Methods
@@ -35,6 +39,7 @@ namespace Match3.Core
         private void SetInitialReferences()
         {
             allTiles = new GameTile[boardWidth, boardHeight];
+            allPieces = new GamePiece[boardWidth, boardHeight];
             for (int i = 0; i < boardWidth; i++)
             {
                 for (int j = 0; j < boardHeight; j++)
@@ -52,6 +57,7 @@ namespace Match3.Core
                 }
             }
             SetCameraDimensions();
+            FillRandomPieces();
         }
 
         private void SetCameraDimensions()
@@ -63,6 +69,45 @@ namespace Match3.Core
             float verticalSize = (float)boardHeight / 2f + borderSize;
             float horizontalSize = ((float)boardWidth / 2f + borderSize) / aspectRatio;
             mainCamera.orthographicSize = (verticalSize > horizontalSize) ? verticalSize : horizontalSize;
+        }
+
+        GameObject GetRandomPiece()
+        {
+            int randomIndex = Random.Range(0, gamePiecePrefabs.Length);
+            if(gamePiecePrefabs[randomIndex] == null)
+            {
+                Debug.Log($"GAMEBOARD - gamepiece is null at index - {randomIndex}".ToRed().ToBold());
+                return null;
+            }
+            return gamePiecePrefabs[randomIndex];
+        }
+
+        private void PlaceGamePiece(GamePiece gamePiece, int x, int y)
+        {
+            if(gamePiece == null)
+            {
+                Debug.Log($"GAMEBOARD - gamepiece is null".ToRed().ToBold());
+                return;
+            }
+            gamePiece.transform.position = new Vector3(x, y, 0);
+            gamePiece.transform.rotation = Quaternion.identity;
+            gamePiece.SetCoordinates(x, y);
+        }
+
+        private void FillRandomPieces()
+        {
+            for(int i = 0; i < boardWidth; i++)
+            {
+                for(int j = 0; j < boardHeight; j++)
+                {
+                    GameObject gamePiece = Instantiate(GetRandomPiece(), Vector3.zero, Quaternion.identity);
+                    if(gamePiece != null)
+                    {
+                        gamePiece.transform.SetParent(gamePieceParent);
+                        PlaceGamePiece(gamePiece.GetComponent<GamePiece>(), i, j);
+                    }
+                }
+            }
         }
         #endregion
 
