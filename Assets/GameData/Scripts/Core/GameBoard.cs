@@ -47,6 +47,7 @@ namespace Match3.Core
                     if (gameTile != null)
                     {
                         allTiles[i, j] = gameTile;
+                        gameTile.InitializeTile(i, j, this);
                     }
                 }
             }
