@@ -65,6 +65,25 @@ namespace Match3.Core
                 }
                 timeElapsed += Time.deltaTime;
                 float lerpTime = Mathf.Clamp(timeElapsed / timeToMove, 0f, 1f);
+                switch (interpolationType)
+                {
+                    case GamePieceInterpolationType.Linear:
+                        break;
+                    case GamePieceInterpolationType.EaseIn:
+                        lerpTime = Mathf.Sin(lerpTime * Mathf.PI * 0.5f);
+                        break;
+                    case GamePieceInterpolationType.EaseOut:
+                        lerpTime = 1 - Mathf.Cos(lerpTime * Mathf.PI * 0.5f);
+                        break;
+                    case GamePieceInterpolationType.SmoothStep:
+                        lerpTime = lerpTime * lerpTime * (3 - 2 * lerpTime);
+                        break;
+                    case GamePieceInterpolationType.SmootherStep:
+                        lerpTime = lerpTime * lerpTime * lerpTime * (lerpTime * (lerpTime * 6 - 15) + 10);
+                        break;
+                    default:
+                        break;
+                }
                 transform.position = Vector3.Lerp(startPosition, destination, lerpTime);
                 yield return null;
             }
