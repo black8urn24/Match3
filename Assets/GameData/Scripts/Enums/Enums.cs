@@ -16,4 +16,13 @@ namespace Match3.Enums
         Yellow,
         None
     }
+
+    public enum GamePieceInterpolationType
+    {
+        Linear,
+        EaseIn,
+        EaseOut,
+        SmoothStep,
+        SmootherStep
+    }
 }
