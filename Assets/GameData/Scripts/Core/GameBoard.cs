@@ -14,6 +14,7 @@ namespace Match3.Core
         [SerializeField] private float borderSize = -1f;
         [SerializeField] private Transform gamePieceParent = null;
         [SerializeField] private GameObject[] gamePiecePrefabs = null;
+        [SerializeField] private float gamePieceMoveSpeed = 0.3f;
         #endregion
 
         #region Variables
@@ -73,10 +74,10 @@ namespace Match3.Core
             mainCamera.orthographicSize = (verticalSize > horizontalSize) ? verticalSize : horizontalSize;
         }
 
-        GameObject GetRandomPiece()
+        private GameObject GetRandomPiece()
         {
             int randomIndex = Random.Range(0, gamePiecePrefabs.Length);
-            if(gamePiecePrefabs[randomIndex] == null)
+            if (gamePiecePrefabs[randomIndex] == null)
             {
                 Debug.Log($"GAMEBOARD - gamepiece is null at index - {randomIndex}".ToRed().ToBold());
                 return null;
@@ -84,28 +85,17 @@ namespace Match3.Core
             return gamePiecePrefabs[randomIndex];
         }
 
-        private void PlaceGamePiece(GamePiece gamePiece, int x, int y)
-        {
-            if(gamePiece == null)
-            {
-                Debug.Log($"GAMEBOARD - gamepiece is null".ToRed().ToBold());
-                return;
-            }
-            gamePiece.transform.position = new Vector3(x, y, 0);
-            gamePiece.transform.rotation = Quaternion.identity;
-            gamePiece.SetCoordinates(x, y);
-        }
-
         private void FillRandomPieces()
         {
-            for(int i = 0; i < boardWidth; i++)
+            for (int i = 0; i < boardWidth; i++)
             {
-                for(int j = 0; j < boardHeight; j++)
+                for (int j = 0; j < boardHeight; j++)
                 {
                     GameObject gamePiece = Instantiate(GetRandomPiece(), Vector3.zero, Quaternion.identity);
-                    if(gamePiece != null)
+                    if (gamePiece != null)
                     {
                         gamePiece.transform.SetParent(gamePieceParent);
+                        gamePiece.GetComponent<GamePiece>().Initialize(this);
                         PlaceGamePiece(gamePiece.GetComponent<GamePiece>(), i, j);
                     }
                 }
@@ -114,36 +104,72 @@ namespace Match3.Core
 
         private void SwitchTiles(GameTile currentTile, GameTile targetTile)
         {
-            currentTile = null;
-            targetTile = null;
+            GamePiece clickedGamePiece = allPieces[currentTile.XIndex, currentTile.YIndex];
+            GamePiece targetGamePiece = allPieces[targetTile.XIndex, targetTile.YIndex];
+            clickedGamePiece.MovePiece(targetTile.XIndex, targetTile.YIndex, gamePieceMoveSpeed);
+            targetGamePiece.MovePiece(currentTile.XIndex, currentTile.YIndex, gamePieceMoveSpeed);
+        }
+
+        private bool IsWithinBounds(int x, int y)
+        {
+            return (x >= 0 && x < boardWidth && y >= 0 && y < boardHeight);
+        }
+
+        private bool IsNextTo(GameTile start, GameTile end)
+        {
+            if(Mathf.Abs(start.XIndex - end.XIndex) == 1 && start.YIndex == end.YIndex)
+            {
+                return true;
+            }
+            if (Mathf.Abs(start.YIndex - end.YIndex) == 1 && start.XIndex == end.XIndex)
+            {
+                return true;
+            }
+            return false;
         }
         #endregion
 
         #region Public Methods
         public void SetClickedTile(GameTile tile)
         {
-            if(clickedTile == null)
+            if (clickedTile == null)
             {
                 clickedTile = tile;
-                Debug.Log($"Clicked tile set to {tile.name}".ToAqua().ToBold());
             }
         }
 
         public void SetTargetTile(GameTile tile)
         {
-            if (clickedTile != null)
+            if (clickedTile != null && IsNextTo(tile, clickedTile))
             {
                 targetTile = tile;
-                Debug.Log($"target tile set to {tile.name}".ToAqua().ToBold());
             }
         }
 
         public void ReleaseTile()
         {
-            if(clickedTile != null && targetTile != null)
+            if (clickedTile != null && targetTile != null)
             {
                 SwitchTiles(clickedTile, targetTile);
             }
+            clickedTile = null;
+            targetTile = null;
+        }
+
+        public void PlaceGamePiece(GamePiece gamePiece, int x, int y)
+        {
+            if (gamePiece == null)
+            {
+                Debug.Log($"GAMEBOARD - gamepiece is null".ToRed().ToBold());
+                return;
+            }
+            gamePiece.transform.position = new Vector3(x, y, 0);
+            gamePiece.transform.rotation = Quaternion.identity;
+            if (IsWithinBounds(x, y))
+            {
+                allPieces[x, y] = gamePiece;
+            }
+            gamePiece.SetCoordinates(x, y);
         }
         #endregion
     }

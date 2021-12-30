@@ -11,9 +11,12 @@ namespace Match3.Core
         private int xIndex = -1;
         private int yIndex = -1;
         private GameBoard currentGameBoard = null;
+
         #endregion
 
         #region Properties
+        public int XIndex { get => xIndex; set => xIndex = value; }
+        public int YIndex { get => yIndex; set => yIndex = value; }
         #endregion
 
         #region Unity Methods
@@ -51,8 +54,8 @@ namespace Match3.Core
         #region Public Methods
         public void InitializeTile(int x, int y, GameBoard gameBoard)
         {
-            xIndex = x;
-            yIndex = y;
+            XIndex = x;
+            YIndex = y;
             currentGameBoard = gameBoard;
             //Debug.Log($"Tile Initialized with details - {xIndex} and {yIndex}".ToOrange().ToBold());
         }

@@ -16,6 +16,7 @@ namespace Match3.Core
         #region Variables
         private int x = -1;
         private int y = -1;
+        private GameBoard currentGameBoard = null;
         private bool isMoving = false;
         #endregion
 
@@ -59,8 +60,10 @@ namespace Match3.Core
                 if (Vector3.Distance(transform.position, destination) < 0.01f)
                 {
                     isDestinationReached = true;
-                    transform.position = destination;
-                    SetCoordinates((int)destination.x, (int)destination.y);
+                    if (currentGameBoard != null)
+                    {
+                        currentGameBoard.PlaceGamePiece(this, (int)destination.x, (int)destination.y);
+                    }
                     break;
                 }
                 timeElapsed += Time.deltaTime;
@@ -96,6 +99,11 @@ namespace Match3.Core
         {
             this.x = x;
             this.y = y;
+        }
+
+        public void Initialize(GameBoard gameBoard)
+        {
+            currentGameBoard = gameBoard;
         }
 
         public void MovePiece(int destinationX, int destinationY, float timeToMove)
