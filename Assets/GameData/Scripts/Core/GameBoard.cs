@@ -19,6 +19,8 @@ namespace Match3.Core
         #region Variables
         private GameTile[,] allTiles;
         private GamePiece[,] allPieces;
+        private GameTile clickedTile;
+        private GameTile targetTile;
         #endregion
 
         #region Unity Methods
@@ -109,9 +111,40 @@ namespace Match3.Core
                 }
             }
         }
+
+        private void SwitchTiles(GameTile currentTile, GameTile targetTile)
+        {
+            currentTile = null;
+            targetTile = null;
+        }
         #endregion
 
         #region Public Methods
+        public void SetClickedTile(GameTile tile)
+        {
+            if(clickedTile == null)
+            {
+                clickedTile = tile;
+                Debug.Log($"Clicked tile set to {tile.name}".ToAqua().ToBold());
+            }
+        }
+
+        public void SetTargetTile(GameTile tile)
+        {
+            if (clickedTile != null)
+            {
+                targetTile = tile;
+                Debug.Log($"target tile set to {tile.name}".ToAqua().ToBold());
+            }
+        }
+
+        public void ReleaseTile()
+        {
+            if(clickedTile != null && targetTile != null)
+            {
+                SwitchTiles(clickedTile, targetTile);
+            }
+        }
         #endregion
     }
 }

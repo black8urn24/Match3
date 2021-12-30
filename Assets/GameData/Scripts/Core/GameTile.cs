@@ -22,6 +22,30 @@ namespace Match3.Core
         {
 
         }
+
+        private void OnMouseDown()
+        {
+            if(currentGameBoard != null)
+            {
+                currentGameBoard.SetClickedTile(this);
+            }
+        }
+
+        private void OnMouseEnter()
+        {
+            if(currentGameBoard != null)
+            {
+                currentGameBoard.SetTargetTile(this);
+            }
+        }
+
+        private void OnMouseUp()
+        {
+            if(currentGameBoard != null)
+            {
+                currentGameBoard.ReleaseTile();
+            }
+        }
         #endregion
 
         #region Public Methods
