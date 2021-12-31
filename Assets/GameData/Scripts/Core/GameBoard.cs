@@ -127,6 +127,50 @@ namespace Match3.Core
             }
             return false;
         }
+
+        private List<GamePiece> FindMatches(int startX, int startY, Vector2 searchDirection, int minLength = 3)
+        {
+            List<GamePiece> matches = new List<GamePiece>();
+            GamePiece startPiece = null;
+            if(IsWithinBounds(startX, startY))
+            {
+                startPiece = allPieces[startX, startY];
+            }
+            if(startPiece != null)
+            {
+                matches.Add(startPiece);
+            }
+            else
+            {
+                return null;
+            }
+            int nextX;
+            int nextY;
+            int maxValue = (boardWidth > boardHeight) ? boardWidth : boardHeight;
+            for(int i = 1; i < maxValue - 1; i++)
+            {
+                nextX = startX + Mathf.Clamp((int)searchDirection.x, -1, 1) * i;
+                nextY = startY + Mathf.Clamp((int)searchDirection.y, -1, 1) * i;
+                if(!IsWithinBounds(nextX, nextY))
+                {
+                    break;
+                }
+                GamePiece nextPiece = allPieces[nextX, nextY];
+                if(nextPiece.PieceType == startPiece.PieceType && !matches.Contains(nextPiece))
+                {
+                    matches.Add(nextPiece);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            if(matches.Count >= minLength)
+            {
+                return matches;
+            }
+            return null;
+        }
         #endregion
 
         #region Public Methods

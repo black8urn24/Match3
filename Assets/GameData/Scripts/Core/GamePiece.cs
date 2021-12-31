@@ -34,14 +34,14 @@ namespace Match3.Core
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                MovePiece((int)transform.position.x + 1, (int)transform.position.y, 0.5f);
-            }
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                MovePiece((int)transform.position.x - 1, (int)transform.position.y, 0.5f);
-            }
+            //if (Input.GetKeyDown(KeyCode.RightArrow))
+            //{
+            //    MovePiece((int)transform.position.x + 1, (int)transform.position.y, 0.5f);
+            //}
+            //if (Input.GetKeyDown(KeyCode.LeftArrow))
+            //{
+            //    MovePiece((int)transform.position.x - 1, (int)transform.position.y, 0.5f);
+            //}
         }
         #endregion
 
