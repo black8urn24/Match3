@@ -14,14 +14,16 @@ namespace Match3.Core
         #endregion
 
         #region Variables
-        private int x = -1;
-        private int y = -1;
+        private int xIndex = -1;
+        private int yIndex = -1;
         private GameBoard currentGameBoard = null;
         private bool isMoving = false;
         #endregion
 
         #region Properties
         public GamePieceType PieceType { get => pieceType; private set => pieceType = value; }
+        public int XIndex { get => xIndex; set => xIndex = value; }
+        public int YIndex { get => yIndex; set => yIndex = value; }
         #endregion
 
         #region Unity Methods
@@ -97,8 +99,8 @@ namespace Match3.Core
         #region Public Methods
         public void SetCoordinates(int x, int y)
         {
-            this.x = x;
-            this.y = y;
+            XIndex = x;
+            YIndex = y;
         }
 
         public void Initialize(GameBoard gameBoard)
