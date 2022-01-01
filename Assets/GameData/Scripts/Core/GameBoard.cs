@@ -166,13 +166,20 @@ namespace Match3.Core
                     break;
                 }
                 GamePiece nextPiece = allPieces[nextX, nextY];
-                if(nextPiece.PieceType == startPiece.PieceType && !matches.Contains(nextPiece))
+                if(nextPiece == null)
                 {
-                    matches.Add(nextPiece);
+                    break;
                 }
                 else
                 {
-                    break;
+                    if (nextPiece.PieceType == startPiece.PieceType && !matches.Contains(nextPiece))
+                    {
+                        matches.Add(nextPiece);
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
             }
             if(matches.Count >= minLength)
@@ -274,6 +281,42 @@ namespace Match3.Core
                 }
             }
         }
+
+        private void ClearPieceAt(int i, int j)
+        {
+            GamePiece gamePiece = allPieces[i, j];
+            if (gamePiece != null)
+            {
+                allPieces[i, j] = null;
+                Destroy(gamePiece.gameObject);
+            }
+            HighlightTilesOff(i, j);
+        }
+
+        private void ClearPieceAt(List<GamePiece> gamePieces)
+        {
+            if (gamePieces != null)
+            {
+                foreach (var item in gamePieces)
+                {
+                    if (item != null)
+                    {
+                        ClearPieceAt(item.XIndex, item.YIndex);
+                    }
+                }
+            }
+        }
+
+        private void ClearPieces()
+        {
+            for (int i = 0; i < boardWidth; i++)
+            {
+                for (int j = 0; j < boardHeight; j++)
+                {
+                    ClearPieceAt(i, j);
+                }
+            }
+        }
         #endregion
 
         #region Coroutines
@@ -295,9 +338,14 @@ namespace Match3.Core
                         clickedGamePiece.MovePiece(currentTile.XIndex, currentTile.YIndex, gamePieceMoveSpeed);
                         targetGamePiece.MovePiece(targetTile.XIndex, targetTile.YIndex, gamePieceMoveSpeed);
                     }
-                    yield return new WaitForSeconds(gamePieceMoveSpeed);
-                    HighlightMatchesAt(currentTile.XIndex, currentTile.YIndex);
-                    HighlightMatchesAt(targetTile.XIndex, targetTile.YIndex);
+                    else
+                    {
+                        yield return new WaitForSeconds(gamePieceMoveSpeed);
+                        ClearPieceAt(clickedPieceMatches);
+                        ClearPieceAt(targetPieceMatches);
+                        //HighlightMatchesAt(currentTile.XIndex, currentTile.YIndex);
+                        //HighlightMatchesAt(targetTile.XIndex, targetTile.YIndex);
+                    }
                 }
             }
         }

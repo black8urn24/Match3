@@ -177,7 +177,7 @@ MonoBehaviour:
   - {fileID: 1000011697559180, guid: 8f62ee363864149f4bb7981086aa48ef, type: 3}
   - {fileID: 1000013582439192, guid: ce0cdf7a8a6c543fb9d96817d1d2f3f6, type: 3}
   - {fileID: 1000013942094482, guid: 37d845b51eba4482b9f81557f91a97fe, type: 3}
-  gamePieceMoveSpeed: 0.3
+  gamePieceMoveSpeed: 0.15
   reloadLevelButton: {fileID: 1470686869}
 --- !u!1 &366325412
 GameObject:
