@@ -64,7 +64,7 @@ namespace Match3.Core
                 }
             }
             SetCameraDimensions();
-            FillRandomPieces();
+            FillBoard();
             //HighlightMatches();
             if(reloadLevelButton != null)
             {
@@ -98,21 +98,56 @@ namespace Match3.Core
             return gamePiecePrefabs[randomIndex];
         }
 
-        private void FillRandomPieces()
+        private void FillBoard()
         {
+            int maxIterations = 100;
+            int currentIterations = 0;
             for (int i = 0; i < boardWidth; i++)
             {
                 for (int j = 0; j < boardHeight; j++)
                 {
-                    GameObject gamePiece = Instantiate(GetRandomPiece(), Vector3.zero, Quaternion.identity);
-                    if (gamePiece != null)
+                    GamePiece randomPiece = FillBoardAt(i, j);
+                    while(HasMatchOnFill(i,j,3))
                     {
-                        gamePiece.transform.SetParent(gamePieceParent);
-                        gamePiece.GetComponent<GamePiece>().Initialize(this);
-                        PlaceGamePiece(gamePiece.GetComponent<GamePiece>(), i, j);
+                        ClearPieceAt(i, j);
+                        randomPiece = FillBoardAt(i, j);
+                        currentIterations++;
+                        if(currentIterations >= maxIterations)
+                        {
+                            Debug.Log($"BOARD::Max iterations made".ToRed().ToBold());
+                            break;
+                        }
                     }
                 }
             }
+        }
+
+        private GamePiece FillBoardAt(int i, int j)
+        {
+            GameObject gamePiece = Instantiate(GetRandomPiece(), Vector3.zero, Quaternion.identity);
+            if (gamePiece != null)
+            {
+                gamePiece.transform.SetParent(gamePieceParent);
+                gamePiece.GetComponent<GamePiece>().Initialize(this);
+                PlaceGamePiece(gamePiece.GetComponent<GamePiece>(), i, j);
+                return gamePiece.GetComponent<GamePiece>();
+            }
+            return null;
+        }
+
+        private bool HasMatchOnFill(int i, int j, int minLength = 3)
+        {
+            List<GamePiece> leftMatches = FindMatches(i, j, Vector2.left, minLength);
+            List<GamePiece> downMatches = FindMatches(i, j, Vector2.down, minLength);
+            if(leftMatches == null)
+            {
+                leftMatches = new List<GamePiece>();
+            }
+            if(downMatches == null)
+            {
+                downMatches = new List<GamePiece>();
+            }
+            return (leftMatches.Count > 0 || downMatches.Count > 0);
         }
 
         private void SwitchTiles(GameTile currentTile, GameTile targetTile)
