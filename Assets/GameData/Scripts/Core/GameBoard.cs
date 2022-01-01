@@ -66,10 +66,10 @@ namespace Match3.Core
             SetCameraDimensions();
             FillBoard();
             //HighlightMatches();
-            if(reloadLevelButton != null)
+            if (reloadLevelButton != null)
             {
                 reloadLevelButton.onClick.RemoveAllListeners();
-                reloadLevelButton.onClick.AddListener(() => 
+                reloadLevelButton.onClick.AddListener(() =>
                 {
                     SceneManager.LoadScene(0);
                 });
@@ -107,12 +107,12 @@ namespace Match3.Core
                 for (int j = 0; j < boardHeight; j++)
                 {
                     GamePiece randomPiece = FillBoardAt(i, j);
-                    while(HasMatchOnFill(i,j,3))
+                    while (HasMatchOnFill(i, j, 3))
                     {
                         ClearPieceAt(i, j);
                         randomPiece = FillBoardAt(i, j);
                         currentIterations++;
-                        if(currentIterations >= maxIterations)
+                        if (currentIterations >= maxIterations)
                         {
                             Debug.Log($"BOARD::Max iterations made".ToRed().ToBold());
                             break;
@@ -139,11 +139,11 @@ namespace Match3.Core
         {
             List<GamePiece> leftMatches = FindMatches(i, j, Vector2.left, minLength);
             List<GamePiece> downMatches = FindMatches(i, j, Vector2.down, minLength);
-            if(leftMatches == null)
+            if (leftMatches == null)
             {
                 leftMatches = new List<GamePiece>();
             }
-            if(downMatches == null)
+            if (downMatches == null)
             {
                 downMatches = new List<GamePiece>();
             }
@@ -162,7 +162,7 @@ namespace Match3.Core
 
         private bool IsNextTo(GameTile start, GameTile end)
         {
-            if(Mathf.Abs(start.XIndex - end.XIndex) == 1 && start.YIndex == end.YIndex)
+            if (Mathf.Abs(start.XIndex - end.XIndex) == 1 && start.YIndex == end.YIndex)
             {
                 return true;
             }
@@ -177,11 +177,11 @@ namespace Match3.Core
         {
             List<GamePiece> matches = new List<GamePiece>();
             GamePiece startPiece = null;
-            if(IsWithinBounds(startX, startY))
+            if (IsWithinBounds(startX, startY))
             {
                 startPiece = allPieces[startX, startY];
             }
-            if(startPiece != null)
+            if (startPiece != null)
             {
                 matches.Add(startPiece);
             }
@@ -192,16 +192,16 @@ namespace Match3.Core
             int nextX;
             int nextY;
             int maxValue = (boardWidth > boardHeight) ? boardWidth : boardHeight;
-            for(int i = 1; i < maxValue - 1; i++)
+            for (int i = 1; i < maxValue - 1; i++)
             {
                 nextX = startX + Mathf.Clamp((int)searchDirection.x, -1, 1) * i;
                 nextY = startY + Mathf.Clamp((int)searchDirection.y, -1, 1) * i;
-                if(!IsWithinBounds(nextX, nextY))
+                if (!IsWithinBounds(nextX, nextY))
                 {
                     break;
                 }
                 GamePiece nextPiece = allPieces[nextX, nextY];
-                if(nextPiece == null)
+                if (nextPiece == null)
                 {
                     break;
                 }
@@ -217,7 +217,7 @@ namespace Match3.Core
                     }
                 }
             }
-            if(matches.Count >= minLength)
+            if (matches.Count >= minLength)
             {
                 return matches;
             }
@@ -228,11 +228,11 @@ namespace Match3.Core
         {
             List<GamePiece> upwardMatches = FindMatches(startX, startY, new Vector2(0, 1), 2);
             List<GamePiece> downwardMatches = FindMatches(startX, startY, new Vector2(0, -1), 2);
-            if(upwardMatches == null)
+            if (upwardMatches == null)
             {
                 upwardMatches = new List<GamePiece>();
             }
-            if(downwardMatches == null)
+            if (downwardMatches == null)
             {
                 downwardMatches = new List<GamePiece>();
             }
@@ -308,9 +308,9 @@ namespace Match3.Core
 
         private void HighlightMatches()
         {
-            for(int i = 0; i < boardWidth; i++)
+            for (int i = 0; i < boardWidth; i++)
             {
-                for(int j = 0; j < boardHeight; j++)
+                for (int j = 0; j < boardHeight; j++)
                 {
                     HighlightMatchesAt(i, j);
                 }
@@ -352,16 +352,70 @@ namespace Match3.Core
                 }
             }
         }
+
+        List<GamePiece> CollapseColoumn(int coloumn, float fallTime = 0.1f)
+        {
+            List<GamePiece> movingPieces = new List<GamePiece>();
+            for (int i = 0; i < boardHeight - 1; i++)
+            {
+                if (allPieces[coloumn, i] == null)
+                {
+                    for (int j = i + 1; j < boardHeight; j++)
+                    {
+                        if(allPieces[coloumn,j] != null)
+                        {
+                            allPieces[coloumn, j].MovePiece(coloumn, i, fallTime);
+                            allPieces[coloumn, i] = allPieces[coloumn, j];
+                            allPieces[coloumn, i].SetCoordinates(coloumn, i);
+                            if(!movingPieces.Contains(allPieces[coloumn, i]))
+                            {
+                                movingPieces.Add(allPieces[coloumn, i]);
+                            }
+                            allPieces[coloumn, j] = null;
+                            break;
+                        }
+                    }
+                }
+            }
+            return movingPieces;
+        }
+
+        List<GamePiece> CollapseColoumn(List<GamePiece> gamePieces)
+        {
+            List<GamePiece> movingPieces = new List<GamePiece>();
+            List<int> coloumns = GetColoumns(gamePieces);
+            foreach (var coloumn in coloumns)
+            {
+                movingPieces = movingPieces.Union(CollapseColoumn(coloumn)).ToList();
+            }
+            return movingPieces;
+        }
+
+        List<int> GetColoumns(List<GamePiece> gamePieces)
+        {
+            List<int> coloumns = new List<int>();
+            foreach (var item in gamePieces)
+            {
+                if(item != null)
+                {
+                    if(!coloumns.Contains(item.XIndex))
+                    {
+                        coloumns.Add(item.XIndex);
+                    }
+                }
+            }
+            return coloumns;
+        }
         #endregion
 
         #region Coroutines
         private IEnumerator SwitchTilesRoutine(GameTile currentTile, GameTile targetTile)
         {
-            if(currentTile != null && targetTile != null)
+            if (currentTile != null && targetTile != null)
             {
                 GamePiece clickedGamePiece = allPieces[currentTile.XIndex, currentTile.YIndex];
                 GamePiece targetGamePiece = allPieces[targetTile.XIndex, targetTile.YIndex];
-                if(clickedGamePiece != null && targetGamePiece != null)
+                if (clickedGamePiece != null && targetGamePiece != null)
                 {
                     clickedGamePiece.MovePiece(targetTile.XIndex, targetTile.YIndex, gamePieceMoveSpeed);
                     targetGamePiece.MovePiece(currentTile.XIndex, currentTile.YIndex, gamePieceMoveSpeed);
@@ -378,8 +432,8 @@ namespace Match3.Core
                         yield return new WaitForSeconds(gamePieceMoveSpeed);
                         ClearPieceAt(clickedPieceMatches);
                         ClearPieceAt(targetPieceMatches);
-                        //HighlightMatchesAt(currentTile.XIndex, currentTile.YIndex);
-                        //HighlightMatchesAt(targetTile.XIndex, targetTile.YIndex);
+                        CollapseColoumn(clickedPieceMatches);
+                        CollapseColoumn(targetPieceMatches);
                     }
                 }
             }
