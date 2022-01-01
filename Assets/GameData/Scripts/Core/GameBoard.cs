@@ -65,7 +65,7 @@ namespace Match3.Core
             }
             SetCameraDimensions();
             FillRandomPieces();
-            HighlightMatches();
+            //HighlightMatches();
             if(reloadLevelButton != null)
             {
                 reloadLevelButton.onClick.RemoveAllListeners();
@@ -117,10 +117,7 @@ namespace Match3.Core
 
         private void SwitchTiles(GameTile currentTile, GameTile targetTile)
         {
-            GamePiece clickedGamePiece = allPieces[currentTile.XIndex, currentTile.YIndex];
-            GamePiece targetGamePiece = allPieces[targetTile.XIndex, targetTile.YIndex];
-            clickedGamePiece.MovePiece(targetTile.XIndex, targetTile.YIndex, gamePieceMoveSpeed);
-            targetGamePiece.MovePiece(currentTile.XIndex, currentTile.YIndex, gamePieceMoveSpeed);
+            StartCoroutine(SwitchTilesRoutine(currentTile, targetTile));
         }
 
         private bool IsWithinBounds(int x, int y)
@@ -217,42 +214,90 @@ namespace Match3.Core
             return (combinedMatches.Count >= minLength) ? combinedMatches : null;
         }
 
+        private List<GamePiece> FindMatchesAt(int i, int j, int minLength = 3)
+        {
+            List<GamePiece> horizontalMatches = FindHorizontalMatches(i, j, minLength);
+            List<GamePiece> verticalMatches = FindVerticalMatches(i, j, minLength);
+            if (horizontalMatches == null)
+            {
+                horizontalMatches = new List<GamePiece>();
+            }
+            if (verticalMatches == null)
+            {
+                verticalMatches = new List<GamePiece>();
+            }
+            var combinedMatches = horizontalMatches.Union(verticalMatches).ToList();
+            return combinedMatches;
+        }
+
+        private void HighlightTilesOff(int i, int j)
+        {
+            SpriteRenderer spriteRenderer = allTiles[i, j].GetComponent<SpriteRenderer>();
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0f);
+            }
+        }
+
+        private void HighlightTilesOn(int i, int j, Color color)
+        {
+            SpriteRenderer spriteRenderer = allTiles[i, j].GetComponent<SpriteRenderer>();
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.color = color;
+            }
+        }
+
+        private void HighlightMatchesAt(int i, int j)
+        {
+            HighlightTilesOff(i, j);
+            List<GamePiece> combinedMatches = FindMatchesAt(i, j);
+            if (combinedMatches.Count > 0)
+            {
+                foreach (var item in combinedMatches)
+                {
+                    if (item != null)
+                    {
+                        HighlightTilesOn(item.XIndex, item.YIndex, item.GetComponent<SpriteRenderer>().color);
+                    }
+                }
+            }
+        }
+
         private void HighlightMatches()
         {
             for(int i = 0; i < boardWidth; i++)
             {
                 for(int j = 0; j < boardHeight; j++)
                 {
-                    SpriteRenderer spriteRenderer = allTiles[i, j].GetComponent<SpriteRenderer>();
-                    if(spriteRenderer != null)
+                    HighlightMatchesAt(i, j);
+                }
+            }
+        }
+        #endregion
+
+        #region Coroutines
+        private IEnumerator SwitchTilesRoutine(GameTile currentTile, GameTile targetTile)
+        {
+            if(currentTile != null && targetTile != null)
+            {
+                GamePiece clickedGamePiece = allPieces[currentTile.XIndex, currentTile.YIndex];
+                GamePiece targetGamePiece = allPieces[targetTile.XIndex, targetTile.YIndex];
+                if(clickedGamePiece != null && targetGamePiece != null)
+                {
+                    clickedGamePiece.MovePiece(targetTile.XIndex, targetTile.YIndex, gamePieceMoveSpeed);
+                    targetGamePiece.MovePiece(currentTile.XIndex, currentTile.YIndex, gamePieceMoveSpeed);
+                    yield return new WaitForSeconds(gamePieceMoveSpeed);
+                    List<GamePiece> clickedPieceMatches = FindMatchesAt(currentTile.XIndex, currentTile.YIndex);
+                    List<GamePiece> targetPieceMatches = FindMatchesAt(targetTile.XIndex, targetTile.YIndex);
+                    if (clickedPieceMatches.Count == 0 && targetPieceMatches.Count == 0)
                     {
-                        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0f);
+                        clickedGamePiece.MovePiece(currentTile.XIndex, currentTile.YIndex, gamePieceMoveSpeed);
+                        targetGamePiece.MovePiece(targetTile.XIndex, targetTile.YIndex, gamePieceMoveSpeed);
                     }
-                    List<GamePiece> horizontalMatches = FindHorizontalMatches(i, j, 3);
-                    List<GamePiece> verticalMatches = FindVerticalMatches(i, j, 3);
-                    if(horizontalMatches == null)
-                    {
-                        horizontalMatches = new List<GamePiece>();
-                    }
-                    if(verticalMatches == null)
-                    {
-                        verticalMatches = new List<GamePiece>();
-                    }
-                    var combinedMatches = horizontalMatches.Union(verticalMatches).ToList();
-                    if(combinedMatches.Count > 0)
-                    {
-                        foreach (var item in combinedMatches)
-                        {
-                            if(item != null)
-                            {
-                                spriteRenderer = allTiles[item.XIndex, item.YIndex].GetComponent<SpriteRenderer>();
-                                if(spriteRenderer != null)
-                                {
-                                    spriteRenderer.color = item.GetComponent<SpriteRenderer>().color;
-                                }
-                            }
-                        }
-                    }
+                    yield return new WaitForSeconds(gamePieceMoveSpeed);
+                    HighlightMatchesAt(currentTile.XIndex, currentTile.YIndex);
+                    HighlightMatchesAt(targetTile.XIndex, targetTile.YIndex);
                 }
             }
         }
