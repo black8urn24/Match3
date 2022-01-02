@@ -65,7 +65,7 @@ namespace Match3.Core
                 }
             }
             SetCameraDimensions();
-            FillBoard();
+            FillBoard(20f, 0.5f);
             //HighlightMatches();
             if (reloadLevelButton != null)
             {
@@ -99,7 +99,7 @@ namespace Match3.Core
             return gamePiecePrefabs[randomIndex];
         }
 
-        private void FillBoard()
+        private void FillBoard(float falseYOffset = 0f, float fallTime = 0.1f)
         {
             int maxIterations = 100;
             int currentIterations = 0;
@@ -107,23 +107,26 @@ namespace Match3.Core
             {
                 for (int j = 0; j < boardHeight; j++)
                 {
-                    GamePiece randomPiece = FillBoardAt(i, j);
-                    while (HasMatchOnFill(i, j, 3))
+                    if (allPieces[i, j] == null)
                     {
-                        ClearPieceAt(i, j);
-                        randomPiece = FillBoardAt(i, j);
-                        currentIterations++;
-                        if (currentIterations >= maxIterations)
+                        GamePiece randomPiece = FillBoardAt(i, j, falseYOffset, fallTime);
+                        while (HasMatchOnFill(i, j, 3))
                         {
-                            Debug.Log($"BOARD::Max iterations made".ToRed().ToBold());
-                            break;
+                            ClearPieceAt(i, j);
+                            randomPiece = FillBoardAt(i, j, falseYOffset, fallTime);
+                            currentIterations++;
+                            if (currentIterations >= maxIterations)
+                            {
+                                Debug.Log($"BOARD::Max iterations made".ToRed().ToBold());
+                                break;
+                            }
                         }
                     }
                 }
             }
         }
 
-        private GamePiece FillBoardAt(int i, int j)
+        private GamePiece FillBoardAt(int i, int j, float yOffset = 0f, float fallTime = 0.1f)
         {
             GameObject gamePiece = Instantiate(GetRandomPiece(), Vector3.zero, Quaternion.identity);
             if (gamePiece != null)
@@ -131,6 +134,11 @@ namespace Match3.Core
                 gamePiece.transform.SetParent(gamePieceParent);
                 gamePiece.GetComponent<GamePiece>().Initialize(this);
                 PlaceGamePiece(gamePiece.GetComponent<GamePiece>(), i, j);
+                if (yOffset != 0f)
+                {
+                    gamePiece.transform.position = new Vector3(i, j + yOffset, 0f);
+                    gamePiece.GetComponent<GamePiece>().MovePiece(i, j, fallTime);
+                }
                 return gamePiece.GetComponent<GamePiece>();
             }
             return null;
@@ -281,6 +289,20 @@ namespace Match3.Core
                 matches = matches.Union(FindMatchesAt(item.XIndex, item.YIndex, minLength)).ToList();
             }
             return matches;
+        }
+
+        private List<GamePiece> FindAllMatchesOnBoard()
+        {
+            List<GamePiece> allMatches = new List<GamePiece>();
+            for (int i = 0; i < boardWidth; i++)
+            {
+                for (int j = 0; j < boardHeight; j++)
+                {
+                    List<GamePiece> matches = FindMatchesAt(i, j);
+                    allMatches = allMatches.Union(matches).ToList();
+                }
+            }
+            return allMatches;
         }
 
         private void HighlightTilesOff(int i, int j)
@@ -484,8 +506,15 @@ namespace Match3.Core
         private IEnumerator ClearAndRefillBoardRoutine(List<GamePiece> gamePieces)
         {
             canSwitchTiles = false;
-            yield return StartCoroutine(ClearAndCollapseRoutine(gamePieces));
-            yield return null;
+            List<GamePiece> matches = gamePieces;
+            do
+            {
+                yield return StartCoroutine(ClearAndCollapseRoutine(matches));
+                yield return null;
+                yield return StartCoroutine(RefillRoutine());
+                matches = FindAllMatchesOnBoard();
+                yield return new WaitForSeconds(0.5f);
+            } while (matches.Count != 0);
             canSwitchTiles = true;
         }
 
@@ -493,7 +522,7 @@ namespace Match3.Core
         {
             List<GamePiece> movingPieces = new List<GamePiece>();
             List<GamePiece> matches = new List<GamePiece>();
-            float visualDelay = 0.35f;
+            float visualDelay = 0.25f;
             bool isFinished = false;
             HighlightPieces(gamePieces);
             yield return new WaitForSeconds(visualDelay);
@@ -518,6 +547,12 @@ namespace Match3.Core
                     yield return StartCoroutine(ClearAndCollapseRoutine(matches));
                 }
             }
+            yield return null;
+        }
+
+        private IEnumerator RefillRoutine()
+        {
+            FillBoard(10f, 0.2f);
             yield return null;
         }
         #endregion
