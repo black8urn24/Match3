@@ -26,6 +26,7 @@ namespace Match3.Core
         private GamePiece[,] allPieces;
         private GameTile clickedTile;
         private GameTile targetTile;
+        private bool canSwitchTiles = true;
         #endregion
 
         #region Unity Methods
@@ -388,7 +389,7 @@ namespace Match3.Core
                     {
                         if (allPieces[coloumn, j] != null)
                         {
-                            allPieces[coloumn, j].MovePiece(coloumn, i, fallTime);
+                            allPieces[coloumn, j].MovePiece(coloumn, i, fallTime * (j - i));
                             allPieces[coloumn, i] = allPieces[coloumn, j];
                             allPieces[coloumn, i].SetCoordinates(coloumn, i);
                             if (!movingPieces.Contains(allPieces[coloumn, i]))
@@ -432,31 +433,49 @@ namespace Match3.Core
         {
             StartCoroutine(ClearAndRefillBoardRoutine(gamePieces));
         }
+
+        private bool IsCollapsed(List<GamePiece> gamePieces)
+        {
+            foreach (var item in gamePieces)
+            {
+                if (item != null)
+                {
+                    if ((item.transform.position.y - (float)item.YIndex) > 0.001f)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
         #endregion
 
         #region Coroutines
         private IEnumerator SwitchTilesRoutine(GameTile currentTile, GameTile targetTile)
         {
-            if (currentTile != null && targetTile != null)
+            if (canSwitchTiles)
             {
-                GamePiece clickedGamePiece = allPieces[currentTile.XIndex, currentTile.YIndex];
-                GamePiece targetGamePiece = allPieces[targetTile.XIndex, targetTile.YIndex];
-                if (clickedGamePiece != null && targetGamePiece != null)
+                if (currentTile != null && targetTile != null)
                 {
-                    clickedGamePiece.MovePiece(targetTile.XIndex, targetTile.YIndex, gamePieceMoveSpeed);
-                    targetGamePiece.MovePiece(currentTile.XIndex, currentTile.YIndex, gamePieceMoveSpeed);
-                    yield return new WaitForSeconds(gamePieceMoveSpeed);
-                    List<GamePiece> clickedPieceMatches = FindMatchesAt(currentTile.XIndex, currentTile.YIndex);
-                    List<GamePiece> targetPieceMatches = FindMatchesAt(targetTile.XIndex, targetTile.YIndex);
-                    if (clickedPieceMatches.Count == 0 && targetPieceMatches.Count == 0)
+                    GamePiece clickedGamePiece = allPieces[currentTile.XIndex, currentTile.YIndex];
+                    GamePiece targetGamePiece = allPieces[targetTile.XIndex, targetTile.YIndex];
+                    if (clickedGamePiece != null && targetGamePiece != null)
                     {
-                        clickedGamePiece.MovePiece(currentTile.XIndex, currentTile.YIndex, gamePieceMoveSpeed);
-                        targetGamePiece.MovePiece(targetTile.XIndex, targetTile.YIndex, gamePieceMoveSpeed);
-                    }
-                    else
-                    {
+                        clickedGamePiece.MovePiece(targetTile.XIndex, targetTile.YIndex, gamePieceMoveSpeed);
+                        targetGamePiece.MovePiece(currentTile.XIndex, currentTile.YIndex, gamePieceMoveSpeed);
                         yield return new WaitForSeconds(gamePieceMoveSpeed);
-                        ClearAndRefillBoard(clickedPieceMatches.Union(targetPieceMatches).ToList());
+                        List<GamePiece> clickedPieceMatches = FindMatchesAt(currentTile.XIndex, currentTile.YIndex);
+                        List<GamePiece> targetPieceMatches = FindMatchesAt(targetTile.XIndex, targetTile.YIndex);
+                        if (clickedPieceMatches.Count == 0 && targetPieceMatches.Count == 0)
+                        {
+                            clickedGamePiece.MovePiece(currentTile.XIndex, currentTile.YIndex, gamePieceMoveSpeed);
+                            targetGamePiece.MovePiece(targetTile.XIndex, targetTile.YIndex, gamePieceMoveSpeed);
+                        }
+                        else
+                        {
+                            yield return new WaitForSeconds(gamePieceMoveSpeed);
+                            ClearAndRefillBoard(clickedPieceMatches.Union(targetPieceMatches).ToList());
+                        }
                     }
                 }
             }
@@ -464,23 +483,29 @@ namespace Match3.Core
 
         private IEnumerator ClearAndRefillBoardRoutine(List<GamePiece> gamePieces)
         {
-            StartCoroutine(ClearAndCollapseRoutine(gamePieces));
+            canSwitchTiles = false;
+            yield return StartCoroutine(ClearAndCollapseRoutine(gamePieces));
             yield return null;
+            canSwitchTiles = true;
         }
 
         private IEnumerator ClearAndCollapseRoutine(List<GamePiece> gamePieces)
         {
             List<GamePiece> movingPieces = new List<GamePiece>();
             List<GamePiece> matches = new List<GamePiece>();
-            float visualDelay = 0.15f;
+            float visualDelay = 0.35f;
             bool isFinished = false;
             HighlightPieces(gamePieces);
             yield return new WaitForSeconds(visualDelay);
             while (!isFinished)
             {
                 ClearPieceAt(gamePieces);
-                yield return new WaitForSeconds(visualDelay);
+                yield return new WaitForSeconds(visualDelay / 2f);
                 movingPieces = CollapseColoumn(gamePieces);
+                while (!IsCollapsed(movingPieces))
+                {
+                    yield return null;
+                }
                 yield return new WaitForSeconds(visualDelay);
                 matches = FindMatchesAt(movingPieces);
                 if (matches.Count == 0)
