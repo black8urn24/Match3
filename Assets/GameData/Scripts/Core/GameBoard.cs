@@ -12,6 +12,7 @@ namespace Match3.Core
     {
         #region Inspector Variables
         [SerializeField] private GameObject gameTilePrefab = null;
+        [SerializeField] private GameObject gameObstacleTilePrefab = null;
         [SerializeField] private int boardWidth = -1;
         [SerializeField] private int boardHeight = -1;
         [SerializeField] private float borderSize = -1f;
@@ -19,6 +20,7 @@ namespace Match3.Core
         [SerializeField] private GameObject[] gamePiecePrefabs = null;
         [SerializeField] private float gamePieceMoveSpeed = 0.3f;
         [SerializeField] private Button reloadLevelButton = null;
+        [SerializeField] private StartingTile[] startingTiles = null;
         #endregion
 
         #region Variables
@@ -48,19 +50,20 @@ namespace Match3.Core
         {
             allTiles = new GameTile[boardWidth, boardHeight];
             allPieces = new GamePiece[boardWidth, boardHeight];
+            foreach(var item in startingTiles)
+            {
+                if(item != null)
+                {
+                    MakeTile(item.tilePrefab, item.x, item.y, item.z);
+                }
+            }
             for (int i = 0; i < boardWidth; i++)
             {
                 for (int j = 0; j < boardHeight; j++)
                 {
-                    GameObject tile = Instantiate(gameTilePrefab, transform);
-                    tile.transform.position = new Vector3(i, j, 0);
-                    tile.transform.rotation = Quaternion.identity;
-                    tile.transform.name = "Tile[" + i + "," + j + "]";
-                    GameTile gameTile = tile.GetComponent<GameTile>();
-                    if (gameTile != null)
+                    if (allTiles[i, j] == null)
                     {
-                        allTiles[i, j] = gameTile;
-                        gameTile.InitializeTile(i, j, this);
+                        MakeTile(gameTilePrefab, i, j, 0);
                     }
                 }
             }
@@ -74,6 +77,23 @@ namespace Match3.Core
                 {
                     SceneManager.LoadScene(0);
                 });
+            }
+        }
+
+        private void MakeTile(GameObject prefab, int i, int j, int k)
+        {
+            if (prefab != null)
+            {
+                GameObject tile = Instantiate(prefab, transform);
+                tile.transform.position = new Vector3(i, j, 0);
+                tile.transform.rotation = Quaternion.identity;
+                tile.transform.name = "Tile[" + i + "," + j + "]";
+                GameTile gameTile = tile.GetComponent<GameTile>();
+                if (gameTile != null)
+                {
+                    allTiles[i, j] = gameTile;
+                    gameTile.InitializeTile(i, j, this);
+                }
             }
         }
 
@@ -107,7 +127,7 @@ namespace Match3.Core
             {
                 for (int j = 0; j < boardHeight; j++)
                 {
-                    if (allPieces[i, j] == null)
+                    if (allPieces[i, j] == null && allTiles[i,j].TileType != Enums.TileType.Obstacle)
                     {
                         GamePiece randomPiece = FillBoardAt(i, j, falseYOffset, fallTime);
                         while (HasMatchOnFill(i, j, 3))
@@ -405,7 +425,7 @@ namespace Match3.Core
             List<GamePiece> movingPieces = new List<GamePiece>();
             for (int i = 0; i < boardHeight - 1; i++)
             {
-                if (allPieces[coloumn, i] == null)
+                if (allPieces[coloumn, i] == null && allTiles[coloumn, i].TileType != Enums.TileType.Obstacle)
                 {
                     for (int j = i + 1; j < boardHeight; j++)
                     {
@@ -600,5 +620,14 @@ namespace Match3.Core
             gamePiece.SetCoordinates(x, y);
         }
         #endregion
+    }
+
+    [System.Serializable]
+    public class StartingTile
+    {
+        public GameObject tilePrefab;
+        public int x;
+        public int y;
+        public int z;
     }
 }

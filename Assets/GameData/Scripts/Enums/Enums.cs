@@ -25,4 +25,10 @@ namespace Match3.Enums
         SmoothStep,
         SmootherStep
     }
+
+    public enum TileType
+    {
+        Normal,
+        Obstacle
+    }
 }

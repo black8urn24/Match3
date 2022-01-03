@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameTilePrefab: {fileID: 1925552249460089929, guid: 8507a6b9d9ae0714894d22f10e3c2cba, type: 3}
+  gameObstacleTilePrefab: {fileID: 8010845774896535433, guid: 6fd6ae74f7edd7b498d095df94455287, type: 3}
   boardWidth: 7
   boardHeight: 9
   borderSize: 1
@@ -179,6 +180,15 @@ MonoBehaviour:
   - {fileID: 1000013942094482, guid: 37d845b51eba4482b9f81557f91a97fe, type: 3}
   gamePieceMoveSpeed: 0.15
   reloadLevelButton: {fileID: 1470686869}
+  startingTiles:
+  - tilePrefab: {fileID: 8010845774896535433, guid: 6fd6ae74f7edd7b498d095df94455287, type: 3}
+    x: 3
+    y: 4
+    z: 1
+  - tilePrefab: {fileID: 8010845774896535433, guid: 6fd6ae74f7edd7b498d095df94455287, type: 3}
+    x: 5
+    y: 5
+    z: 1
 --- !u!1 &366325412
 GameObject:
   m_ObjectHideFlags: 0
