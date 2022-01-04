@@ -1,4 +1,5 @@
 using Match3.Utilities;
+using Match3.Enums;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -327,10 +328,13 @@ namespace Match3.Core
 
         private void HighlightTilesOff(int i, int j)
         {
-            SpriteRenderer spriteRenderer = allTiles[i, j].GetComponent<SpriteRenderer>();
-            if (spriteRenderer != null)
+            if(allTiles[i,j].TileType != TileType.Breakable)
             {
-                spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0f);
+                SpriteRenderer spriteRenderer = allTiles[i, j].GetComponent<SpriteRenderer>();
+                if (spriteRenderer != null)
+                {
+                    spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0f);
+                }
             }
         }
 
@@ -425,7 +429,7 @@ namespace Match3.Core
             List<GamePiece> movingPieces = new List<GamePiece>();
             for (int i = 0; i < boardHeight - 1; i++)
             {
-                if (allPieces[coloumn, i] == null && allTiles[coloumn, i].TileType != Enums.TileType.Obstacle)
+                if (allPieces[coloumn, i] == null && allTiles[coloumn, i].TileType != TileType.Obstacle)
                 {
                     for (int j = i + 1; j < boardHeight; j++)
                     {
@@ -490,6 +494,29 @@ namespace Match3.Core
             }
             return true;
         }
+
+        private void BreakTileAt(List<GamePiece> gamePieces)
+        {
+            if(gamePieces != null)
+            {
+                foreach (var item in gamePieces)
+                {
+                    if(item != null)
+                    {
+                        BreakTileAt(item.XIndex, item.YIndex);
+                    }
+                }
+            }
+        }
+
+        private void BreakTileAt(int i, int j)
+        {
+            GameTile tileToBreak = allTiles[i, j];
+            if(tileToBreak != null)
+            {
+                tileToBreak.BreakTile();
+            }
+        }
         #endregion
 
         #region Coroutines
@@ -549,6 +576,7 @@ namespace Match3.Core
             while (!isFinished)
             {
                 ClearPieceAt(gamePieces);
+                BreakTileAt(gamePieces);
                 yield return new WaitForSeconds(visualDelay / 2f);
                 movingPieces = CollapseColoumn(gamePieces);
                 while (!IsCollapsed(movingPieces))

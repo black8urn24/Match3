@@ -6,16 +6,22 @@ using Match3.Enums;
 
 namespace Match3.Core
 {
+    [RequireComponent(typeof(SpriteRenderer))]
     public class GameTile : MonoBehaviour
     {
         #region Inspector Variables
         [SerializeField] private TileType tileType = TileType.Normal;
+        [SerializeField] [Range(0,2)] private int maxBreakableValue = 0;
+        [SerializeField] private Sprite[] breakableSprites = null;
+        [SerializeField] private Color normalTileColor = Color.black;
         #endregion
 
         #region Variables
         private int xIndex = -1;
         private int yIndex = -1;
         private GameBoard currentGameBoard = null;
+        private SpriteRenderer spriteRenderer = null;
+        private int currentBreakableValue = -1;
         #endregion
 
         #region Properties
@@ -26,9 +32,10 @@ namespace Match3.Core
 
         #region Unity Methods
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
-
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            currentBreakableValue = maxBreakableValue;
         }
 
         private void OnMouseDown()
@@ -56,13 +63,47 @@ namespace Match3.Core
         }
         #endregion
 
+        #region Coroutines
+        private IEnumerator BreakTileRoutine()
+        {
+            currentBreakableValue--;
+            currentBreakableValue = Mathf.Clamp(currentBreakableValue, 0, maxBreakableValue);
+            yield return new WaitForSeconds(0.15f);
+            if(breakableSprites[currentBreakableValue] != null)
+            {
+                spriteRenderer.sprite = breakableSprites[currentBreakableValue];
+            }
+            if(currentBreakableValue <= 0)
+            {
+                TileType = TileType.Normal;
+                spriteRenderer.color = normalTileColor;
+            }
+        }
+        #endregion
+
         #region Public Methods
         public void InitializeTile(int x, int y, GameBoard gameBoard)
         {
             XIndex = x;
             YIndex = y;
             currentGameBoard = gameBoard;
+            if(TileType == TileType.Breakable)
+            {
+                if (breakableSprites[currentBreakableValue] != null)
+                {
+                    spriteRenderer.sprite = breakableSprites[currentBreakableValue];
+                }
+            }
             //Debug.Log($"Tile Initialized with details - {xIndex} and {yIndex}".ToOrange().ToBold());
+        }
+
+        public void BreakTile()
+        {
+            if(TileType != TileType.Breakable)
+            {
+                return;
+            }
+            StartCoroutine(BreakTileRoutine());
         }
         #endregion
     }

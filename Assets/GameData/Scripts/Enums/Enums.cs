@@ -29,6 +29,7 @@ namespace Match3.Enums
     public enum TileType
     {
         Normal,
-        Obstacle
+        Obstacle,
+        Breakable
     }
 }

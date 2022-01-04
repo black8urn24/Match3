@@ -181,13 +181,25 @@ MonoBehaviour:
   gamePieceMoveSpeed: 0.15
   reloadLevelButton: {fileID: 1470686869}
   startingTiles:
-  - tilePrefab: {fileID: 8010845774896535433, guid: 6fd6ae74f7edd7b498d095df94455287, type: 3}
+  - tilePrefab: {fileID: 5289638802002100564, guid: 5b58b99c8f0bf2341aac16afe3caa0a2, type: 3}
     x: 3
     y: 4
     z: 1
-  - tilePrefab: {fileID: 8010845774896535433, guid: 6fd6ae74f7edd7b498d095df94455287, type: 3}
+  - tilePrefab: {fileID: 5289638802002100564, guid: 5b58b99c8f0bf2341aac16afe3caa0a2, type: 3}
     x: 5
     y: 5
+    z: 1
+  - tilePrefab: {fileID: 8559216042908481474, guid: 40e23cf383a66724dab035e43ef24550, type: 3}
+    x: 2
+    y: 2
+    z: 1
+  - tilePrefab: {fileID: 8559216042908481474, guid: 40e23cf383a66724dab035e43ef24550, type: 3}
+    x: 2
+    y: 3
+    z: 1
+  - tilePrefab: {fileID: 8559216042908481474, guid: 40e23cf383a66724dab035e43ef24550, type: 3}
+    x: 2
+    y: 4
     z: 1
 --- !u!1 &366325412
 GameObject:
