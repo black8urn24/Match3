@@ -22,6 +22,7 @@ namespace Match3.Core
         [SerializeField] private float gamePieceMoveSpeed = 0.3f;
         [SerializeField] private Button reloadLevelButton = null;
         [SerializeField] private StartingTile[] startingTiles = null;
+        [SerializeField] private ParticleSystemManager particleSystemManager = null;
         #endregion
 
         #region Variables
