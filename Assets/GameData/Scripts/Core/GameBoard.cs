@@ -52,9 +52,9 @@ namespace Match3.Core
         {
             allTiles = new GameTile[boardWidth, boardHeight];
             allPieces = new GamePiece[boardWidth, boardHeight];
-            foreach(var item in startingTiles)
+            foreach (var item in startingTiles)
             {
-                if(item != null)
+                if (item != null)
                 {
                     MakeTile(item.tilePrefab, item.x, item.y, item.z);
                 }
@@ -129,7 +129,7 @@ namespace Match3.Core
             {
                 for (int j = 0; j < boardHeight; j++)
                 {
-                    if (allPieces[i, j] == null && allTiles[i,j].TileType != Enums.TileType.Obstacle)
+                    if (allPieces[i, j] == null && allTiles[i, j].TileType != Enums.TileType.Obstacle)
                     {
                         GamePiece randomPiece = FillBoardAt(i, j, falseYOffset, fallTime);
                         while (HasMatchOnFill(i, j, 3))
@@ -329,7 +329,7 @@ namespace Match3.Core
 
         private void HighlightTilesOff(int i, int j)
         {
-            if(allTiles[i,j].TileType != TileType.Breakable)
+            if (allTiles[i, j].TileType != TileType.Breakable)
             {
                 SpriteRenderer spriteRenderer = allTiles[i, j].GetComponent<SpriteRenderer>();
                 if (spriteRenderer != null)
@@ -409,7 +409,7 @@ namespace Match3.Core
                     if (item != null)
                     {
                         ClearPieceAt(item.XIndex, item.YIndex);
-                        if(particleSystemManager != null)
+                        if (particleSystemManager != null)
                         {
                             particleSystemManager.PlayClearPieceEffect(item.XIndex, item.YIndex, 0);
                         }
@@ -502,11 +502,11 @@ namespace Match3.Core
 
         private void BreakTileAt(List<GamePiece> gamePieces)
         {
-            if(gamePieces != null)
+            if (gamePieces != null)
             {
                 foreach (var item in gamePieces)
                 {
-                    if(item != null)
+                    if (item != null)
                     {
                         BreakTileAt(item.XIndex, item.YIndex);
                     }
@@ -517,9 +517,9 @@ namespace Match3.Core
         private void BreakTileAt(int i, int j)
         {
             GameTile tileToBreak = allTiles[i, j];
-            if(tileToBreak != null && tileToBreak.TileType == TileType.Breakable)
+            if (tileToBreak != null && tileToBreak.TileType == TileType.Breakable)
             {
-                if(particleSystemManager != null)
+                if (particleSystemManager != null)
                 {
                     particleSystemManager.PlayBreakableTilesEffect(tileToBreak.CurrentBreakableValue, i, j, 0);
                 }

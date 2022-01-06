@@ -504,6 +504,63 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1041282004
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1041282006}
+  - component: {fileID: 1041282005}
+  m_Layer: 0
+  m_Name: ObjectPoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1041282005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041282004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8d1b5871b83429409b84572a6dfd453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolObjectsParent: {fileID: 1041282006}
+  poolObjects:
+  - objectToPool: {fileID: 1000010615010014, guid: 2d72906ebe19eb0488ec03177b5b08e2, type: 3}
+    maxPoolCount: 40
+    pooledObjects: []
+    poolObjectsType: 0
+  - objectToPool: {fileID: 1000013032388978, guid: 8506dae057f30f1409125febe02c6c25, type: 3}
+    maxPoolCount: 40
+    pooledObjects: []
+    poolObjectsType: 1
+  - objectToPool: {fileID: 1000013940112220, guid: ebb9aa6fd41091541b8a2b058f2bff85, type: 3}
+    maxPoolCount: 40
+    pooledObjects: []
+    poolObjectsType: 2
+--- !u!4 &1041282006
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041282004}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1300744893
 GameObject:
   m_ObjectHideFlags: 0

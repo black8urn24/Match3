@@ -32,4 +32,12 @@ namespace Match3.Enums
         Obstacle,
         Breakable
     }
+
+    public enum PoolObjectsType
+    {
+        PieceClearEffect,
+        SingleBreakableTileEffect,
+        DoubleBreakableTileEffect,
+        None
+    }
 }
