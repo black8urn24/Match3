@@ -397,7 +397,7 @@ namespace Match3.Core
                 allPieces[i, j] = null;
                 Destroy(gamePiece.gameObject);
             }
-            HighlightTilesOff(i, j);
+            //HighlightTilesOff(i, j);
         }
 
         private void ClearPieceAt(List<GamePiece> gamePieces)
@@ -409,6 +409,10 @@ namespace Match3.Core
                     if (item != null)
                     {
                         ClearPieceAt(item.XIndex, item.YIndex);
+                        if(particleSystemManager != null)
+                        {
+                            particleSystemManager.PlayClearPieceEffect(item.XIndex, item.YIndex, 0);
+                        }
                     }
                 }
             }
@@ -513,8 +517,12 @@ namespace Match3.Core
         private void BreakTileAt(int i, int j)
         {
             GameTile tileToBreak = allTiles[i, j];
-            if(tileToBreak != null)
+            if(tileToBreak != null && tileToBreak.TileType == TileType.Breakable)
             {
+                if(particleSystemManager != null)
+                {
+                    particleSystemManager.PlayBreakableTilesEffect(tileToBreak.CurrentBreakableValue, i, j, 0);
+                }
                 tileToBreak.BreakTile();
             }
         }
@@ -572,7 +580,7 @@ namespace Match3.Core
             List<GamePiece> matches = new List<GamePiece>();
             float visualDelay = 0.25f;
             bool isFinished = false;
-            HighlightPieces(gamePieces);
+            //HighlightPieces(gamePieces);
             yield return new WaitForSeconds(visualDelay);
             while (!isFinished)
             {

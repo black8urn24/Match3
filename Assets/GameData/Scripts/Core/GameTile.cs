@@ -28,6 +28,7 @@ namespace Match3.Core
         public int XIndex { get => xIndex; set => xIndex = value; }
         public int YIndex { get => yIndex; set => yIndex = value; }
         public TileType TileType { get => tileType; set => tileType = value; }
+        public int CurrentBreakableValue { get => currentBreakableValue; set => currentBreakableValue = value; }
         #endregion
 
         #region Unity Methods
@@ -35,7 +36,7 @@ namespace Match3.Core
         void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
-            currentBreakableValue = maxBreakableValue;
+            CurrentBreakableValue = maxBreakableValue;
         }
 
         private void OnMouseDown()
@@ -66,14 +67,14 @@ namespace Match3.Core
         #region Coroutines
         private IEnumerator BreakTileRoutine()
         {
-            currentBreakableValue--;
-            currentBreakableValue = Mathf.Clamp(currentBreakableValue, 0, maxBreakableValue);
+            CurrentBreakableValue--;
+            CurrentBreakableValue = Mathf.Clamp(CurrentBreakableValue, 0, maxBreakableValue);
             yield return new WaitForSeconds(0.15f);
-            if(breakableSprites[currentBreakableValue] != null)
+            if(breakableSprites[CurrentBreakableValue] != null)
             {
-                spriteRenderer.sprite = breakableSprites[currentBreakableValue];
+                spriteRenderer.sprite = breakableSprites[CurrentBreakableValue];
             }
-            if(currentBreakableValue <= 0)
+            if(CurrentBreakableValue <= 0)
             {
                 TileType = TileType.Normal;
                 spriteRenderer.color = normalTileColor;
@@ -89,9 +90,9 @@ namespace Match3.Core
             currentGameBoard = gameBoard;
             if(TileType == TileType.Breakable)
             {
-                if (breakableSprites[currentBreakableValue] != null)
+                if (breakableSprites[CurrentBreakableValue] != null)
                 {
-                    spriteRenderer.sprite = breakableSprites[currentBreakableValue];
+                    spriteRenderer.sprite = breakableSprites[CurrentBreakableValue];
                 }
             }
             //Debug.Log($"Tile Initialized with details - {xIndex} and {yIndex}".ToOrange().ToBold());

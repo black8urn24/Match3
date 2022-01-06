@@ -635,9 +635,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc95cd583d716ba48b8e8a92c9d0c695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clearPieceEffect: {fileID: 0}
-  breakablePieceEffect: {fileID: 0}
-  doubleBreakablePieceEffect: {fileID: 0}
+  clearPieceEffect: {fileID: 1000010615010014, guid: 2d72906ebe19eb0488ec03177b5b08e2, type: 3}
+  breakablePieceEffect: {fileID: 1000013032388978, guid: 8506dae057f30f1409125febe02c6c25, type: 3}
+  doubleBreakablePieceEffect: {fileID: 1000013940112220, guid: ebb9aa6fd41091541b8a2b058f2bff85, type: 3}
 --- !u!4 &1443453163
 Transform:
   m_ObjectHideFlags: 0
