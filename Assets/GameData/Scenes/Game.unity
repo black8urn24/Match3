@@ -179,28 +179,43 @@ MonoBehaviour:
   - {fileID: 1000013582439192, guid: ce0cdf7a8a6c543fb9d96817d1d2f3f6, type: 3}
   - {fileID: 1000013942094482, guid: 37d845b51eba4482b9f81557f91a97fe, type: 3}
   gamePieceMoveSpeed: 0.15
+  fillYOffset: 10
+  fallTime: 0.5
   reloadLevelButton: {fileID: 1470686869}
   startingTiles:
-  - tilePrefab: {fileID: 5289638802002100564, guid: 5b58b99c8f0bf2341aac16afe3caa0a2, type: 3}
+  - objectPrefab: {fileID: 5289638802002100564, guid: 5b58b99c8f0bf2341aac16afe3caa0a2, type: 3}
     x: 3
     y: 4
     z: 1
-  - tilePrefab: {fileID: 5289638802002100564, guid: 5b58b99c8f0bf2341aac16afe3caa0a2, type: 3}
+  - objectPrefab: {fileID: 5289638802002100564, guid: 5b58b99c8f0bf2341aac16afe3caa0a2, type: 3}
     x: 5
     y: 5
     z: 1
-  - tilePrefab: {fileID: 8559216042908481474, guid: 40e23cf383a66724dab035e43ef24550, type: 3}
+  - objectPrefab: {fileID: 8559216042908481474, guid: 40e23cf383a66724dab035e43ef24550, type: 3}
     x: 2
     y: 2
     z: 1
-  - tilePrefab: {fileID: 8559216042908481474, guid: 40e23cf383a66724dab035e43ef24550, type: 3}
+  - objectPrefab: {fileID: 8559216042908481474, guid: 40e23cf383a66724dab035e43ef24550, type: 3}
     x: 2
     y: 3
     z: 1
-  - tilePrefab: {fileID: 8559216042908481474, guid: 40e23cf383a66724dab035e43ef24550, type: 3}
+  - objectPrefab: {fileID: 8559216042908481474, guid: 40e23cf383a66724dab035e43ef24550, type: 3}
     x: 2
     y: 4
     z: 1
+  startingPieces:
+  - objectPrefab: {fileID: 1000013582439192, guid: ce0cdf7a8a6c543fb9d96817d1d2f3f6, type: 3}
+    x: 0
+    y: 0
+    z: 0
+  - objectPrefab: {fileID: 1000013582439192, guid: ce0cdf7a8a6c543fb9d96817d1d2f3f6, type: 3}
+    x: 0
+    y: 1
+    z: 0
+  - objectPrefab: {fileID: 1000013582439192, guid: ce0cdf7a8a6c543fb9d96817d1d2f3f6, type: 3}
+    x: 1
+    y: 2
+    z: 0
   particleSystemManager: {fileID: 1443453162}
 --- !u!1 &366325412
 GameObject:
@@ -735,9 +750,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc95cd583d716ba48b8e8a92c9d0c695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clearPieceEffect: {fileID: 1000010615010014, guid: 2d72906ebe19eb0488ec03177b5b08e2, type: 3}
-  breakablePieceEffect: {fileID: 1000013032388978, guid: 8506dae057f30f1409125febe02c6c25, type: 3}
-  doubleBreakablePieceEffect: {fileID: 1000013940112220, guid: ebb9aa6fd41091541b8a2b058f2bff85, type: 3}
 --- !u!4 &1443453163
 Transform:
   m_ObjectHideFlags: 0

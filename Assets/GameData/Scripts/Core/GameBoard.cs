@@ -20,8 +20,11 @@ namespace Match3.Core
         [SerializeField] private Transform gamePieceParent = null;
         [SerializeField] private GameObject[] gamePiecePrefabs = null;
         [SerializeField] private float gamePieceMoveSpeed = 0.3f;
+        [SerializeField] private float fillYOffset = 10f;
+        [SerializeField] private float fallTime = 0.5f;
         [SerializeField] private Button reloadLevelButton = null;
-        [SerializeField] private StartingTile[] startingTiles = null;
+        [SerializeField] private StartingObject[] startingTiles = null;
+        [SerializeField] private StartingObject[] startingPieces = null;
         [SerializeField] private ParticleSystemManager particleSystemManager = null;
         #endregion
 
@@ -52,25 +55,10 @@ namespace Match3.Core
         {
             allTiles = new GameTile[boardWidth, boardHeight];
             allPieces = new GamePiece[boardWidth, boardHeight];
-            foreach (var item in startingTiles)
-            {
-                if (item != null)
-                {
-                    MakeTile(item.tilePrefab, item.x, item.y, item.z);
-                }
-            }
-            for (int i = 0; i < boardWidth; i++)
-            {
-                for (int j = 0; j < boardHeight; j++)
-                {
-                    if (allTiles[i, j] == null)
-                    {
-                        MakeTile(gameTilePrefab, i, j, 0);
-                    }
-                }
-            }
+            SetupTiles();
+            SetupPieces();
             SetCameraDimensions();
-            FillBoard(20f, 0.5f);
+            FillBoard(fillYOffset, fallTime);
             //HighlightMatches();
             if (reloadLevelButton != null)
             {
@@ -84,7 +72,7 @@ namespace Match3.Core
 
         private void MakeTile(GameObject prefab, int i, int j, int k)
         {
-            if (prefab != null)
+            if (prefab != null && IsWithinBounds(i,j))
             {
                 GameObject tile = Instantiate(prefab, transform);
                 tile.transform.position = new Vector3(i, j, 0);
@@ -95,6 +83,54 @@ namespace Match3.Core
                 {
                     allTiles[i, j] = gameTile;
                     gameTile.InitializeTile(i, j, this);
+                }
+            }
+        }
+
+        private void MakeGamePiece(GameObject gamePiece, int x, int y, float fillYOffset = 10f, float fallTime = 0.1f)
+        {
+            if (gamePiece != null && IsWithinBounds(x, y))
+            {
+                gamePiece.transform.SetParent(gamePieceParent);
+                gamePiece.GetComponent<GamePiece>().Initialize(this);
+                PlaceGamePiece(gamePiece.GetComponent<GamePiece>(), x, y);
+                if (fillYOffset != 0f)
+                {
+                    gamePiece.transform.position = new Vector3(x, y + fillYOffset, 0f);
+                    gamePiece.GetComponent<GamePiece>().MovePiece(x, y, fallTime);
+                }
+            }
+        }
+
+        private void SetupTiles()
+        {
+            foreach (var item in startingTiles)
+            {
+                if (item != null)
+                {
+                    MakeTile(item.objectPrefab, item.x, item.y, item.z);
+                }
+            }
+            for (int i = 0; i < boardWidth; i++)
+            {
+                for (int j = 0; j < boardHeight; j++)
+                {
+                    if (allTiles[i, j] == null)
+                    {
+                        MakeTile(gameTilePrefab, i, j, 0);
+                    }
+                }
+            }
+        }
+
+        private void SetupPieces()
+        {
+            foreach (var item in startingPieces)
+            {
+                if (item != null)
+                {
+                    GameObject piece = Instantiate(item.objectPrefab, new Vector3(item.x, item.y, item.z), Quaternion.identity);
+                    MakeGamePiece(piece, item.x, item.y, fillYOffset, fallTime);
                 }
             }
         }
@@ -150,17 +186,10 @@ namespace Match3.Core
 
         private GamePiece FillBoardAt(int i, int j, float yOffset = 0f, float fallTime = 0.1f)
         {
-            GameObject gamePiece = Instantiate(GetRandomPiece(), Vector3.zero, Quaternion.identity);
-            if (gamePiece != null)
+            if (IsWithinBounds(i, j))
             {
-                gamePiece.transform.SetParent(gamePieceParent);
-                gamePiece.GetComponent<GamePiece>().Initialize(this);
-                PlaceGamePiece(gamePiece.GetComponent<GamePiece>(), i, j);
-                if (yOffset != 0f)
-                {
-                    gamePiece.transform.position = new Vector3(i, j + yOffset, 0f);
-                    gamePiece.GetComponent<GamePiece>().MovePiece(i, j, fallTime);
-                }
+                GameObject gamePiece = Instantiate(GetRandomPiece(), Vector3.zero, Quaternion.identity);
+                MakeGamePiece(gamePiece, i, j, fillYOffset, fallTime);
                 return gamePiece.GetComponent<GamePiece>();
             }
             return null;
@@ -609,7 +638,7 @@ namespace Match3.Core
 
         private IEnumerator RefillRoutine()
         {
-            FillBoard(10f, 0.2f);
+            FillBoard(fillYOffset, fallTime);
             yield return null;
         }
         #endregion
@@ -660,9 +689,9 @@ namespace Match3.Core
     }
 
     [System.Serializable]
-    public class StartingTile
+    public class StartingObject
     {
-        public GameObject tilePrefab;
+        public GameObject objectPrefab;
         public int x;
         public int y;
         public int z;
