@@ -40,4 +40,13 @@ namespace Match3.Enums
         DoubleBreakableTileEffect,
         None
     }
+
+    public enum BombType
+    {
+        None,
+        Color,
+        Adjacent,
+        Coloumn,
+        Row
+    }
 }

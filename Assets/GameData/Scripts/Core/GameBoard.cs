@@ -555,6 +555,48 @@ namespace Match3.Core
                 tileToBreak.BreakTile();
             }
         }
+
+        private List<GamePiece> GetRowPieces(int row)
+        {
+            List<GamePiece> rowPieces = new List<GamePiece>();
+            for(int i = 0; i < boardWidth; i++)
+            {
+                if (allPieces[i, row] != null)
+                {
+                    rowPieces.Add(allPieces[i, row]);
+                }
+            }
+            return rowPieces;
+        }
+
+        private List<GamePiece> GetColoumnPieces(int coloumn)
+        {
+            List<GamePiece> coloumnPieces = new List<GamePiece>();
+            for(int i = 0; i < boardHeight; i++)
+            {
+                if(allPieces[coloumn, i] != null)
+                {
+                    coloumnPieces.Add(allPieces[coloumn, i]);
+                }
+            }
+            return coloumnPieces;
+        }
+
+        private List<GamePiece> GetAdjacentPieces(int x, int y, int offset = 1)
+        {
+            List<GamePiece> adjacentPieces = new List<GamePiece>();
+            for(int i = x - offset; i <= x + offset; i++)
+            {
+                for(int j = y - offset; j <= y + offset; j++)
+                {
+                    if(IsWithinBounds(i,j))
+                    {
+                        adjacentPieces.Add(allPieces[i, j]);
+                    }
+                }
+            }
+            return adjacentPieces;
+        }
         #endregion
 
         #region Coroutines
