@@ -14,6 +14,10 @@ namespace Match3.Core
         #region Variables
         #endregion
 
+        #region Properties
+        public BombType BombType { get => bombType; set => bombType = value; }
+        #endregion
+
         #region Unity Methods
         // Start is called before the first frame update
         void Start()

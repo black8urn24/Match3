@@ -597,6 +597,42 @@ namespace Match3.Core
             }
             return adjacentPieces;
         }
+
+        private List<GamePiece> GetBombedPieces(List<GamePiece> gamePieces)
+        {
+            List<GamePiece> allPiecesToClear = new List<GamePiece>();
+            foreach(var item in gamePieces)
+            {
+                if(item != null)
+                {
+                    List<GamePiece> piecesToClear = new List<GamePiece>();
+                    Bomb bomb = item.GetComponent<Bomb>();
+                    if(bomb != null)
+                    {
+                        switch (bomb.BombType)
+                        {
+                            case BombType.None:
+                                break;
+                            case BombType.Color:
+                                break;
+                            case BombType.Adjacent:
+                                piecesToClear = GetAdjacentPieces(bomb.XIndex, bomb.YIndex, 1);
+                                break;
+                            case BombType.Coloumn:
+                                piecesToClear = GetColoumnPieces(bomb.XIndex);
+                                break;
+                            case BombType.Row:
+                                piecesToClear = GetRowPieces(bomb.YIndex);
+                                break;
+                            default:
+                                break;
+                        }
+                        allPiecesToClear = allPiecesToClear.Union(piecesToClear).ToList();
+                    }
+                }
+            }
+            return allPiecesToClear;
+        }
         #endregion
 
         #region Coroutines
@@ -655,6 +691,8 @@ namespace Match3.Core
             yield return new WaitForSeconds(visualDelay);
             while (!isFinished)
             {
+                List<GamePiece> bombedPieces = GetBombedPieces(gamePieces);
+                gamePieces = gamePieces.Union(bombedPieces).ToList();
                 ClearPieceAt(gamePieces);
                 BreakTileAt(gamePieces);
                 yield return new WaitForSeconds(visualDelay / 2f);
