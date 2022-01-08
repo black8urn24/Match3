@@ -12,11 +12,17 @@ namespace Match3.Core
     public class GameBoard : MonoBehaviour
     {
         #region Inspector Variables
+        [Header("Board Prefabs")]
         [SerializeField] private GameObject gameTilePrefab = null;
         [SerializeField] private GameObject gameObstacleTilePrefab = null;
+        [SerializeField] private GameObject adjacentBombPrefab = null;
+        [SerializeField] private GameObject rowBombPrefab = null;
+        [SerializeField] private GameObject coloumnBombPrefab = null;
+        [Header("Board Dimensions")]
         [SerializeField] private int boardWidth = -1;
         [SerializeField] private int boardHeight = -1;
         [SerializeField] private float borderSize = -1f;
+        [Header("Board Properties")]
         [SerializeField] private Transform gamePieceParent = null;
         [SerializeField] private GameObject[] gamePiecePrefabs = null;
         [SerializeField] private float gamePieceMoveSpeed = 0.3f;
@@ -34,6 +40,8 @@ namespace Match3.Core
         private GameTile clickedTile;
         private GameTile targetTile;
         private bool canSwitchTiles = true;
+        private GameObject clickedTileBomb = null;
+        private GameObject targetTileBomb = null;
         #endregion
 
         #region Unity Methods
@@ -100,6 +108,23 @@ namespace Match3.Core
                     gamePiece.GetComponent<GamePiece>().MovePiece(x, y, fallTime);
                 }
             }
+        }
+
+        private GameObject MakeBomb(GameObject prefab, int x, int y)
+        {
+            GameObject bomb = null;
+            if(prefab != null && IsWithinBounds(x,y))
+            {
+                bomb = Instantiate(prefab, new Vector3(x, y, 0), Quaternion.identity);
+                Bomb bombObject = bomb.GetComponent<Bomb>();
+                if(bombObject != null)
+                {
+                    bombObject.Initialize(this);
+                    bombObject.SetCoordinates(x, y);
+                }
+                bomb.transform.SetParent(gamePieceParent);
+            }
+            return bomb;
         }
 
         private void SetupTiles()
@@ -633,32 +658,110 @@ namespace Match3.Core
             }
             return allPiecesToClear;
         }
+
+        private bool IsCornerMatch(List<GamePiece> gamePieces)
+        {
+            bool vertical = false;
+            bool horizontal = false;
+            int xStart = -1;
+            int yStart = -1;
+            foreach (var item in gamePieces)
+            {
+                if(item != null)
+                {
+                    if(xStart == -1 || yStart == -1)
+                    {
+                        xStart = item.XIndex;
+                        yStart = item.YIndex;
+                        continue;
+                    }
+                    if(item.XIndex != xStart && item.YIndex == yStart)
+                    {
+                        horizontal = true;
+                    }
+                    if (item.XIndex == xStart && item.YIndex != yStart)
+                    {
+                        vertical = true;
+                    }
+                }
+            }
+            return horizontal && vertical;
+        }
+
+        private GameObject DropBomb(int x, int y, Vector2 swapDireciton, List<GamePiece> gamePieces)
+        {
+            GameObject bomb = null;
+            if(gamePieces.Count >= 4)
+            {
+                if(IsCornerMatch(gamePieces))
+                {
+                    if(adjacentBombPrefab != null)
+                    {
+                        bomb = MakeBomb(adjacentBombPrefab, x, y);
+                    }
+                }
+                else
+                {
+                    if(swapDireciton.x != 0)
+                    {
+                        if(rowBombPrefab != null)
+                        {
+                            bomb = MakeBomb(rowBombPrefab, x, y);
+                        }
+                    }
+                    else
+                    {
+                        if(coloumnBombPrefab != null)
+                        {
+                            bomb = MakeBomb(coloumnBombPrefab, x, y);
+                        }
+                    }
+                }
+            }
+            return bomb;
+        }
+
+        private void ActivateBomb(GameObject bomb)
+        {
+            if(bomb != null)
+            {
+                int x = (int)bomb.transform.position.x;
+                int y = (int)bomb.transform.position.y;
+                if(IsWithinBounds(x,y))
+                {
+                    allPieces[x, y] = bomb.GetComponent<GamePiece>();
+                }
+            }
+        }
         #endregion
 
         #region Coroutines
-        private IEnumerator SwitchTilesRoutine(GameTile currentTile, GameTile targetTile)
+        private IEnumerator SwitchTilesRoutine(GameTile clickedTile, GameTile targetTile)
         {
             if (canSwitchTiles)
             {
-                if (currentTile != null && targetTile != null)
+                if (clickedTile != null && targetTile != null)
                 {
-                    GamePiece clickedGamePiece = allPieces[currentTile.XIndex, currentTile.YIndex];
+                    GamePiece clickedGamePiece = allPieces[clickedTile.XIndex, clickedTile.YIndex];
                     GamePiece targetGamePiece = allPieces[targetTile.XIndex, targetTile.YIndex];
                     if (clickedGamePiece != null && targetGamePiece != null)
                     {
                         clickedGamePiece.MovePiece(targetTile.XIndex, targetTile.YIndex, gamePieceMoveSpeed);
-                        targetGamePiece.MovePiece(currentTile.XIndex, currentTile.YIndex, gamePieceMoveSpeed);
+                        targetGamePiece.MovePiece(clickedTile.XIndex, clickedTile.YIndex, gamePieceMoveSpeed);
                         yield return new WaitForSeconds(gamePieceMoveSpeed);
-                        List<GamePiece> clickedPieceMatches = FindMatchesAt(currentTile.XIndex, currentTile.YIndex);
+                        List<GamePiece> clickedPieceMatches = FindMatchesAt(clickedTile.XIndex, clickedTile.YIndex);
                         List<GamePiece> targetPieceMatches = FindMatchesAt(targetTile.XIndex, targetTile.YIndex);
                         if (clickedPieceMatches.Count == 0 && targetPieceMatches.Count == 0)
                         {
-                            clickedGamePiece.MovePiece(currentTile.XIndex, currentTile.YIndex, gamePieceMoveSpeed);
+                            clickedGamePiece.MovePiece(clickedTile.XIndex, clickedTile.YIndex, gamePieceMoveSpeed);
                             targetGamePiece.MovePiece(targetTile.XIndex, targetTile.YIndex, gamePieceMoveSpeed);
                         }
                         else
                         {
+                            Vector2 swipeDirection = new Vector2(targetTile.XIndex - clickedTile.XIndex, targetTile.YIndex - clickedTile.YIndex);
                             yield return new WaitForSeconds(gamePieceMoveSpeed);
+                            clickedTileBomb = DropBomb(clickedTile.XIndex, clickedTile.YIndex, swipeDirection, clickedPieceMatches);
+                            targetTileBomb = DropBomb(targetTile.XIndex, targetTile.YIndex, swipeDirection, targetPieceMatches);
                             ClearAndRefillBoard(clickedPieceMatches.Union(targetPieceMatches).ToList());
                         }
                     }
@@ -695,6 +798,16 @@ namespace Match3.Core
                 gamePieces = gamePieces.Union(bombedPieces).ToList();
                 ClearPieceAt(gamePieces);
                 BreakTileAt(gamePieces);
+                if(clickedTileBomb != null)
+                {
+                    ActivateBomb(clickedTileBomb);
+                    clickedTileBomb = null;
+                }
+                if(targetTileBomb != null)
+                {
+                    ActivateBomb(targetTileBomb);
+                    targetTileBomb = null;
+                }
                 yield return new WaitForSeconds(visualDelay / 2f);
                 movingPieces = CollapseColoumn(gamePieces);
                 while (!IsCollapsed(movingPieces))
