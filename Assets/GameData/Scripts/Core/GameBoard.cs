@@ -762,6 +762,16 @@ namespace Match3.Core
                             yield return new WaitForSeconds(gamePieceMoveSpeed);
                             clickedTileBomb = DropBomb(clickedTile.XIndex, clickedTile.YIndex, swipeDirection, clickedPieceMatches);
                             targetTileBomb = DropBomb(targetTile.XIndex, targetTile.YIndex, swipeDirection, targetPieceMatches);
+                            if(clickedTileBomb != null && targetGamePiece != null)
+                            {
+                                GamePiece clickedBombPiece = clickedTileBomb.GetComponent<GamePiece>();
+                                clickedBombPiece.ChangeColor(targetGamePiece);
+                            }
+                            if(targetTileBomb != null && clickedGamePiece != null)
+                            {
+                                GamePiece targetBombPiece = targetTileBomb.GetComponent<GamePiece>();
+                                targetBombPiece.ChangeColor(clickedGamePiece);
+                            }
                             ClearAndRefillBoard(clickedPieceMatches.Union(targetPieceMatches).ToList());
                         }
                     }

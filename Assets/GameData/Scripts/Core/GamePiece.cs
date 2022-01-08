@@ -115,6 +115,21 @@ namespace Match3.Core
                 StartCoroutine(MoveRoutine(new Vector3(destinationX, destinationY, 0f), timeToMove));
             }
         }
+
+        public void ChangeColor(GamePiece gamePiece)
+        {
+            if(gamePiece != null)
+            {
+                SpriteRenderer currentRenderer = GetComponent<SpriteRenderer>();
+                Color colorToMatch = Color.clear;
+                SpriteRenderer targetRenderer = gamePiece.GetComponent<SpriteRenderer>();
+                if(currentRenderer != null && targetRenderer != null)
+                {
+                    currentRenderer.color = targetRenderer.color;
+                }
+                PieceType = gamePiece.PieceType;
+            }
+        }
         #endregion
     }
 }
