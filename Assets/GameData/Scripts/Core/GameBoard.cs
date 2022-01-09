@@ -80,7 +80,7 @@ namespace Match3.Core
 
         private void MakeTile(GameObject prefab, int i, int j, int k)
         {
-            if (prefab != null && IsWithinBounds(i,j))
+            if (prefab != null && IsWithinBounds(i, j))
             {
                 GameObject tile = Instantiate(prefab, transform);
                 tile.transform.position = new Vector3(i, j, 0);
@@ -113,11 +113,11 @@ namespace Match3.Core
         private GameObject MakeBomb(GameObject prefab, int x, int y)
         {
             GameObject bomb = null;
-            if(prefab != null && IsWithinBounds(x,y))
+            if (prefab != null && IsWithinBounds(x, y))
             {
                 bomb = Instantiate(prefab, new Vector3(x, y, 0), Quaternion.identity);
                 Bomb bombObject = bomb.GetComponent<Bomb>();
-                if(bombObject != null)
+                if (bombObject != null)
                 {
                     bombObject.Initialize(this);
                     bombObject.SetCoordinates(x, y);
@@ -454,7 +454,7 @@ namespace Match3.Core
             //HighlightTilesOff(i, j);
         }
 
-        private void ClearPieceAt(List<GamePiece> gamePieces)
+        private void ClearPieceAt(List<GamePiece> gamePieces, List<GamePiece> bombedPieces)
         {
             if (gamePieces != null)
             {
@@ -465,8 +465,16 @@ namespace Match3.Core
                         ClearPieceAt(item.XIndex, item.YIndex);
                         if (particleSystemManager != null)
                         {
-                            particleSystemManager.PlayClearPieceEffect(item.XIndex, item.YIndex, 0);
+                            if (bombedPieces.Contains(item))
+                            {
+                                particleSystemManager.PlayBombEffect(item.XIndex, item.YIndex, 0);
+                            }
+                            else
+                            {
+                                particleSystemManager.PlayClearPieceEffect(item.XIndex, item.YIndex, 0);
+                            }
                         }
+
                     }
                 }
             }
@@ -584,7 +592,7 @@ namespace Match3.Core
         private List<GamePiece> GetRowPieces(int row)
         {
             List<GamePiece> rowPieces = new List<GamePiece>();
-            for(int i = 0; i < boardWidth; i++)
+            for (int i = 0; i < boardWidth; i++)
             {
                 if (allPieces[i, row] != null)
                 {
@@ -597,9 +605,9 @@ namespace Match3.Core
         private List<GamePiece> GetColoumnPieces(int coloumn)
         {
             List<GamePiece> coloumnPieces = new List<GamePiece>();
-            for(int i = 0; i < boardHeight; i++)
+            for (int i = 0; i < boardHeight; i++)
             {
-                if(allPieces[coloumn, i] != null)
+                if (allPieces[coloumn, i] != null)
                 {
                     coloumnPieces.Add(allPieces[coloumn, i]);
                 }
@@ -610,11 +618,11 @@ namespace Match3.Core
         private List<GamePiece> GetAdjacentPieces(int x, int y, int offset = 1)
         {
             List<GamePiece> adjacentPieces = new List<GamePiece>();
-            for(int i = x - offset; i <= x + offset; i++)
+            for (int i = x - offset; i <= x + offset; i++)
             {
-                for(int j = y - offset; j <= y + offset; j++)
+                for (int j = y - offset; j <= y + offset; j++)
                 {
-                    if(IsWithinBounds(i,j))
+                    if (IsWithinBounds(i, j))
                     {
                         adjacentPieces.Add(allPieces[i, j]);
                     }
@@ -626,13 +634,13 @@ namespace Match3.Core
         private List<GamePiece> GetBombedPieces(List<GamePiece> gamePieces)
         {
             List<GamePiece> allPiecesToClear = new List<GamePiece>();
-            foreach(var item in gamePieces)
+            foreach (var item in gamePieces)
             {
-                if(item != null)
+                if (item != null)
                 {
                     List<GamePiece> piecesToClear = new List<GamePiece>();
                     Bomb bomb = item.GetComponent<Bomb>();
-                    if(bomb != null)
+                    if (bomb != null)
                     {
                         switch (bomb.BombType)
                         {
@@ -667,15 +675,15 @@ namespace Match3.Core
             int yStart = -1;
             foreach (var item in gamePieces)
             {
-                if(item != null)
+                if (item != null)
                 {
-                    if(xStart == -1 || yStart == -1)
+                    if (xStart == -1 || yStart == -1)
                     {
                         xStart = item.XIndex;
                         yStart = item.YIndex;
                         continue;
                     }
-                    if(item.XIndex != xStart && item.YIndex == yStart)
+                    if (item.XIndex != xStart && item.YIndex == yStart)
                     {
                         horizontal = true;
                     }
@@ -691,27 +699,27 @@ namespace Match3.Core
         private GameObject DropBomb(int x, int y, Vector2 swapDireciton, List<GamePiece> gamePieces)
         {
             GameObject bomb = null;
-            if(gamePieces.Count >= 4)
+            if (gamePieces.Count >= 4)
             {
-                if(IsCornerMatch(gamePieces))
+                if (IsCornerMatch(gamePieces))
                 {
-                    if(adjacentBombPrefab != null)
+                    if (adjacentBombPrefab != null)
                     {
                         bomb = MakeBomb(adjacentBombPrefab, x, y);
                     }
                 }
                 else
                 {
-                    if(swapDireciton.x != 0)
+                    if (swapDireciton.x != 0)
                     {
-                        if(rowBombPrefab != null)
+                        if (rowBombPrefab != null)
                         {
                             bomb = MakeBomb(rowBombPrefab, x, y);
                         }
                     }
                     else
                     {
-                        if(coloumnBombPrefab != null)
+                        if (coloumnBombPrefab != null)
                         {
                             bomb = MakeBomb(coloumnBombPrefab, x, y);
                         }
@@ -723,11 +731,11 @@ namespace Match3.Core
 
         private void ActivateBomb(GameObject bomb)
         {
-            if(bomb != null)
+            if (bomb != null)
             {
                 int x = (int)bomb.transform.position.x;
                 int y = (int)bomb.transform.position.y;
-                if(IsWithinBounds(x,y))
+                if (IsWithinBounds(x, y))
                 {
                     allPieces[x, y] = bomb.GetComponent<GamePiece>();
                 }
@@ -762,12 +770,12 @@ namespace Match3.Core
                             yield return new WaitForSeconds(gamePieceMoveSpeed);
                             clickedTileBomb = DropBomb(clickedTile.XIndex, clickedTile.YIndex, swipeDirection, clickedPieceMatches);
                             targetTileBomb = DropBomb(targetTile.XIndex, targetTile.YIndex, swipeDirection, targetPieceMatches);
-                            if(clickedTileBomb != null && targetGamePiece != null)
+                            if (clickedTileBomb != null && targetGamePiece != null)
                             {
                                 GamePiece clickedBombPiece = clickedTileBomb.GetComponent<GamePiece>();
                                 clickedBombPiece.ChangeColor(targetGamePiece);
                             }
-                            if(targetTileBomb != null && clickedGamePiece != null)
+                            if (targetTileBomb != null && clickedGamePiece != null)
                             {
                                 GamePiece targetBombPiece = targetTileBomb.GetComponent<GamePiece>();
                                 targetBombPiece.ChangeColor(clickedGamePiece);
@@ -808,14 +816,14 @@ namespace Match3.Core
                 gamePieces = gamePieces.Union(bombedPieces).ToList();
                 bombedPieces = GetBombedPieces(gamePieces);
                 gamePieces = gamePieces.Union(bombedPieces).ToList();
-                ClearPieceAt(gamePieces);
+                ClearPieceAt(gamePieces, bombedPieces);
                 BreakTileAt(gamePieces);
-                if(clickedTileBomb != null)
+                if (clickedTileBomb != null)
                 {
                     ActivateBomb(clickedTileBomb);
                     clickedTileBomb = null;
                 }
-                if(targetTileBomb != null)
+                if (targetTileBomb != null)
                 {
                     ActivateBomb(targetTileBomb);
                     targetTileBomb = null;

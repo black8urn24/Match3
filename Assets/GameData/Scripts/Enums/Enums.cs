@@ -38,6 +38,7 @@ namespace Match3.Enums
         PieceClearEffect,
         SingleBreakableTileEffect,
         DoubleBreakableTileEffect,
+        BombClearEffect,
         None
     }
 

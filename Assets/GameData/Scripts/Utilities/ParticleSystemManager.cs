@@ -85,6 +85,26 @@ namespace Match3.Utilities
                 StartCoroutine(DisableEffectsWithDelay(breakFx, 1f));
             }
         }
+
+        public void PlayBombEffect(int x, int y, int z = 0)
+        {
+            GameObject bombEffect = null;
+            if(ObjectPoolManager.instance != null)
+            {
+                bombEffect = ObjectPoolManager.instance.GetPoolObject(PoolObjectsType.BombClearEffect);
+                if(bombEffect != null)
+                {
+                    bombEffect.SetActive(true);
+                    bombEffect.transform.position = new Vector3(x, y, z);
+                    ParticlePlayer particlePlayer = bombEffect.GetComponent<ParticlePlayer>();
+                    if (particlePlayer != null)
+                    {
+                        particlePlayer.PlayParticles();
+                    }
+                    StartCoroutine(DisableEffectsWithDelay(bombEffect, 1f));
+                }
+            }
+        }
         #endregion
     }
 }
