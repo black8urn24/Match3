@@ -14,6 +14,7 @@ namespace Match3.Enums
         Red,
         Teal,
         Yellow,
+        Wild,
         None
     }
 

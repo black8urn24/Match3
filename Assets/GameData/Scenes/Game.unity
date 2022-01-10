@@ -171,6 +171,7 @@ MonoBehaviour:
   adjacentBombPrefab: {fileID: 5506894028194875351, guid: 122582ed17525824d9642d5f4366e42a, type: 3}
   rowBombPrefab: {fileID: 8609673865635203283, guid: 2034a69e04704b74e89286bdd5dca8b5, type: 3}
   coloumnBombPrefab: {fileID: 8240219918766979173, guid: 6c522f82f1a902f4c9760656622e8013, type: 3}
+  colorBombPrefab: {fileID: 526221597016864837, guid: 7e79fc0a4b110cc44ae588467b074333, type: 3}
   boardWidth: 7
   boardHeight: 9
   borderSize: 1
@@ -222,6 +223,14 @@ MonoBehaviour:
   - objectPrefab: {fileID: 1000012362009328, guid: b6d1543d5ad4948aaae26e1e7570e386, type: 3}
     x: 0
     y: 3
+    z: 0
+  - objectPrefab: {fileID: 1000012362009328, guid: b6d1543d5ad4948aaae26e1e7570e386, type: 3}
+    x: 0
+    y: 4
+    z: 0
+  - objectPrefab: {fileID: 1000011697559180, guid: 8f62ee363864149f4bb7981086aa48ef, type: 3}
+    x: 0
+    y: 5
     z: 0
   particleSystemManager: {fileID: 1443453162}
 --- !u!1 &366325412
@@ -443,7 +452,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 399.99997, y: 399.99997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &797573539
 MonoBehaviour:

@@ -18,6 +18,7 @@ namespace Match3.Core
         [SerializeField] private GameObject adjacentBombPrefab = null;
         [SerializeField] private GameObject rowBombPrefab = null;
         [SerializeField] private GameObject coloumnBombPrefab = null;
+        [SerializeField] private GameObject colorBombPrefab = null;
         [Header("Board Dimensions")]
         [SerializeField] private int boardWidth = -1;
         [SerializeField] private int boardHeight = -1;
@@ -710,18 +711,28 @@ namespace Match3.Core
                 }
                 else
                 {
-                    if (swapDireciton.x != 0)
+                    if(gamePieces.Count >= 5)
                     {
-                        if (rowBombPrefab != null)
+                        if(colorBombPrefab != null)
                         {
-                            bomb = MakeBomb(rowBombPrefab, x, y);
+                            bomb = MakeBomb(colorBombPrefab, x, y);
                         }
                     }
                     else
                     {
-                        if (coloumnBombPrefab != null)
+                        if (swapDireciton.x != 0)
                         {
-                            bomb = MakeBomb(coloumnBombPrefab, x, y);
+                            if (rowBombPrefab != null)
+                            {
+                                bomb = MakeBomb(rowBombPrefab, x, y);
+                            }
+                        }
+                        else
+                        {
+                            if (coloumnBombPrefab != null)
+                            {
+                                bomb = MakeBomb(coloumnBombPrefab, x, y);
+                            }
                         }
                     }
                 }
@@ -741,6 +752,36 @@ namespace Match3.Core
                 }
             }
         }
+
+        private List<GamePiece> FindAllPiecesByType(GamePieceType gamePieceType)
+        {
+            List<GamePiece> gamePieces = new List<GamePiece>();
+            for (int i = 0; i < boardWidth; i++)
+            {
+                for (int j = 0; j < boardHeight; j++)
+                {
+                    if (allPieces[i, j].PieceType == gamePieceType)
+                    {
+                        gamePieces.Add(allPieces[i, j]);
+                    }
+                }
+            }
+            return gamePieces;
+        }
+
+        private bool IsColorBomb(GamePiece gamePiece)
+        {
+            if (gamePiece == null)
+            {
+                return false;
+            }
+            Bomb bomb = gamePiece.GetComponent<Bomb>();
+            if (bomb != null)
+            {
+                return (bomb.BombType == BombType.Color) ? true : false;
+            }
+            return false;
+        }
         #endregion
 
         #region Coroutines
@@ -759,7 +800,28 @@ namespace Match3.Core
                         yield return new WaitForSeconds(gamePieceMoveSpeed);
                         List<GamePiece> clickedPieceMatches = FindMatchesAt(clickedTile.XIndex, clickedTile.YIndex);
                         List<GamePiece> targetPieceMatches = FindMatchesAt(targetTile.XIndex, targetTile.YIndex);
-                        if (clickedPieceMatches.Count == 0 && targetPieceMatches.Count == 0)
+                        List<GamePiece> coloredMatches = new List<GamePiece>();
+                        if (IsColorBomb(clickedGamePiece) && !IsColorBomb(targetGamePiece))
+                        {
+                            clickedGamePiece.PieceType = targetGamePiece.PieceType;
+                            coloredMatches = FindAllPiecesByType(clickedGamePiece.PieceType);
+                        }
+                        else if (!IsColorBomb(clickedGamePiece) && IsColorBomb(targetGamePiece))
+                        {
+                            targetGamePiece.PieceType = clickedGamePiece.PieceType;
+                            coloredMatches = FindAllPiecesByType(targetGamePiece.PieceType);
+                        }
+                        else if (IsColorBomb(clickedGamePiece) && IsColorBomb(targetGamePiece))
+                        {
+                            foreach (var item in allPieces)
+                            {
+                                if (!coloredMatches.Contains(item))
+                                {
+                                    coloredMatches.Add(item);
+                                }
+                            }
+                        }
+                        if (clickedPieceMatches.Count == 0 && targetPieceMatches.Count == 0 && coloredMatches.Count == 0)
                         {
                             clickedGamePiece.MovePiece(clickedTile.XIndex, clickedTile.YIndex, gamePieceMoveSpeed);
                             targetGamePiece.MovePiece(targetTile.XIndex, targetTile.YIndex, gamePieceMoveSpeed);
@@ -773,14 +835,20 @@ namespace Match3.Core
                             if (clickedTileBomb != null && targetGamePiece != null)
                             {
                                 GamePiece clickedBombPiece = clickedTileBomb.GetComponent<GamePiece>();
-                                clickedBombPiece.ChangeColor(targetGamePiece);
+                                if (!IsColorBomb(clickedBombPiece))
+                                {
+                                    clickedBombPiece.ChangeColor(targetGamePiece);
+                                }
                             }
                             if (targetTileBomb != null && clickedGamePiece != null)
                             {
                                 GamePiece targetBombPiece = targetTileBomb.GetComponent<GamePiece>();
-                                targetBombPiece.ChangeColor(clickedGamePiece);
+                                if (!IsColorBomb(targetBombPiece))
+                                {
+                                    targetBombPiece.ChangeColor(clickedGamePiece);
+                                }
                             }
-                            ClearAndRefillBoard(clickedPieceMatches.Union(targetPieceMatches).ToList());
+                            ClearAndRefillBoard(clickedPieceMatches.Union(targetPieceMatches).ToList().Union(coloredMatches).ToList());
                         }
                     }
                 }

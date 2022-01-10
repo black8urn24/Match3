@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31409d39c8329f141a54b2ec6a3d0fce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceType: 0
+  pieceType: 8
   interpolationType: 0
   bombType: 2
 --- !u!1 &5506894028245028444

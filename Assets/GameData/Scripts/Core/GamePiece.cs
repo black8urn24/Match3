@@ -21,7 +21,7 @@ namespace Match3.Core
         #endregion
 
         #region Properties
-        public GamePieceType PieceType { get => pieceType; private set => pieceType = value; }
+        public GamePieceType PieceType { get => pieceType; set => pieceType = value; }
         public int XIndex { get => xIndex; set => xIndex = value; }
         public int YIndex { get => yIndex; set => yIndex = value; }
         #endregion
