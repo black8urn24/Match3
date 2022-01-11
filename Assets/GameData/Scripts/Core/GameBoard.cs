@@ -33,6 +33,10 @@ namespace Match3.Core
         [SerializeField] private StartingObject[] startingTiles = null;
         [SerializeField] private StartingObject[] startingPieces = null;
         [SerializeField] private ParticleSystemManager particleSystemManager = null;
+        [Header("Collectable Properties")]
+        [SerializeField] private int maxCollectables = 3;
+        [SerializeField] [Range(0,1)] private float collectableChance = 0.1f;
+        [SerializeField] private GameObject[] collectablePrefabs = null;
         #endregion
 
         #region Variables
@@ -43,6 +47,7 @@ namespace Match3.Core
         private bool canSwitchTiles = true;
         private GameObject clickedTileBomb = null;
         private GameObject targetTileBomb = null;
+        private int currentLevelCollectableCount = -1;
         #endregion
 
         #region Unity Methods
@@ -66,6 +71,9 @@ namespace Match3.Core
             allPieces = new GamePiece[boardWidth, boardHeight];
             SetupTiles();
             SetupPieces();
+            List<GamePiece> allCollectables = FindAllCollectables();
+            currentLevelCollectableCount = allCollectables.Count;
+            //Debug.Log($"Colectables found on board - {currentLevelCollectableCount}".ToAqua().ToBold());
             SetCameraDimensions();
             FillBoard(fillYOffset, fallTime);
             //HighlightMatches();
@@ -293,7 +301,7 @@ namespace Match3.Core
                 }
                 else
                 {
-                    if (nextPiece.PieceType == startPiece.PieceType && !matches.Contains(nextPiece))
+                    if (nextPiece.PieceType == startPiece.PieceType && !matches.Contains(nextPiece) && nextPiece.PieceType != GamePieceType.Collectable)
                     {
                         matches.Add(nextPiece);
                     }
@@ -781,6 +789,34 @@ namespace Match3.Core
                 return (bomb.BombType == BombType.Color) ? true : false;
             }
             return false;
+        }
+
+        private List<GamePiece> FindCollectablesAt(int row)
+        {
+            List<GamePiece> gamePieces = new List<GamePiece>();
+            for(int i = 0; i < boardWidth; i++)
+            {
+                if(allPieces[i, row] != null)
+                {
+                    Collectable collectable = allPieces[i, row].GetComponent<Collectable>();
+                    if(collectable != null)
+                    {
+                        gamePieces.Add(collectable);
+                    }
+                }
+            }
+            return gamePieces;
+        }
+
+        private List<GamePiece> FindAllCollectables()
+        {
+            List<GamePiece> collectables = new List<GamePiece>();
+            for(int i = 0; i < boardHeight; i++)
+            {
+                List<GamePiece> gamePieces = FindCollectablesAt(i);
+                collectables = collectables.Union(gamePieces).ToList();
+            }
+            return collectables;
         }
         #endregion
 

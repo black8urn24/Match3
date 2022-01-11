@@ -15,6 +15,7 @@ namespace Match3.Enums
         Teal,
         Yellow,
         Wild,
+        Collectable,
         None
     }
 
@@ -50,5 +51,12 @@ namespace Match3.Enums
         Adjacent,
         Coloumn,
         Row
+    }
+
+    public enum CollectableType
+    {
+        ClearedAtBottom,
+        ClearedByBomb,
+        None
     }
 }
