@@ -180,15 +180,24 @@ namespace Match3.Core
             mainCamera.orthographicSize = (verticalSize > horizontalSize) ? verticalSize : horizontalSize;
         }
 
+        private GameObject GetRandomObject(GameObject[] gameObjects)
+        {
+            int index = Random.Range(0, gameObjects.Length);
+            if(gameObjects[index] == null)
+            {
+                Debug.Log($"GAMEBOARD : Object found Null".ToRed().ToBold());
+            }
+            return gameObjects[index];
+        }
+
         private GameObject GetRandomPiece()
         {
-            int randomIndex = Random.Range(0, gamePiecePrefabs.Length);
-            if (gamePiecePrefabs[randomIndex] == null)
-            {
-                Debug.Log($"GAMEBOARD - gamepiece is null at index - {randomIndex}".ToRed().ToBold());
-                return null;
-            }
-            return gamePiecePrefabs[randomIndex];
+            return GetRandomObject(gamePiecePrefabs);
+        }
+
+        private GameObject GetRandomCollectable()
+        {
+            return GetRandomObject(collectablePrefabs);
         }
 
         private void FillBoard(float falseYOffset = 0f, float fallTime = 0.1f)
@@ -201,16 +210,25 @@ namespace Match3.Core
                 {
                     if (allPieces[i, j] == null && allTiles[i, j].TileType != Enums.TileType.Obstacle)
                     {
-                        GamePiece randomPiece = FillBoardAt(i, j, falseYOffset, fallTime);
-                        while (HasMatchOnFill(i, j, 3))
+                        GamePiece randomPiece = null;
+                        if(j == boardHeight - 1 && CanAddCollectable())
                         {
-                            ClearPieceAt(i, j);
-                            randomPiece = FillBoardAt(i, j, falseYOffset, fallTime);
-                            currentIterations++;
-                            if (currentIterations >= maxIterations)
+                            randomPiece = FillRandomCollectableAt(i, j, falseYOffset, fallTime);
+                            currentLevelCollectableCount++;
+                        }
+                        else
+                        {
+                            randomPiece = FillRandomGamePieceAt(i, j, falseYOffset, fallTime);
+                            while (HasMatchOnFill(i, j, 3))
                             {
-                                Debug.Log($"BOARD::Max iterations made".ToRed().ToBold());
-                                break;
+                                ClearPieceAt(i, j);
+                                randomPiece = FillRandomGamePieceAt(i, j, falseYOffset, fallTime);
+                                currentIterations++;
+                                if (currentIterations >= maxIterations)
+                                {
+                                    Debug.Log($"BOARD::Max iterations made".ToRed().ToBold());
+                                    break;
+                                }
                             }
                         }
                     }
@@ -218,12 +236,23 @@ namespace Match3.Core
             }
         }
 
-        private GamePiece FillBoardAt(int i, int j, float yOffset = 0f, float fallTime = 0.1f)
+        private GamePiece FillRandomGamePieceAt(int i, int j, float yOffset = 0f, float fallTime = 0.1f)
         {
             if (IsWithinBounds(i, j))
             {
                 GameObject gamePiece = Instantiate(GetRandomPiece(), Vector3.zero, Quaternion.identity);
-                MakeGamePiece(gamePiece, i, j, fillYOffset, fallTime);
+                MakeGamePiece(gamePiece, i, j, yOffset, fallTime);
+                return gamePiece.GetComponent<GamePiece>();
+            }
+            return null;
+        }
+
+        private GamePiece FillRandomCollectableAt(int i, int j, float yOffset = 0f, float fallTime = 0.1f)
+        {
+            if (IsWithinBounds(i, j))
+            {
+                GameObject gamePiece = Instantiate(GetRandomCollectable(), Vector3.zero, Quaternion.identity);
+                MakeGamePiece(gamePiece, i, j, yOffset, fallTime);
                 return gamePiece.GetComponent<GamePiece>();
             }
             return null;
@@ -818,6 +847,11 @@ namespace Match3.Core
             }
             return collectables;
         }
+
+        private bool CanAddCollectable()
+        {
+            return (Random.Range(0f,1f) <= collectableChance && collectablePrefabs.Length > 0 && currentLevelCollectableCount < maxCollectables);
+        }
         #endregion
 
         #region Coroutines
@@ -920,6 +954,9 @@ namespace Match3.Core
                 gamePieces = gamePieces.Union(bombedPieces).ToList();
                 bombedPieces = GetBombedPieces(gamePieces);
                 gamePieces = gamePieces.Union(bombedPieces).ToList();
+                List<GamePiece> collectablePieces = FindCollectablesAt(0);
+                currentLevelCollectableCount -= collectablePieces.Count;
+                gamePieces = gamePieces.Union(collectablePieces).ToList();
                 ClearPieceAt(gamePieces, bombedPieces);
                 BreakTileAt(gamePieces);
                 if (clickedTileBomb != null)

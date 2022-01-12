@@ -207,23 +207,12 @@ MonoBehaviour:
     x: 2
     y: 4
     z: 1
-  startingPieces:
-  - objectPrefab: {fileID: 2017939560505240453, guid: 642c728b8c52fef4f84a4dc3ef26ff5f, type: 3}
-    x: 0
-    y: 0
-    z: 0
-  - objectPrefab: {fileID: 2017939560505240453, guid: 642c728b8c52fef4f84a4dc3ef26ff5f, type: 3}
-    x: 0
-    y: 1
-    z: 0
-  - objectPrefab: {fileID: 2017939560505240453, guid: 642c728b8c52fef4f84a4dc3ef26ff5f, type: 3}
-    x: 1
-    y: 2
-    z: 0
+  startingPieces: []
   particleSystemManager: {fileID: 1443453162}
   maxCollectables: 3
-  collectableChance: 0.1
-  collectablePrefabs: []
+  collectableChance: 0.4
+  collectablePrefabs:
+  - {fileID: 2017939560505240453, guid: 642c728b8c52fef4f84a4dc3ef26ff5f, type: 3}
 --- !u!1 &366325412
 GameObject:
   m_ObjectHideFlags: 0
