@@ -35,7 +35,7 @@ namespace Match3.Core
         [SerializeField] private ParticleSystemManager particleSystemManager = null;
         [Header("Collectable Properties")]
         [SerializeField] private int maxCollectables = 3;
-        [SerializeField] [Range(0,1)] private float collectableChance = 0.1f;
+        [SerializeField] [Range(0, 1)] private float collectableChance = 0.1f;
         [SerializeField] private GameObject[] collectablePrefabs = null;
         #endregion
 
@@ -183,7 +183,7 @@ namespace Match3.Core
         private GameObject GetRandomObject(GameObject[] gameObjects)
         {
             int index = Random.Range(0, gameObjects.Length);
-            if(gameObjects[index] == null)
+            if (gameObjects[index] == null)
             {
                 Debug.Log($"GAMEBOARD : Object found Null".ToRed().ToBold());
             }
@@ -211,7 +211,7 @@ namespace Match3.Core
                     if (allPieces[i, j] == null && allTiles[i, j].TileType != Enums.TileType.Obstacle)
                     {
                         GamePiece randomPiece = null;
-                        if(j == boardHeight - 1 && CanAddCollectable())
+                        if (j == boardHeight - 1 && CanAddCollectable())
                         {
                             randomPiece = FillRandomCollectableAt(i, j, falseYOffset, fallTime);
                             currentLevelCollectableCount++;
@@ -699,6 +699,7 @@ namespace Match3.Core
                                 break;
                         }
                         allPiecesToClear = allPiecesToClear.Union(piecesToClear).ToList();
+                        allPiecesToClear = RemoveCollectables(allPiecesToClear);
                     }
                 }
             }
@@ -748,9 +749,9 @@ namespace Match3.Core
                 }
                 else
                 {
-                    if(gamePieces.Count >= 5)
+                    if (gamePieces.Count >= 5)
                     {
-                        if(colorBombPrefab != null)
+                        if (colorBombPrefab != null)
                         {
                             bomb = MakeBomb(colorBombPrefab, x, y);
                         }
@@ -823,12 +824,12 @@ namespace Match3.Core
         private List<GamePiece> FindCollectablesAt(int row)
         {
             List<GamePiece> gamePieces = new List<GamePiece>();
-            for(int i = 0; i < boardWidth; i++)
+            for (int i = 0; i < boardWidth; i++)
             {
-                if(allPieces[i, row] != null)
+                if (allPieces[i, row] != null)
                 {
                     Collectable collectable = allPieces[i, row].GetComponent<Collectable>();
-                    if(collectable != null)
+                    if (collectable != null)
                     {
                         gamePieces.Add(collectable);
                     }
@@ -840,7 +841,7 @@ namespace Match3.Core
         private List<GamePiece> FindAllCollectables()
         {
             List<GamePiece> collectables = new List<GamePiece>();
-            for(int i = 0; i < boardHeight; i++)
+            for (int i = 0; i < boardHeight; i++)
             {
                 List<GamePiece> gamePieces = FindCollectablesAt(i);
                 collectables = collectables.Union(gamePieces).ToList();
@@ -850,7 +851,28 @@ namespace Match3.Core
 
         private bool CanAddCollectable()
         {
-            return (Random.Range(0f,1f) <= collectableChance && collectablePrefabs.Length > 0 && currentLevelCollectableCount < maxCollectables);
+            return (Random.Range(0f, 1f) <= collectableChance && collectablePrefabs.Length > 0 && currentLevelCollectableCount < maxCollectables);
+        }
+
+        private List<GamePiece> RemoveCollectables(List<GamePiece> bombedPieces)
+        {
+            List<GamePiece> collectablePieces = FindAllCollectables();
+            List<GamePiece> removablePieces = new List<GamePiece>();
+            foreach (var item in collectablePieces)
+            {
+                if(item != null)
+                {
+                    Collectable collectable = item.GetComponent<Collectable>();
+                    if(collectable != null)
+                    {
+                        if(collectable.CollectableType != CollectableType.ClearedByBomb)
+                        {
+                            removablePieces.Add(item);
+                        }
+                    }
+                }
+            }
+            return bombedPieces.Except(removablePieces).ToList();
         }
         #endregion
 
@@ -977,6 +999,8 @@ namespace Match3.Core
                 }
                 yield return new WaitForSeconds(visualDelay);
                 matches = FindMatchesAt(movingPieces);
+                collectablePieces = FindCollectablesAt(0);
+                matches = matches.Union(collectablePieces).ToList();
                 if (matches.Count == 0)
                 {
                     isFinished = true;
