@@ -829,7 +829,7 @@ namespace Match3.Core
                 if (allPieces[i, row] != null)
                 {
                     Collectable collectable = allPieces[i, row].GetComponent<Collectable>();
-                    if (collectable != null)
+                    if (collectable != null && collectable.CollectableType == CollectableType.ClearedAtBottom)
                     {
                         gamePieces.Add(collectable);
                     }
@@ -977,7 +977,11 @@ namespace Match3.Core
                 bombedPieces = GetBombedPieces(gamePieces);
                 gamePieces = gamePieces.Union(bombedPieces).ToList();
                 List<GamePiece> collectablePieces = FindCollectablesAt(0);
+                List<GamePiece> allCollectables = FindAllCollectables();
+                List<GamePiece> blockers = gamePieces.Intersect(allCollectables).ToList();
+                collectablePieces = collectablePieces.Union(blockers).ToList();
                 currentLevelCollectableCount -= collectablePieces.Count;
+                Debug.Log($"Current collectable count - {currentLevelCollectableCount}".ToAqua().ToBold());
                 gamePieces = gamePieces.Union(collectablePieces).ToList();
                 ClearPieceAt(gamePieces, bombedPieces);
                 BreakTileAt(gamePieces);
