@@ -35,6 +35,7 @@ namespace Match3.Core
             if(instance == null)
             {
                 instance = this as T;
+                transform.parent = null;
                 DontDestroyOnLoad(this.gameObject);
             }
             else
