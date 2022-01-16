@@ -11,6 +11,7 @@ namespace Match3.Core
         #region Inspector Variables
         [SerializeField] private GamePieceType pieceType = GamePieceType.None;
         [SerializeField] private GamePieceInterpolationType interpolationType = GamePieceInterpolationType.Linear;
+        [SerializeField] private int scoreValue = 20;
         #endregion
 
         #region Variables
@@ -128,6 +129,14 @@ namespace Match3.Core
                     currentRenderer.color = targetRenderer.color;
                 }
                 PieceType = gamePiece.PieceType;
+            }
+        }
+
+        public void AddScore(int multiplier = 1, int bonus = 0)
+        {
+            if(ScoreManager.Instance != null)
+            {
+                ScoreManager.Instance.AddScore(scoreValue * multiplier + bonus);
             }
         }
         #endregion

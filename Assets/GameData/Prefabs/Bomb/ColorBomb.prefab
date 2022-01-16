@@ -4961,4 +4961,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceType: 8
   interpolationType: 0
+  scoreValue: 500
   bombType: 1

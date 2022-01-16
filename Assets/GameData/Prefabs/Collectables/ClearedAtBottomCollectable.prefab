@@ -97,4 +97,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceType: 9
   interpolationType: 1
+  scoreValue: 250
   collectableType: 0

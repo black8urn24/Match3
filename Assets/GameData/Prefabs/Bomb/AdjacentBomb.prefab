@@ -99,6 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceType: 8
   interpolationType: 0
+  scoreValue: 250
   bombType: 2
 --- !u!1 &5506894028245028444
 GameObject:

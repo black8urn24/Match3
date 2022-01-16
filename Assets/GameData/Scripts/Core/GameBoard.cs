@@ -48,6 +48,8 @@ namespace Match3.Core
         private GameObject clickedTileBomb = null;
         private GameObject targetTileBomb = null;
         private int currentLevelCollectableCount = -1;
+        private int scoreMultiplier = 0;
+        private int bonusCounter = 0;
         #endregion
 
         #region Unity Methods
@@ -501,6 +503,12 @@ namespace Match3.Core
                     if (item != null)
                     {
                         ClearPieceAt(item.XIndex, item.YIndex);
+                        bonusCounter = 0;
+                        if(gamePieces.Count >= 4)
+                        {
+                            bonusCounter = 20;
+                        }
+                        item.AddScore(scoreMultiplier, bonusCounter);
                         if (particleSystemManager != null)
                         {
                             if (bombedPieces.Contains(item))
@@ -860,12 +868,12 @@ namespace Match3.Core
             List<GamePiece> removablePieces = new List<GamePiece>();
             foreach (var item in collectablePieces)
             {
-                if(item != null)
+                if (item != null)
                 {
                     Collectable collectable = item.GetComponent<Collectable>();
-                    if(collectable != null)
+                    if (collectable != null)
                     {
-                        if(collectable.CollectableType != CollectableType.ClearedByBomb)
+                        if (collectable.CollectableType != CollectableType.ClearedByBomb)
                         {
                             removablePieces.Add(item);
                         }
@@ -951,8 +959,10 @@ namespace Match3.Core
         {
             canSwitchTiles = false;
             List<GamePiece> matches = gamePieces;
+            scoreMultiplier = 0;
             do
             {
+                scoreMultiplier++;
                 yield return StartCoroutine(ClearAndCollapseRoutine(matches));
                 yield return null;
                 yield return StartCoroutine(RefillRoutine());
@@ -1012,6 +1022,7 @@ namespace Match3.Core
                 }
                 else
                 {
+                    scoreMultiplier++;
                     yield return StartCoroutine(ClearAndCollapseRoutine(matches));
                 }
             }
