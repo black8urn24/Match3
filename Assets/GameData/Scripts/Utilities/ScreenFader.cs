@@ -18,7 +18,6 @@ namespace Match3.Utilities
         // Start is called before the first frame update
         void Start()
         {
-            FadeOut();
         }
         #endregion
 

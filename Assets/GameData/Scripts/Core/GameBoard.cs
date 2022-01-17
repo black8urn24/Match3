@@ -69,16 +69,6 @@ namespace Match3.Core
         #region Private Methods
         private void SetInitialReferences()
         {
-            allTiles = new GameTile[boardWidth, boardHeight];
-            allPieces = new GamePiece[boardWidth, boardHeight];
-            SetupTiles();
-            SetupPieces();
-            List<GamePiece> allCollectables = FindAllCollectables();
-            currentLevelCollectableCount = allCollectables.Count;
-            //Debug.Log($"Colectables found on board - {currentLevelCollectableCount}".ToAqua().ToBold());
-            SetCameraDimensions();
-            FillBoard(fillYOffset, fallTime);
-            //HighlightMatches();
             if (reloadLevelButton != null)
             {
                 reloadLevelButton.onClick.RemoveAllListeners();
@@ -1037,6 +1027,20 @@ namespace Match3.Core
         #endregion
 
         #region Public Methods
+        public void SetupBoard()
+        {
+            allTiles = new GameTile[boardWidth, boardHeight];
+            allPieces = new GamePiece[boardWidth, boardHeight];
+            SetupTiles();
+            SetupPieces();
+            List<GamePiece> allCollectables = FindAllCollectables();
+            currentLevelCollectableCount = allCollectables.Count;
+            //Debug.Log($"Colectables found on board - {currentLevelCollectableCount}".ToAqua().ToBold());
+            SetCameraDimensions();
+            FillBoard(fillYOffset, fallTime);
+            //HighlightMatches();
+        }
+
         public void SetClickedTile(GameTile tile)
         {
             if (clickedTile == null)
