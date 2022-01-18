@@ -918,8 +918,12 @@ namespace Match3.Core
                         }
                         else
                         {
-                            Vector2 swipeDirection = new Vector2(targetTile.XIndex - clickedTile.XIndex, targetTile.YIndex - clickedTile.YIndex);
+                            if(GameManager.Instance != null)
+                            {
+                                GameManager.Instance.UpdateMoves();
+                            }
                             yield return new WaitForSeconds(gamePieceMoveSpeed);
+                            Vector2 swipeDirection = new Vector2(targetTile.XIndex - clickedTile.XIndex, targetTile.YIndex - clickedTile.YIndex);
                             clickedTileBomb = DropBomb(clickedTile.XIndex, clickedTile.YIndex, swipeDirection, clickedPieceMatches);
                             targetTileBomb = DropBomb(targetTile.XIndex, targetTile.YIndex, swipeDirection, targetPieceMatches);
                             if (clickedTileBomb != null && targetGamePiece != null)

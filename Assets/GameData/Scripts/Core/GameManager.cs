@@ -2,6 +2,7 @@ using Match3.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 namespace Match3.Core
 {
@@ -10,9 +11,15 @@ namespace Match3.Core
         #region Inspector Variables
         [SerializeField] private ScreenFader initialScreenFader = null;
         [SerializeField] private GameBoard gameBoard = null;
+        [SerializeField] private TextMeshProUGUI movesCounterText = null;
+        [SerializeField] private int levelMoves = 30;
         #endregion
 
         #region Variables
+        private bool isReadyToBegin = false;
+        private bool isGameOver = false;
+        private bool isWinner = false;
+        private int currentMoves = -1;
         #endregion
 
         #region Properties
@@ -35,21 +42,88 @@ namespace Match3.Core
         #region Private Methods
         private void SetInitialReferences()
         {
-            if(initialScreenFader != null)
+            StartCoroutine(ExecuteGameLoop());
+        }
+
+        private void SetMovesText()
+        {
+            if (movesCounterText.text != null)
             {
-                initialScreenFader.FadeOut();
-            }
-            if(gameBoard != null)
-            {
-                gameBoard.SetupBoard();
+                movesCounterText.text = currentMoves.ToString();
             }
         }
         #endregion
 
         #region Coroutines
+        private IEnumerator ExecuteGameLoop()
+        {
+            yield return StartCoroutine(StartGameRoutine());
+            yield return StartCoroutine(PlayGameRoutine());
+            yield return StartCoroutine(EndGameRoutine());
+        }
+
+        private IEnumerator StartGameRoutine()
+        {
+            while (!isReadyToBegin)
+            {
+                yield return null;
+                yield return new WaitForSeconds(1f);
+                isReadyToBegin = true;
+            }
+            if (initialScreenFader != null)
+            {
+                initialScreenFader.FadeOut();
+            }
+            yield return new WaitForSeconds(1f);
+            if (gameBoard != null)
+            {
+                gameBoard.SetupBoard();
+            }
+            currentMoves = levelMoves;
+            SetMovesText();
+        }
+
+        private IEnumerator PlayGameRoutine()
+        {
+            while (!isGameOver)
+            {
+                if(currentMoves <= 0)
+                {
+                    isGameOver = true;
+                    isWinner = false;
+                    if (initialScreenFader != null)
+                    {
+                        initialScreenFader.FadeIn();
+                    }
+                }
+                yield return null;
+            }
+        }
+
+        private IEnumerator EndGameRoutine()
+        {
+            if (isWinner)
+            {
+
+            }
+            else
+            {
+
+            }
+            yield return null;
+        }
         #endregion
 
         #region Public Methods
+        public void UpdateMoves()
+        {
+            currentMoves--;
+            if(currentMoves <= 0)
+            {
+                currentMoves = 0;
+            }
+            SetMovesText();
+        }
         #endregion
     }
 }
