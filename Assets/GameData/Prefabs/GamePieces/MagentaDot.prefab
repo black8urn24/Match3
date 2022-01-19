@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4000012234730528}
   - component: {fileID: 212000012567138806}
   - component: {fileID: 114000013629837936}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MagentaDot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,3 +97,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceType: 4
   interpolationType: 1
+  scoreValue: 20

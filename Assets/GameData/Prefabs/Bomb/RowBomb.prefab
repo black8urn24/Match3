@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8609673865635203282}
   - component: {fileID: 8609673865635203281}
   - component: {fileID: 8609673865635203280}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RowBomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8609673866545575691}
   - component: {fileID: 8609673866545575690}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,6 +193,10 @@ PrefabInstance:
     - target: {fileID: 1000012706236558, guid: 046759283fbd6427a954188bd09e9b65, type: 3}
       propertyPath: m_Name
       value: RingGlow
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012706236558, guid: 046759283fbd6427a954188bd09e9b65, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4000012339133708, guid: 046759283fbd6427a954188bd09e9b65, type: 3}
       propertyPath: m_RootOrder

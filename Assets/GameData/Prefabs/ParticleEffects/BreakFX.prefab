@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000012167445612}
   - component: {fileID: 5296606033534467000}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BreakFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 4000010861741710}
   - component: {fileID: 198000011007641834}
   - component: {fileID: 199000012478158092}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: RingFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4914,7 +4914,7 @@ GameObject:
   - component: {fileID: 4000014047732998}
   - component: {fileID: 198000010353373568}
   - component: {fileID: 199000012716756992}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: RingSoftFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}

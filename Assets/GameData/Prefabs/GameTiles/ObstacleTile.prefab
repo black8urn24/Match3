@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8010845774896535432}
   - component: {fileID: 8010845774896535434}
   - component: {fileID: 5047774884878024077}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ObstacleTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,6 +97,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 1
+  maxBreakableValue: 0
+  breakableSprites: []
+  normalTileColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!61 &5047774884878024077
 BoxCollider2D:
   m_ObjectHideFlags: 0

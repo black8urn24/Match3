@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4000012184536822}
   - component: {fileID: 212000011368665818}
   - component: {fileID: 114000011746649500}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BlueDot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,3 +97,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceType: 0
   interpolationType: 1
+  scoreValue: 20

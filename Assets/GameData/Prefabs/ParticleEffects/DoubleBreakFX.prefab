@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4000010330506534}
   - component: {fileID: 198000011499434692}
   - component: {fileID: 199000011078139448}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: RingFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4867,7 +4867,7 @@ GameObject:
   - component: {fileID: 4000010969530192}
   - component: {fileID: 198000011434363388}
   - component: {fileID: 199000012536028372}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: SquareFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9723,7 +9723,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000012202838168}
   - component: {fileID: 8811060611352987724}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: DoubleBreakFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}

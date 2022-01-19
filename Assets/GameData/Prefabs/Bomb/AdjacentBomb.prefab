@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5506894028194875354}
   - component: {fileID: 5506894028194875353}
   - component: {fileID: 5506894028194875352}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: AdjacentBomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 5506894028245028445}
   - component: {fileID: 5506894028245028447}
   - component: {fileID: 5506894028245028446}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RingGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4891,7 +4891,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5506894028497680359}
   - component: {fileID: 5506894028497680360}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

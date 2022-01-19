@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 526221596646459509}
   - component: {fileID: 526221596646459514}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 526221596899242447}
   - component: {fileID: 526221596899242445}
   - component: {fileID: 526221596899242444}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RingGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4873,7 +4873,7 @@ GameObject:
   - component: {fileID: 526221597016864840}
   - component: {fileID: 526221597016864843}
   - component: {fileID: 526221597016864842}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ColorBomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4000012086094444}
   - component: {fileID: 212000014023979558}
   - component: {fileID: 114000010068937326}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TealDot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,3 +97,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceType: 6
   interpolationType: 1
+  scoreValue: 20

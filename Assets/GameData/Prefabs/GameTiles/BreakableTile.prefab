@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8559216042908481475}
   - component: {fileID: 8559216042908481473}
   - component: {fileID: 6911056129624448454}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BreakableTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}

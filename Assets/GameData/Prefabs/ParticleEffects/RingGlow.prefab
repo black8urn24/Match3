@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4000012339133708}
   - component: {fileID: 198000013555082876}
   - component: {fileID: 199000013523851056}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: RingGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}

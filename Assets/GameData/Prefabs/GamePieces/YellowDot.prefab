@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4000012348283988}
   - component: {fileID: 212000010781526192}
   - component: {fileID: 114000011634424998}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: YellowDot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,3 +97,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceType: 7
   interpolationType: 1
+  scoreValue: 20

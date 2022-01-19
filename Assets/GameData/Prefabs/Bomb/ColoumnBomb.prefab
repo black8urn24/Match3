@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8238510501656717795}
   - component: {fileID: 8134710034186236563}
   - component: {fileID: 8113754997816280031}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RingGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4791,7 +4791,7 @@ GameObject:
   - component: {fileID: 8240219918766979172}
   - component: {fileID: 8240219918766979175}
   - component: {fileID: 8240219918766979174}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ColoumnBomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4891,7 +4891,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8240219919677589437}
   - component: {fileID: 8240219919677589436}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

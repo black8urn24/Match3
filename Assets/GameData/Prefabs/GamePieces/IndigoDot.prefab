@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4000010269414318}
   - component: {fileID: 212000012706121256}
   - component: {fileID: 114000011518757492}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: IndigoDot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,3 +97,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceType: 3
   interpolationType: 1
+  scoreValue: 20

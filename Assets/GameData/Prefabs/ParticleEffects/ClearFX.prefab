@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4000012827167552}
   - component: {fileID: 198000014218419934}
   - component: {fileID: 199000010341184230}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: DiscFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4877,7 +4877,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000013596584960}
   - component: {fileID: 1845704968564621632}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ClearFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4926,7 +4926,7 @@ GameObject:
   - component: {fileID: 4000013948121626}
   - component: {fileID: 198000011124405616}
   - component: {fileID: 199000012817049142}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: RingFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9791,7 +9791,7 @@ GameObject:
   - component: {fileID: 4000010293060282}
   - component: {fileID: 198000013752519560}
   - component: {fileID: 199000013965030862}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: RingSoftFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
