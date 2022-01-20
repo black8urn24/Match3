@@ -61,6 +61,11 @@ namespace Match3.Core
             currentScore += value;
             StartCoroutine(UpdateScoreRoutine());
         }
+
+        public int GetCurrentScore()
+        {
+            return currentScore;
+        }
         #endregion
     }
 }

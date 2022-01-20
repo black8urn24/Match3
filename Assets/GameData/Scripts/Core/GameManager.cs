@@ -26,6 +26,7 @@ namespace Match3.Core
         private bool isGameOver = false;
         private bool isWinner = false;
         private int currentMoves = -1;
+        private ScoreManager scoreManager = null;
         #endregion
 
         #region Properties
@@ -37,17 +38,12 @@ namespace Match3.Core
         {
             SetInitialReferences();
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
         #endregion
 
         #region Private Methods
         private void SetInitialReferences()
         {
+            scoreManager = ScoreManager.Instance;
             StartCoroutine(ExecuteGameLoop());
         }
 
@@ -72,7 +68,7 @@ namespace Match3.Core
         {
             if(messageWindow != null)
             {
-                messageWindow.SetWindow(goalSprite, "Goal : \n" + targetScore.ToString(), "Start", () => 
+                messageWindow.SetWindow(goalSprite, "Goal : " + targetScore.ToString(), "Start", () => 
                 {
                     isReadyToBegin = true;
                 });
@@ -98,13 +94,25 @@ namespace Match3.Core
         {
             while (!isGameOver)
             {
+                if(scoreManager != null)
+                {
+                    if(scoreManager.GetCurrentScore() >= targetScore)
+                    {
+                        isGameOver = true;
+                        isWinner = true;
+                    }
+                }
                 if(currentMoves <= 0)
                 {
-                    isGameOver = true;
-                    isWinner = false;
-                    if (initialScreenFader != null)
+                    if(scoreManager.GetCurrentScore() >= targetScore)
                     {
-                        initialScreenFader.FadeIn();
+                        isGameOver = true;
+                        isWinner = true;
+                    }
+                    else
+                    {
+                        isGameOver = true;
+                        isWinner = false;
                     }
                 }
                 yield return null;
@@ -132,6 +140,11 @@ namespace Match3.Core
                         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                     });
                 }
+            }
+            yield return new WaitForSeconds(1f);
+            if (initialScreenFader != null)
+            {
+                initialScreenFader.FadeIn();
             }
             yield return null;
         }
