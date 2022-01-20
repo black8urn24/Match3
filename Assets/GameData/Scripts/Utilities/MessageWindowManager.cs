@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 namespace Match3.Utilities
 {
@@ -16,11 +17,18 @@ namespace Match3.Utilities
         [SerializeField] [Range(0f, 1f)] private float animationDuration = 1f;
         [SerializeField] private TextMeshProUGUI messageText = null;
         [SerializeField] private Text buttonText = null;
+        [SerializeField] private Image messageIconImage = null;
+        [SerializeField] private Button clickButton = null; 
         #endregion
 
         #region Variables
         private bool isMoving = false;
         private RectTransform panelRectTransform = null;
+        #endregion
+
+        #region Events
+        private event Action ShowMessageWindow;
+        private event Action HideMessageWindow;
         #endregion
 
         #region Unity Methods
@@ -33,6 +41,18 @@ namespace Match3.Utilities
         void Start()
         {
 
+        }
+
+        private void OnEnable()
+        {
+            ShowMessageWindow += ShowWindow;
+            HideMessageWindow += HideWindow;
+        }
+
+        private void OnDisable()
+        {
+            ShowMessageWindow -= ShowWindow;
+            HideMessageWindow -= HideWindow;
         }
         #endregion
 
@@ -53,19 +73,58 @@ namespace Match3.Utilities
             }
         }
 
-        private void MoveWindow(Vector3 startPosition, Vector3 endposition, float animationDuration = 1f)
+        private void MoveWindow(Vector3 startPosition, Vector3 endposition, float animationDuration = 1f, bool movingIn = true)
         {
             if(isMoving == false)
             {
-                StartCoroutine(MoveWindowRoutine(startPosition, endposition, animationDuration));
+                StartCoroutine(MoveWindowRoutine(startPosition, endposition, animationDuration, movingIn));
+            }
+        }
+
+        private void MoveIn()
+        {
+            MoveWindow(startPosition, onScreenPosition, animationDuration, true);
+        }
+
+        private void MoveOut()
+        {
+            MoveWindow(onScreenPosition, endPosition, animationDuration, false);
+        }
+
+        private void SetMessageDetails(Sprite iconSprite, string messageString, string buttonString, Action buttonClickAction = null)
+        {
+            if (iconSprite != null)
+            {
+                messageIconImage.sprite = iconSprite;
+            }
+            if (messageString != string.Empty)
+            {
+                messageText.text = messageString;
+            }
+            if (buttonString != string.Empty)
+            {
+                buttonText.text = buttonString;
+            }
+            if (buttonClickAction != null)
+            {
+                clickButton.onClick.RemoveAllListeners();
+                clickButton.onClick.AddListener(() =>
+                {
+                    buttonClickAction();
+                    MoveOut();
+                });
             }
         }
         #endregion
 
         #region Coroutines
-        private IEnumerator MoveWindowRoutine(Vector3 startPosition, Vector3 endPosition, float animationDuration = 1f)
+        private IEnumerator MoveWindowRoutine(Vector3 startPosition, Vector3 endPosition, float animationDuration = 1f, bool movingIn = true)
         {
             isMoving = true;
+            if(movingIn == true)
+            {
+                ShowMessageWindow?.Invoke();
+            }
             float animationTime = 0f;
             while (animationTime < animationDuration)
             {
@@ -76,30 +135,19 @@ namespace Match3.Utilities
                 yield return null;
             }
             isMoving = false;
+            if (movingIn == false)
+            {
+                HideMessageWindow?.Invoke();
+            }
         }
+
         #endregion
 
         #region Public Methods
-        public void MoveIn()
+        public void SetWindow(Sprite iconSprite, string messageString, string buttonString, Action buttonClickAction = null)
         {
-            MoveWindow(startPosition, onScreenPosition, animationDuration);
-        }
-
-        public void MoveOut()
-        {
-            MoveWindow(onScreenPosition, endPosition, animationDuration);
-        }
-
-        public void SetMessageDetails(string messageString, string buttonString)
-        {
-            if(messageString != string.Empty)
-            {
-                messageText.text = messageString;
-            }
-            if(buttonString != string.Empty)
-            {
-                buttonText.text = buttonString;
-            }
+            SetMessageDetails(iconSprite, messageString, buttonString, buttonClickAction);
+            MoveIn();
         }
         #endregion
     }

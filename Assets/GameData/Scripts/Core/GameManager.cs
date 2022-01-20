@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 namespace Match3.Core
 {
@@ -13,6 +14,11 @@ namespace Match3.Core
         [SerializeField] private GameBoard gameBoard = null;
         [SerializeField] private TextMeshProUGUI movesCounterText = null;
         [SerializeField] private int levelMoves = 30;
+        [SerializeField] private int targetScore = 10000;
+        [SerializeField] private Sprite goalSprite = null;
+        [SerializeField] private Sprite winSprite = null;
+        [SerializeField] private Sprite looseSprite = null;
+        [SerializeField] private MessageWindowManager messageWindow = null;
         #endregion
 
         #region Variables
@@ -64,11 +70,16 @@ namespace Match3.Core
 
         private IEnumerator StartGameRoutine()
         {
+            if(messageWindow != null)
+            {
+                messageWindow.SetWindow(goalSprite, "Goal : \n" + targetScore.ToString(), "Start", () => 
+                {
+                    isReadyToBegin = true;
+                });
+            }
             while (!isReadyToBegin)
             {
                 yield return null;
-                yield return new WaitForSeconds(1f);
-                isReadyToBegin = true;
             }
             if (initialScreenFader != null)
             {
@@ -104,11 +115,23 @@ namespace Match3.Core
         {
             if (isWinner)
             {
-
+                if (messageWindow != null)
+                {
+                    messageWindow.SetWindow(winSprite, "You Win", "Okay", () =>
+                    {
+                        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                    });
+                }
             }
             else
             {
-
+                if (messageWindow != null)
+                {
+                    messageWindow.SetWindow(looseSprite, "You loose", "Okay", () =>
+                    {
+                        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                    });
+                }
             }
             yield return null;
         }
