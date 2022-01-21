@@ -130,6 +130,10 @@ namespace Match3.Core
                         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                     });
                 }
+                if(AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.PlayRandomWinClips();
+                }
             }
             else
             {
@@ -139,6 +143,10 @@ namespace Match3.Core
                     {
                         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                     });
+                }
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.PlayRandomLooseClips();
                 }
             }
             yield return new WaitForSeconds(1f);

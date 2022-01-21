@@ -98,3 +98,4 @@ MonoBehaviour:
   pieceType: 1
   interpolationType: 1
   scoreValue: 20
+  pieceBreakSound: {fileID: 8300000, guid: 6dce900c6b57748dbb2ee112588b2bd9, type: 3}

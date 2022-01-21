@@ -12,6 +12,7 @@ namespace Match3.Core
         [SerializeField] private GamePieceType pieceType = GamePieceType.None;
         [SerializeField] private GamePieceInterpolationType interpolationType = GamePieceInterpolationType.Linear;
         [SerializeField] private int scoreValue = 20;
+        [SerializeField] private AudioClip pieceBreakSound = null;
         #endregion
 
         #region Variables
@@ -137,6 +138,10 @@ namespace Match3.Core
             if(ScoreManager.Instance != null)
             {
                 ScoreManager.Instance.AddScore(scoreValue * multiplier + bonus);
+            }
+            if(AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayPieceDestroyClip(pieceBreakSound, PoolObjectsType.SFXAudioSource, false);
             }
         }
         #endregion

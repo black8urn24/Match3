@@ -1490,6 +1490,26 @@ MonoBehaviour:
     maxPoolCount: 40
     pooledObjects: []
     poolObjectsType: 3
+  - objectToPool: {fileID: 964169380958926032, guid: 686a29e69f95dc0408fc898aa0f8be54, type: 3}
+    maxPoolCount: 20
+    pooledObjects: []
+    poolObjectsType: 5
+  - objectToPool: {fileID: 2460802031748940325, guid: 345e77e75d7d3234d86ba522f2d9de99, type: 3}
+    maxPoolCount: 15
+    pooledObjects: []
+    poolObjectsType: 8
+  - objectToPool: {fileID: 8158779499057826504, guid: ba9089bbedee3f048965029371dacc85, type: 3}
+    maxPoolCount: 10
+    pooledObjects: []
+    poolObjectsType: 4
+  - objectToPool: {fileID: 527904279414311201, guid: bbd20155e7f547a49a17680bfd09b4b1, type: 3}
+    maxPoolCount: 20
+    pooledObjects: []
+    poolObjectsType: 6
+  - objectToPool: {fileID: 8426724108054224820, guid: ea2fb802a0908b248a64761fd4bc2cfc, type: 3}
+    maxPoolCount: 15
+    pooledObjects: []
+    poolObjectsType: 7
 --- !u!4 &1041282006
 Transform:
   m_ObjectHideFlags: 0
@@ -2389,6 +2409,7 @@ Transform:
   - {fileID: 1443453163}
   - {fileID: 1727233043}
   - {fileID: 1389591280}
+  - {fileID: 1694597600}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2467,6 +2488,64 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1680424442}
   m_CullTransparentMesh: 1
+--- !u!1 &1694597599
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1694597600}
+  - component: {fileID: 1694597601}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1694597600
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694597599}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1661635228}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1694597601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694597599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7201362319ccc8f488bae20b83ff042f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicClips:
+  - {fileID: 8300000, guid: e75e89afb6e1648e7a4a2ac64328a7c0, type: 3}
+  - {fileID: 8300000, guid: e5e029a21fda14206a9ff1423a1302a9, type: 3}
+  winClips:
+  - {fileID: 8300000, guid: 5f9fb0bfcf06e4304aab13b97645fe13, type: 3}
+  looseClips:
+  - {fileID: 8300000, guid: ed4ad50d33af142e6be4b65f4d37e37c, type: 3}
+  bonusClips:
+  - {fileID: 8300000, guid: 56e813bd88354448fb9f0a52536449a1, type: 3}
+  - {fileID: 8300000, guid: eadcfb9a0c2cb4bea8112ac470640c8e, type: 3}
+  - {fileID: 8300000, guid: 6dce900c6b57748dbb2ee112588b2bd9, type: 3}
+  musicVolume: 0.2
+  sfxVolume: 1
+  maxPitch: 1.15
+  minPitch: 0.95
 --- !u!1 &1727233042
 GameObject:
   m_ObjectHideFlags: 0

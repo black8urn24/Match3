@@ -4880,6 +4880,7 @@ MonoBehaviour:
   pieceType: 8
   interpolationType: 0
   scoreValue: 150
+  pieceBreakSound: {fileID: 8300000, guid: 8743038399aa64c5db230df6c26f4b71, type: 3}
   bombType: 3
 --- !u!1 &8240219919677589434
 GameObject:

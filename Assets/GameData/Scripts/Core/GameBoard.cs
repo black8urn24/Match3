@@ -1017,6 +1017,10 @@ namespace Match3.Core
                 else
                 {
                     scoreMultiplier++;
+                    if(AudioManager.Instance != null)
+                    {
+                        AudioManager.Instance.PlayRandomBonusClips();
+                    }
                     yield return StartCoroutine(ClearAndCollapseRoutine(matches));
                 }
             }

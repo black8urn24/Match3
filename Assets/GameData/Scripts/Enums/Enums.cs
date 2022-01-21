@@ -41,6 +41,11 @@ namespace Match3.Enums
         SingleBreakableTileEffect,
         DoubleBreakableTileEffect,
         BombClearEffect,
+        MusicAudioSource,
+        BonusAudioSource,
+        SFXAudioSource,
+        WinAudioSource,
+        LooseAudioSource,
         None
     }
 
