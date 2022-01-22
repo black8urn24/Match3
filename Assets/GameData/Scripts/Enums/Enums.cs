@@ -64,4 +64,17 @@ namespace Match3.Enums
         ClearedByBomb,
         None
     }
+
+    public enum PieceColor
+    {
+        None,
+        Blue,
+        Cyan,
+        Green,
+        Indigo,
+        Magenta,
+        Red,
+        Teal,
+        Yellow
+    }
 }
