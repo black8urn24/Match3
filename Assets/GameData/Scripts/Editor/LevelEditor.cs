@@ -19,6 +19,9 @@ namespace Match3.Editor
         private PieceColor currentPieceColor;
         private Vector2 scrollPos;
         private Level currentLevel;
+        private readonly Dictionary<string, Texture> tileTextures = new Dictionary<string, Texture>();
+        private Texture buttonTexture;
+        private GUIContent buttonTextureContent;
         #endregion
 
         #region Default Methods
@@ -27,6 +30,18 @@ namespace Match3.Editor
         {
             var window = GetWindow(typeof(LevelEditor));
             window.titleContent = new GUIContent("Match 3 Editor");
+        }
+
+        private void OnEnable()
+        {
+            // get images into dictionary from resources folder
+            var editorImagesPath = new DirectoryInfo(Application.dataPath + "/GameData/Editor/Resources");
+            var fileInfo = editorImagesPath.GetFiles("*.png", SearchOption.TopDirectoryOnly);
+            foreach (var file in fileInfo)
+            {
+                var filename = Path.GetFileNameWithoutExtension(file.Name);
+                tileTextures[filename] = Resources.Load(filename) as Texture;
+            }
         }
 
         private void OnGUI()
@@ -254,10 +269,12 @@ namespace Match3.Editor
             if (currentLevel.levelPieces[pieceIndex] != null)
             {
                 tileName = currentLevel.levelPieces[pieceIndex].pieceColor.ToString();
+                buttonTexture = (Texture)AssetDatabase.LoadAssetAtPath("Assets/GameData/Editor/Resources/" + tileName + ".png", typeof(Texture));
+                buttonTextureContent = new GUIContent(buttonTexture);
             }
             if (tileName != string.Empty)
             {
-                if (GUILayout.Button(tileName, GUILayout.Width(60), GUILayout.Height(60)))
+                if (GUILayout.Button(buttonTextureContent, GUILayout.Width(60), GUILayout.Height(60)))
                 {
                     DrawTile(pieceIndex);
                 }
