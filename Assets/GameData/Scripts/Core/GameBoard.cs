@@ -50,6 +50,7 @@ namespace Match3.Core
         private int currentLevelCollectableCount = -1;
         private int scoreMultiplier = 0;
         private int bonusCounter = 0;
+        private Level currentLevel = null;
         #endregion
 
         #region Unity Methods
@@ -76,6 +77,15 @@ namespace Match3.Core
                 {
                     SceneManager.LoadScene(0);
                 });
+            }
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.CheckForLevelLoad();
+                currentLevel = GameManager.Instance.CurrentGameLevel;
+                if (currentLevel != null)
+                {
+                    Debug.Log($"Current Level id - {currentLevel.id}".ToAqua().ToBold());
+                }
             }
         }
 
@@ -494,7 +504,7 @@ namespace Match3.Core
                     {
                         ClearPieceAt(item.XIndex, item.YIndex);
                         bonusCounter = 0;
-                        if(gamePieces.Count >= 4)
+                        if (gamePieces.Count >= 4)
                         {
                             bonusCounter = 20;
                         }
@@ -918,7 +928,7 @@ namespace Match3.Core
                         }
                         else
                         {
-                            if(GameManager.Instance != null)
+                            if (GameManager.Instance != null)
                             {
                                 GameManager.Instance.UpdateMoves();
                             }
@@ -1017,7 +1027,7 @@ namespace Match3.Core
                 else
                 {
                     scoreMultiplier++;
-                    if(AudioManager.Instance != null)
+                    if (AudioManager.Instance != null)
                     {
                         AudioManager.Instance.PlayRandomBonusClips();
                     }

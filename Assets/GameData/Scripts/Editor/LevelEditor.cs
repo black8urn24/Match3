@@ -168,7 +168,7 @@ namespace Match3.Editor
             // save Button
             if (GUILayout.Button("Save", GUILayout.Width(100), GUILayout.Height(50)))
             {
-                SaveLevel(Application.dataPath + "/GameData/Resources/");
+                SaveLevel(Application.dataPath + "/GameData/Resources/Levels");
             }
             GUILayout.EndHorizontal();
         }

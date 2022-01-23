@@ -1,0 +1,206 @@
+{
+    "id": 1,
+    "boardWidth": 7,
+    "boardHeight": 7,
+    "targetScore": 8000,
+    "moves": 30,
+    "availablePieces": [],
+    "levelPieces": [
+        {
+            "pieceColor": "Blue",
+            "pieceValue": 1
+        },
+        {
+            "pieceColor": "Cyan",
+            "pieceValue": 2
+        },
+        {
+            "pieceColor": "Indigo",
+            "pieceValue": 4
+        },
+        {
+            "pieceColor": "Magenta",
+            "pieceValue": 5
+        },
+        {
+            "pieceColor": "Red",
+            "pieceValue": 6
+        },
+        {
+            "pieceColor": "Green",
+            "pieceValue": 3
+        },
+        {
+            "pieceColor": "Blue",
+            "pieceValue": 1
+        },
+        {
+            "pieceColor": "Cyan",
+            "pieceValue": 2
+        },
+        {
+            "pieceColor": "Cyan",
+            "pieceValue": 2
+        },
+        {
+            "pieceColor": "Indigo",
+            "pieceValue": 4
+        },
+        {
+            "pieceColor": "Teal",
+            "pieceValue": 7
+        },
+        {
+            "pieceColor": "Green",
+            "pieceValue": 3
+        },
+        {
+            "pieceColor": "Indigo",
+            "pieceValue": 4
+        },
+        {
+            "pieceColor": "Teal",
+            "pieceValue": 7
+        },
+        {
+            "pieceColor": "Green",
+            "pieceValue": 3
+        },
+        {
+            "pieceColor": "Green",
+            "pieceValue": 3
+        },
+        {
+            "pieceColor": "Red",
+            "pieceValue": 6
+        },
+        {
+            "pieceColor": "Indigo",
+            "pieceValue": 4
+        },
+        {
+            "pieceColor": "Teal",
+            "pieceValue": 7
+        },
+        {
+            "pieceColor": "Magenta",
+            "pieceValue": 5
+        },
+        {
+            "pieceColor": "Red",
+            "pieceValue": 6
+        },
+        {
+            "pieceColor": "Indigo",
+            "pieceValue": 4
+        },
+        {
+            "pieceColor": "Magenta",
+            "pieceValue": 5
+        },
+        {
+            "pieceColor": "Green",
+            "pieceValue": 3
+        },
+        {
+            "pieceColor": "Teal",
+            "pieceValue": 7
+        },
+        {
+            "pieceColor": "Red",
+            "pieceValue": 6
+        },
+        {
+            "pieceColor": "Yellow",
+            "pieceValue": 8
+        },
+        {
+            "pieceColor": "Yellow",
+            "pieceValue": 8
+        },
+        {
+            "pieceColor": "Red",
+            "pieceValue": 6
+        },
+        {
+            "pieceColor": "Indigo",
+            "pieceValue": 4
+        },
+        {
+            "pieceColor": "Green",
+            "pieceValue": 3
+        },
+        {
+            "pieceColor": "Magenta",
+            "pieceValue": 5
+        },
+        {
+            "pieceColor": "Indigo",
+            "pieceValue": 4
+        },
+        {
+            "pieceColor": "Teal",
+            "pieceValue": 7
+        },
+        {
+            "pieceColor": "Indigo",
+            "pieceValue": 4
+        },
+        {
+            "pieceColor": "Green",
+            "pieceValue": 3
+        },
+        {
+            "pieceColor": "Magenta",
+            "pieceValue": 5
+        },
+        {
+            "pieceColor": "Teal",
+            "pieceValue": 7
+        },
+        {
+            "pieceColor": "Red",
+            "pieceValue": 6
+        },
+        {
+            "pieceColor": "Magenta",
+            "pieceValue": 5
+        },
+        {
+            "pieceColor": "Red",
+            "pieceValue": 6
+        },
+        {
+            "pieceColor": "Green",
+            "pieceValue": 3
+        },
+        {
+            "pieceColor": "Blue",
+            "pieceValue": 1
+        },
+        {
+            "pieceColor": "Indigo",
+            "pieceValue": 4
+        },
+        {
+            "pieceColor": "Red",
+            "pieceValue": 6
+        },
+        {
+            "pieceColor": "Green",
+            "pieceValue": 3
+        },
+        {
+            "pieceColor": "Magenta",
+            "pieceValue": 5
+        },
+        {
+            "pieceColor": "Green",
+            "pieceValue": 3
+        },
+        {
+            "pieceColor": "Blue",
+            "pieceValue": 1
+        }
+    ]
+}

@@ -6,5 +6,6 @@ public static class GlobalConstants
 {
     #region Constants
     public const string Match3LevelPrefix = "Match3_Level_";
+    public const string Match3LevelFilePrefix = "Levels/";
     #endregion
 }

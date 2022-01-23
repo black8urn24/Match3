@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using FullSerializer;
 
 namespace Match3.Core
 {
@@ -19,6 +20,9 @@ namespace Match3.Core
         [SerializeField] private Sprite winSprite = null;
         [SerializeField] private Sprite looseSprite = null;
         [SerializeField] private MessageWindowManager messageWindow = null;
+        [Header("Testing")]
+        [SerializeField] private bool loadLevelFromJsonFile = false;
+        [SerializeField] private int levelIndex = -1;
         #endregion
 
         #region Variables
@@ -27,9 +31,11 @@ namespace Match3.Core
         private bool isWinner = false;
         private int currentMoves = -1;
         private ScoreManager scoreManager = null;
+        private Level currentGameLevel = null;
         #endregion
 
         #region Properties
+        public Level CurrentGameLevel { get => currentGameLevel; set => currentGameLevel = value; }
         #endregion
 
         #region Unity Methods
@@ -167,6 +173,18 @@ namespace Match3.Core
                 currentMoves = 0;
             }
             SetMovesText();
+        }
+
+        public void CheckForLevelLoad()
+        {
+            if(loadLevelFromJsonFile)
+            {
+                var vFilePath = GlobalConstants.Match3LevelFilePrefix + GlobalConstants.Match3LevelPrefix + levelIndex;
+                if (FileUtilities.FileExists(vFilePath))
+                {
+                    currentGameLevel = FileUtilities.LoadJsonFile<Level>(vFilePath);
+                }
+            }
         }
         #endregion
     }
