@@ -184,6 +184,12 @@ namespace Match3.Core
                 {
                     currentGameLevel = FileUtilities.LoadJsonFile<Level>(vFilePath);
                 }
+                if(currentGameLevel != null)
+                {
+                    currentMoves = currentGameLevel.moves;
+                    SetMovesText();
+                    targetScore = currentGameLevel.targetScore;
+                }
             }
         }
         #endregion

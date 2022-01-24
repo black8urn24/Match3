@@ -26,6 +26,7 @@ namespace Match3.Core
         [Header("Board Properties")]
         [SerializeField] private Transform gamePieceParent = null;
         [SerializeField] private GameObject[] gamePiecePrefabs = null;
+        [SerializeField] private List<GamePieceHolder> gamePieceHolders = null;
         [SerializeField] private float gamePieceMoveSpeed = 0.3f;
         [SerializeField] private float fillYOffset = 10f;
         [SerializeField] private float fallTime = 0.5f;
@@ -85,6 +86,8 @@ namespace Match3.Core
                 if (currentLevel != null)
                 {
                     Debug.Log($"Current Level id - {currentLevel.id}".ToAqua().ToBold());
+                    boardHeight = currentLevel.boardHeight;
+                    boardWidth = currentLevel.boardWidth;
                 }
             }
         }
@@ -233,6 +236,47 @@ namespace Match3.Core
                                 }
                             }
                         }
+                    }
+                }
+            }
+        }
+
+        private void FillBoardWithCurrentLevelData(float falseYOffSet = 0f, float fallTime = 0.1f)
+        {
+            if (currentLevel != null)
+            {
+                List<LevelPiece> levelPieces = currentLevel.levelPieces;
+                for (int i = 0; i < boardWidth; i++)
+                {
+                    for (int j = 0; j < boardHeight; j++)
+                    {
+                        if (allPieces[i, j] == null)
+                        {
+                            if (levelPieces != null)
+                            {
+                                int pieceIndex = (boardWidth * i) + j;
+                                if (levelPieces[pieceIndex] != null)
+                                {
+                                    FillGamePieceAtIndex(levelPieces, pieceIndex, i, j, falseYOffSet, fallTime);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void FillGamePieceAtIndex(List<LevelPiece> levelPieces, int pieceIndex, int i, int j, float falseYOffSet = 0f, float fallTime = 0.1f)
+        {
+            int pieceColorIndex = levelPieces[pieceIndex].pieceValue;
+            if (gamePieceHolders != null)
+            {
+                foreach (var item in gamePieceHolders)
+                {
+                    if ((int)item.pieceColor == pieceColorIndex)
+                    {
+                        GameObject targetGameObject = Instantiate(item.piecePrefab, Vector3.zero, Quaternion.identity);
+                        MakeGamePiece(targetGameObject, i, j, falseYOffSet, fallTime);
                     }
                 }
             }
@@ -1047,6 +1091,7 @@ namespace Match3.Core
         #region Public Methods
         public void SetupBoard()
         {
+            Debug.Log($"Board Width - {boardWidth} and boardHeight - {boardHeight}".ToAqua().ToBold());
             allTiles = new GameTile[boardWidth, boardHeight];
             allPieces = new GamePiece[boardWidth, boardHeight];
             SetupTiles();
@@ -1055,7 +1100,14 @@ namespace Match3.Core
             currentLevelCollectableCount = allCollectables.Count;
             //Debug.Log($"Colectables found on board - {currentLevelCollectableCount}".ToAqua().ToBold());
             SetCameraDimensions();
-            FillBoard(fillYOffset, fallTime);
+            if (currentLevel == null)
+            {
+                FillBoard(fillYOffset, fallTime);
+            }
+            else
+            {
+                FillBoardWithCurrentLevelData(fillYOffset, fallTime);
+            }
             //HighlightMatches();
         }
 
@@ -1110,5 +1162,12 @@ namespace Match3.Core
         public int x;
         public int y;
         public int z;
+    }
+
+    [System.Serializable]
+    public class GamePieceHolder
+    {
+        public PieceColor pieceColor;
+        public GameObject piecePrefab;
     }
 }

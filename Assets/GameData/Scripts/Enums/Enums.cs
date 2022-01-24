@@ -67,7 +67,6 @@ namespace Match3.Enums
 
     public enum PieceColor
     {
-        None,
         Blue,
         Cyan,
         Green,
@@ -75,6 +74,7 @@ namespace Match3.Enums
         Magenta,
         Red,
         Teal,
-        Yellow
+        Yellow,
+        None
     }
 }

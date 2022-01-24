@@ -8,199 +8,199 @@
     "levelPieces": [
         {
             "pieceColor": "Blue",
-            "pieceValue": 1
+            "pieceValue": 0
         },
         {
             "pieceColor": "Cyan",
-            "pieceValue": 2
+            "pieceValue": 1
         },
         {
             "pieceColor": "Indigo",
-            "pieceValue": 4
+            "pieceValue": 3
         },
         {
             "pieceColor": "Magenta",
-            "pieceValue": 5
+            "pieceValue": 4
         },
         {
             "pieceColor": "Red",
-            "pieceValue": 6
+            "pieceValue": 5
         },
         {
             "pieceColor": "Green",
-            "pieceValue": 3
+            "pieceValue": 2
         },
         {
             "pieceColor": "Blue",
+            "pieceValue": 0
+        },
+        {
+            "pieceColor": "Cyan",
             "pieceValue": 1
         },
         {
             "pieceColor": "Cyan",
+            "pieceValue": 1
+        },
+        {
+            "pieceColor": "Indigo",
+            "pieceValue": 3
+        },
+        {
+            "pieceColor": "Teal",
+            "pieceValue": 6
+        },
+        {
+            "pieceColor": "Green",
             "pieceValue": 2
         },
         {
-            "pieceColor": "Cyan",
+            "pieceColor": "Indigo",
+            "pieceValue": 3
+        },
+        {
+            "pieceColor": "Teal",
+            "pieceValue": 6
+        },
+        {
+            "pieceColor": "Green",
             "pieceValue": 2
         },
         {
-            "pieceColor": "Indigo",
-            "pieceValue": 4
-        },
-        {
-            "pieceColor": "Teal",
-            "pieceValue": 7
-        },
-        {
             "pieceColor": "Green",
-            "pieceValue": 3
-        },
-        {
-            "pieceColor": "Indigo",
-            "pieceValue": 4
-        },
-        {
-            "pieceColor": "Teal",
-            "pieceValue": 7
-        },
-        {
-            "pieceColor": "Green",
-            "pieceValue": 3
-        },
-        {
-            "pieceColor": "Green",
-            "pieceValue": 3
+            "pieceValue": 2
         },
         {
             "pieceColor": "Red",
-            "pieceValue": 6
-        },
-        {
-            "pieceColor": "Indigo",
-            "pieceValue": 4
-        },
-        {
-            "pieceColor": "Teal",
-            "pieceValue": 7
-        },
-        {
-            "pieceColor": "Magenta",
             "pieceValue": 5
         },
         {
-            "pieceColor": "Red",
-            "pieceValue": 6
-        },
-        {
             "pieceColor": "Indigo",
-            "pieceValue": 4
-        },
-        {
-            "pieceColor": "Magenta",
-            "pieceValue": 5
-        },
-        {
-            "pieceColor": "Green",
             "pieceValue": 3
         },
         {
             "pieceColor": "Teal",
-            "pieceValue": 7
+            "pieceValue": 6
+        },
+        {
+            "pieceColor": "Magenta",
+            "pieceValue": 4
         },
         {
             "pieceColor": "Red",
+            "pieceValue": 5
+        },
+        {
+            "pieceColor": "Indigo",
+            "pieceValue": 3
+        },
+        {
+            "pieceColor": "Magenta",
+            "pieceValue": 4
+        },
+        {
+            "pieceColor": "Green",
+            "pieceValue": 2
+        },
+        {
+            "pieceColor": "Teal",
             "pieceValue": 6
+        },
+        {
+            "pieceColor": "Red",
+            "pieceValue": 5
         },
         {
             "pieceColor": "Yellow",
-            "pieceValue": 8
+            "pieceValue": 7
         },
         {
             "pieceColor": "Yellow",
-            "pieceValue": 8
-        },
-        {
-            "pieceColor": "Red",
-            "pieceValue": 6
-        },
-        {
-            "pieceColor": "Indigo",
-            "pieceValue": 4
-        },
-        {
-            "pieceColor": "Green",
-            "pieceValue": 3
-        },
-        {
-            "pieceColor": "Magenta",
-            "pieceValue": 5
-        },
-        {
-            "pieceColor": "Indigo",
-            "pieceValue": 4
-        },
-        {
-            "pieceColor": "Teal",
-            "pieceValue": 7
-        },
-        {
-            "pieceColor": "Indigo",
-            "pieceValue": 4
-        },
-        {
-            "pieceColor": "Green",
-            "pieceValue": 3
-        },
-        {
-            "pieceColor": "Magenta",
-            "pieceValue": 5
-        },
-        {
-            "pieceColor": "Teal",
             "pieceValue": 7
         },
         {
             "pieceColor": "Red",
-            "pieceValue": 6
-        },
-        {
-            "pieceColor": "Magenta",
             "pieceValue": 5
         },
         {
-            "pieceColor": "Red",
-            "pieceValue": 6
-        },
-        {
-            "pieceColor": "Green",
+            "pieceColor": "Indigo",
             "pieceValue": 3
         },
         {
+            "pieceColor": "Green",
+            "pieceValue": 2
+        },
+        {
             "pieceColor": "Blue",
-            "pieceValue": 1
+            "pieceValue": 0
         },
         {
             "pieceColor": "Indigo",
+            "pieceValue": 3
+        },
+        {
+            "pieceColor": "Teal",
+            "pieceValue": 6
+        },
+        {
+            "pieceColor": "Indigo",
+            "pieceValue": 3
+        },
+        {
+            "pieceColor": "Green",
+            "pieceValue": 2
+        },
+        {
+            "pieceColor": "Magenta",
+            "pieceValue": 4
+        },
+        {
+            "pieceColor": "Teal",
+            "pieceValue": 6
+        },
+        {
+            "pieceColor": "Red",
+            "pieceValue": 5
+        },
+        {
+            "pieceColor": "Magenta",
             "pieceValue": 4
         },
         {
             "pieceColor": "Red",
-            "pieceValue": 6
-        },
-        {
-            "pieceColor": "Green",
-            "pieceValue": 3
-        },
-        {
-            "pieceColor": "Magenta",
             "pieceValue": 5
         },
         {
             "pieceColor": "Green",
-            "pieceValue": 3
+            "pieceValue": 2
         },
         {
             "pieceColor": "Blue",
-            "pieceValue": 1
+            "pieceValue": 0
+        },
+        {
+            "pieceColor": "Indigo",
+            "pieceValue": 3
+        },
+        {
+            "pieceColor": "Red",
+            "pieceValue": 5
+        },
+        {
+            "pieceColor": "Green",
+            "pieceValue": 2
+        },
+        {
+            "pieceColor": "Magenta",
+            "pieceValue": 4
+        },
+        {
+            "pieceColor": "Green",
+            "pieceValue": 2
+        },
+        {
+            "pieceColor": "Blue",
+            "pieceValue": 0
         }
     ]
 }
