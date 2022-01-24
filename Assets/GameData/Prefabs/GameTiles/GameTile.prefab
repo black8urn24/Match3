@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 64718a9bc65e6584185a66a652464a4b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6cc498ccce1a4784fb5dde030d0cb613, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   tileType: 0
   maxBreakableValue: 0
   breakableSprites: []
-  normalTileColor: {r: 0, g: 0, b: 0, a: 1}
+  normalTileColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!61 &-5505194405278347699
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -115,7 +115,7 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 0.390625, y: 0.390625, z: 0.390625, w: 0.390625}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
