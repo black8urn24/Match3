@@ -246,6 +246,8 @@ namespace Match3.Core
             if (currentLevel != null)
             {
                 List<LevelPiece> levelPieces = currentLevel.levelPieces;
+                int xStart = 0;
+                int yStart = boardHeight - 1;
                 for (int i = 0; i < boardWidth; i++)
                 {
                     for (int j = 0; j < boardHeight; j++)
@@ -257,26 +259,41 @@ namespace Match3.Core
                                 int pieceIndex = (boardWidth * i) + j;
                                 if (levelPieces[pieceIndex] != null)
                                 {
-                                    FillGamePieceAtIndex(levelPieces, pieceIndex, i, j, falseYOffSet, fallTime);
+                                    int pieceColorIndex = levelPieces[pieceIndex].pieceValue;
+                                    if (gamePieceHolders != null)
+                                    {
+                                        foreach (var item in gamePieceHolders)
+                                        {
+                                            if ((int)item.pieceColor == pieceColorIndex)
+                                            {
+                                                GameObject targetGameObject = Instantiate(item.piecePrefab, Vector3.zero, Quaternion.identity);
+                                                if (targetGameObject != null && IsWithinBounds(i, j))
+                                                {
+                                                    targetGameObject.transform.SetParent(gamePieceParent);
+                                                    GamePiece targetPiece = targetGameObject.GetComponent<GamePiece>();
+                                                    if (targetPiece != null)
+                                                    {
+                                                        targetPiece.Initialize(this);
+                                                    }
+                                                    targetPiece.transform.position = new Vector3(xStart + i, yStart - j, 0);
+                                                    targetPiece.transform.rotation = Quaternion.identity;
+                                                    if (IsWithinBounds(i, j))
+                                                    {
+                                                        allPieces[i, j] = targetPiece;
+                                                    }
+                                                    targetPiece.SetCoordinates(i, j);
+                                                    if (falseYOffSet != 0f)
+                                                    {
+                                                        targetGameObject.transform.position = new Vector3(i, j + falseYOffSet, 0f);
+                                                        targetPiece.MovePiece(i, j, fallTime);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
-                    }
-                }
-            }
-        }
-
-        private void FillGamePieceAtIndex(List<LevelPiece> levelPieces, int pieceIndex, int i, int j, float falseYOffSet = 0f, float fallTime = 0.1f)
-        {
-            int pieceColorIndex = levelPieces[pieceIndex].pieceValue;
-            if (gamePieceHolders != null)
-            {
-                foreach (var item in gamePieceHolders)
-                {
-                    if ((int)item.pieceColor == pieceColorIndex)
-                    {
-                        GameObject targetGameObject = Instantiate(item.piecePrefab, Vector3.zero, Quaternion.identity);
-                        MakeGamePiece(targetGameObject, i, j, falseYOffSet, fallTime);
                     }
                 }
             }
