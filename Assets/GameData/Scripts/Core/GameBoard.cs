@@ -191,7 +191,8 @@ namespace Match3.Core
                             var backgroundTile = bgTile.GetComponent<BackgroundTile>();
                             if (backgroundTile != null)
                             {
-                                var isEven = GetEvenTile(i, j);
+                                //var isEven = GetEvenTile(i, j);
+                                var isEven = GetEvenTile(i, j, boardWidth);
                                 backgroundTile.SetColor(isEven);
                                 backgroundTile.MoveTileTo(new Vector2(i, fillYOffset), new Vector2(i, j), fallTime);
                             }
@@ -201,9 +202,10 @@ namespace Match3.Core
             }
         }
 
-        private bool GetEvenTile(int i, int j)
+        private bool GetEvenTile(int i, int j, int boardWidth)
         {
-            return (i % 2 == 0 && j % 2 == 0);
+            //return (i % 2 == 0 && j % 2 == 0);
+            return ((i + (j * boardWidth)) % 2) == 0;
         }
 
         private void SetCameraDimensions()
