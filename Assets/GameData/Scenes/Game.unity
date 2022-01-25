@@ -406,11 +406,14 @@ MonoBehaviour:
   borderSize: 1
   gamePieceParent: {fileID: 328346190}
   gamePiecePrefabs:
-  - {fileID: 1000011029387174, guid: d5213cbf423464b198a8ea0635b2c83a, type: 3}
   - {fileID: 1000012362009328, guid: b6d1543d5ad4948aaae26e1e7570e386, type: 3}
+  - {fileID: 1000011029387174, guid: d5213cbf423464b198a8ea0635b2c83a, type: 3}
+  - {fileID: 1000013841200688, guid: c19eda07692854268abdcc1f9f23e66f, type: 3}
+  - {fileID: 1000010092172310, guid: 45665c8734f314c9ca4496e11d7f9682, type: 3}
+  - {fileID: 1000013942094482, guid: 37d845b51eba4482b9f81557f91a97fe, type: 3}
+  - {fileID: 1000013021690232, guid: 95454e5be78a342319764fff00f2b5c2, type: 3}
   - {fileID: 1000011697559180, guid: 8f62ee363864149f4bb7981086aa48ef, type: 3}
   - {fileID: 1000013582439192, guid: ce0cdf7a8a6c543fb9d96817d1d2f3f6, type: 3}
-  - {fileID: 1000013942094482, guid: 37d845b51eba4482b9f81557f91a97fe, type: 3}
   gamePieceHolders:
   - pieceColor: 0
     piecePrefab: {fileID: 1000012362009328, guid: b6d1543d5ad4948aaae26e1e7570e386, type: 3}
@@ -1282,7 +1285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
+  m_Color: {r: 0.2627451, g: 0.2901961, b: 0.3254902, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

@@ -331,8 +331,8 @@ namespace Match3.Editor
                     currentLevel.levelPieces[pieceIndex] = levelPiece;
                     levelPiece = new LevelPiece();
                     break;
-                case PieceColor.Teal:
-                    levelPiece.pieceValue = (int)PieceColor.Teal;
+                case PieceColor.Orange:
+                    levelPiece.pieceValue = (int)PieceColor.Orange;
                     levelPiece.pieceColor = currentPieceColor;
                     currentLevel.levelPieces[pieceIndex] = levelPiece;
                     levelPiece = new LevelPiece();

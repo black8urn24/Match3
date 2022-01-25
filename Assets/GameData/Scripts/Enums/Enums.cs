@@ -12,7 +12,7 @@ namespace Match3.Enums
         Indigo,
         Magenta,
         Red,
-        Teal,
+        Orange,
         Yellow,
         Wild,
         Collectable,
@@ -73,7 +73,7 @@ namespace Match3.Enums
         Indigo,
         Magenta,
         Red,
-        Teal,
+        Orange,
         Yellow,
         None
     }
