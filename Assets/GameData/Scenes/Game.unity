@@ -395,6 +395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameTilePrefab: {fileID: 1925552249460089929, guid: 8507a6b9d9ae0714894d22f10e3c2cba, type: 3}
+  gamePieceBackgroundTile: {fileID: 6129201494515397245, guid: 053c26659c502ac4cbff911db17f5a28, type: 3}
   gameObstacleTilePrefab: {fileID: 8010845774896535433, guid: 6fd6ae74f7edd7b498d095df94455287, type: 3}
   adjacentBombPrefab: {fileID: 5506894028194875351, guid: 122582ed17525824d9642d5f4366e42a, type: 3}
   rowBombPrefab: {fileID: 8609673865635203283, guid: 2034a69e04704b74e89286bdd5dca8b5, type: 3}

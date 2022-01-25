@@ -14,6 +14,7 @@ namespace Match3.Core
         #region Inspector Variables
         [Header("Board Prefabs")]
         [SerializeField] private GameObject gameTilePrefab = null;
+        [SerializeField] private BackgroundTile gamePieceBackgroundTile = null;
         [SerializeField] private GameObject gameObstacleTilePrefab = null;
         [SerializeField] private GameObject adjacentBombPrefab = null;
         [SerializeField] private GameObject rowBombPrefab = null;
@@ -43,6 +44,7 @@ namespace Match3.Core
         #region Variables
         private GameTile[,] allTiles;
         private GamePiece[,] allPieces;
+        private BackgroundTile[,] allBackgroundTiles;
         private GameTile clickedTile;
         private GameTile targetTile;
         private bool canSwitchTiles = true;
@@ -172,6 +174,36 @@ namespace Match3.Core
                     MakeGamePiece(piece, item.x, item.y, fillYOffset, fallTime);
                 }
             }
+        }
+
+        private void SetupBackgroundGameTiles()
+        {
+            for (int i = 0; i < boardWidth; i++)
+            {
+                for (int j = 0; j < boardHeight; j++)
+                {
+                    if (allBackgroundTiles[i, j] == null)
+                    {
+                        if (gamePieceBackgroundTile != null)
+                        {
+                            GameObject bgTile = Instantiate(gamePieceBackgroundTile.gameObject, new Vector2(i, fillYOffset), Quaternion.identity);
+                            bgTile.transform.SetParent(gamePieceParent);
+                            var backgroundTile = bgTile.GetComponent<BackgroundTile>();
+                            if (backgroundTile != null)
+                            {
+                                var isEven = GetEvenTile(i, j);
+                                backgroundTile.SetColor(isEven);
+                                backgroundTile.MoveTileTo(new Vector2(i, fillYOffset), new Vector2(i, j), fallTime);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private bool GetEvenTile(int i, int j)
+        {
+            return (i % 2 == 0 && j % 2 == 0);
         }
 
         private void SetCameraDimensions()
@@ -1111,6 +1143,8 @@ namespace Match3.Core
             Debug.Log($"Board Width - {boardWidth} and boardHeight - {boardHeight}".ToAqua().ToBold());
             allTiles = new GameTile[boardWidth, boardHeight];
             allPieces = new GamePiece[boardWidth, boardHeight];
+            allBackgroundTiles = new BackgroundTile[boardWidth, boardHeight];
+            SetupBackgroundGameTiles();
             SetupTiles();
             SetupPieces();
             List<GamePiece> allCollectables = FindAllCollectables();
