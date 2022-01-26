@@ -133,6 +133,15 @@ namespace Match3.Core
             }
         }
 
+        public void ChangeSprite(Sprite sprite)
+        {
+            SpriteRenderer currentRenderer = GetComponent<SpriteRenderer>();
+            if(currentRenderer != null)
+            {
+                currentRenderer.sprite = sprite;
+            }
+        }
+
         public void AddScore(int multiplier = 1, int bonus = 0)
         {
             if(ScoreManager.Instance != null)

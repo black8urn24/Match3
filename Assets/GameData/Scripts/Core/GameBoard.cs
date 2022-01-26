@@ -28,6 +28,7 @@ namespace Match3.Core
         [SerializeField] private Transform gamePieceParent = null;
         [SerializeField] private GameObject[] gamePiecePrefabs = null;
         [SerializeField] private List<GamePieceHolder> gamePieceHolders = null;
+        [SerializeField] private List<BombSpriteHolder> bombSpriteHolders = null;
         [SerializeField] private float gamePieceMoveSpeed = 0.3f;
         [SerializeField] private float fillYOffset = 10f;
         [SerializeField] private float fallTime = 0.5f;
@@ -975,6 +976,22 @@ namespace Match3.Core
             }
             return bombedPieces.Except(removablePieces).ToList();
         }
+
+        private Sprite GetBombSprite(GamePieceType pieceColor)
+        {
+            Sprite targetSprite = null;
+            if(bombSpriteHolders != null)
+            {
+                foreach(var item in bombSpriteHolders)
+                {
+                    if(item.pieceType == pieceColor)
+                    {
+                        targetSprite = item.pieceSprite;
+                    }
+                }
+            }
+            return targetSprite;
+        }
         #endregion
 
         #region Coroutines
@@ -1034,7 +1051,12 @@ namespace Match3.Core
                                 GamePiece clickedBombPiece = clickedTileBomb.GetComponent<GamePiece>();
                                 if (!IsColorBomb(clickedBombPiece))
                                 {
-                                    clickedBombPiece.ChangeColor(targetGamePiece);
+                                    Sprite targetSprite = GetBombSprite(targetGamePiece.PieceType);
+                                    if(targetSprite != null)
+                                    {
+                                        clickedBombPiece.ChangeSprite(targetSprite);
+                                    }
+                                    //clickedBombPiece.ChangeColor(targetGamePiece);
                                 }
                             }
                             if (targetTileBomb != null && clickedGamePiece != null)
@@ -1042,7 +1064,12 @@ namespace Match3.Core
                                 GamePiece targetBombPiece = targetTileBomb.GetComponent<GamePiece>();
                                 if (!IsColorBomb(targetBombPiece))
                                 {
-                                    targetBombPiece.ChangeColor(clickedGamePiece);
+                                    Sprite targetSprite = GetBombSprite(clickedGamePiece.PieceType);
+                                    if (targetSprite != null)
+                                    {
+                                        targetBombPiece.ChangeSprite(targetSprite);
+                                    }
+                                    //targetBombPiece.ChangeColor(clickedGamePiece);
                                 }
                             }
                             ClearAndRefillBoard(clickedPieceMatches.Union(targetPieceMatches).ToList().Union(coloredMatches).ToList());
@@ -1220,5 +1247,12 @@ namespace Match3.Core
     {
         public PieceColor pieceColor;
         public GameObject piecePrefab;
+    }
+
+    [System.Serializable]
+    public class BombSpriteHolder
+    {
+        public GamePieceType pieceType;
+        public Sprite pieceSprite;
     }
 }

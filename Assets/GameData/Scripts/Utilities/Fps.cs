@@ -35,7 +35,7 @@ namespace Match3.Utilities
 		{
 			GUIStyle style = new GUIStyle();
 			style.fontSize = 45;
-			GUI.Label(new Rect(10, 40, 100, 100), label.ToAqua().ToBold(), style);
+			GUI.Label(new Rect(10, (Screen.height - 50), 100, 100), label.ToCyan().ToBold(), style);
 		}
         #endregion
     }
