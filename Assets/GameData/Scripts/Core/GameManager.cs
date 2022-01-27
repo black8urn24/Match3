@@ -36,6 +36,7 @@ namespace Match3.Core
 
         #region Properties
         public Level CurrentGameLevel { get => currentGameLevel; set => currentGameLevel = value; }
+        public bool IsGameOver { get => isGameOver; set => isGameOver = value; }
         #endregion
 
         #region Unity Methods
@@ -67,6 +68,7 @@ namespace Match3.Core
         {
             yield return StartCoroutine(StartGameRoutine());
             yield return StartCoroutine(PlayGameRoutine());
+            yield return StartCoroutine(WaitForBoardRoutine(0.5f));
             yield return StartCoroutine(EndGameRoutine());
         }
 
@@ -98,13 +100,13 @@ namespace Match3.Core
 
         private IEnumerator PlayGameRoutine()
         {
-            while (!isGameOver)
+            while (!IsGameOver)
             {
                 if(scoreManager != null)
                 {
                     if(scoreManager.GetCurrentScore() >= targetScore)
                     {
-                        isGameOver = true;
+                        IsGameOver = true;
                         isWinner = true;
                     }
                 }
@@ -112,12 +114,12 @@ namespace Match3.Core
                 {
                     if(scoreManager.GetCurrentScore() >= targetScore)
                     {
-                        isGameOver = true;
+                        IsGameOver = true;
                         isWinner = true;
                     }
                     else
                     {
-                        isGameOver = true;
+                        IsGameOver = true;
                         isWinner = false;
                     }
                 }
@@ -161,6 +163,19 @@ namespace Match3.Core
                 initialScreenFader.FadeIn();
             }
             yield return null;
+        }
+
+        private IEnumerator WaitForBoardRoutine(float delay)
+        {
+            if(gameBoard != null)
+            {
+                yield return new WaitForSeconds(gameBoard.GetGamePieceMoveSpeed());
+                while(gameBoard.IsRefilling)
+                {
+                    yield return null;
+                }
+            }
+            yield return new WaitForSeconds(delay);
         }
         #endregion
 

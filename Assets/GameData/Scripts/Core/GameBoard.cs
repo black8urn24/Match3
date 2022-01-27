@@ -55,6 +55,11 @@ namespace Match3.Core
         private int scoreMultiplier = 0;
         private int bonusCounter = 0;
         private Level currentLevel = null;
+        private bool isRefilling = false;
+        #endregion
+
+        #region Properties
+        public bool IsRefilling { get => isRefilling; set => isRefilling = value; }
         #endregion
 
         #region Unity Methods
@@ -997,7 +1002,7 @@ namespace Match3.Core
         #region Coroutines
         private IEnumerator SwitchTilesRoutine(GameTile clickedTile, GameTile targetTile)
         {
-            if (canSwitchTiles)
+            if (canSwitchTiles && !GameManager.Instance.IsGameOver)
             {
                 if (clickedTile != null && targetTile != null)
                 {
@@ -1082,6 +1087,7 @@ namespace Match3.Core
         private IEnumerator ClearAndRefillBoardRoutine(List<GamePiece> gamePieces)
         {
             canSwitchTiles = false;
+            IsRefilling = true;
             List<GamePiece> matches = gamePieces;
             scoreMultiplier = 0;
             do
@@ -1094,6 +1100,7 @@ namespace Match3.Core
                 yield return new WaitForSeconds(0.5f);
             } while (matches.Count != 0);
             canSwitchTiles = true;
+            IsRefilling = false;
         }
 
         private IEnumerator ClearAndCollapseRoutine(List<GamePiece> gamePieces)
@@ -1229,6 +1236,11 @@ namespace Match3.Core
                 allPieces[x, y] = gamePiece;
             }
             gamePiece.SetCoordinates(x, y);
+        }
+
+        public float GetGamePieceMoveSpeed()
+        {
+            return gamePieceMoveSpeed;
         }
         #endregion
     }
