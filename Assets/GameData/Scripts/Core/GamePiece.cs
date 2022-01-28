@@ -129,7 +129,7 @@ namespace Match3.Core
                 {
                     currentRenderer.color = targetRenderer.color;
                 }
-                PieceType = gamePiece.PieceType;
+                PieceType = gamePiece.PieceType; 
             }
         }
 

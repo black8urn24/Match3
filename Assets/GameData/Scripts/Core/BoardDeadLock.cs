@@ -43,7 +43,7 @@ namespace Match3.Core
             {
                 if (item != null)
                 {
-                    if (item.Count() >= minLength && item.Key != GamePieceType.None)
+                    if (item.Count() >= minLength && item.Key != GamePieceType.None && item.Key != GamePieceType.Collectable)
                     {
                         matches = item.ToList();
                     }

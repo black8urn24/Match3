@@ -1063,6 +1063,7 @@ namespace Match3.Core
                                     if(targetSprite != null)
                                     {
                                         clickedBombPiece.ChangeSprite(targetSprite);
+                                        clickedBombPiece.PieceType = targetGamePiece.PieceType;
                                     }
                                     //clickedBombPiece.ChangeColor(targetGamePiece);
                                 }
@@ -1076,6 +1077,7 @@ namespace Match3.Core
                                     if (targetSprite != null)
                                     {
                                         targetBombPiece.ChangeSprite(targetSprite);
+                                        targetBombPiece.PieceType = clickedGamePiece.PieceType;
                                     }
                                     //targetBombPiece.ChangeColor(clickedGamePiece);
                                 }
