@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 namespace Match3.Core
 {
+    [RequireComponent(typeof(BoardDeadLock))]
     public class GameBoard : MonoBehaviour
     {
         #region Inspector Variables
@@ -56,6 +57,7 @@ namespace Match3.Core
         private int bonusCounter = 0;
         private Level currentLevel = null;
         private bool isRefilling = false;
+        private BoardDeadLock boardDeadLock = null;
         #endregion
 
         #region Properties
@@ -98,6 +100,7 @@ namespace Match3.Core
                     boardWidth = currentLevel.boardWidth;
                 }
             }
+            boardDeadLock = GetComponent<BoardDeadLock>();
         }
 
         private void MakeTile(GameObject prefab, int i, int j, int k)

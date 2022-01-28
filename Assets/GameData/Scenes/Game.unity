@@ -361,6 +361,7 @@ GameObject:
   m_Component:
   - component: {fileID: 328346190}
   - component: {fileID: 328346191}
+  - component: {fileID: 328346192}
   m_Layer: 0
   m_Name: GameBoard
   m_TagString: Untagged
@@ -480,6 +481,18 @@ MonoBehaviour:
   collectablePrefabs:
   - {fileID: 2017939560505240453, guid: 642c728b8c52fef4f84a4dc3ef26ff5f, type: 3}
   - {fileID: 2017939560505240453, guid: 860f0cc131839a34d807e0c3f99a2c85, type: 3}
+--- !u!114 &328346192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 328346189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61e117b96bbb2d241aeeb81dc242720f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &330686630
 GameObject:
   m_ObjectHideFlags: 0
