@@ -1104,6 +1104,11 @@ namespace Match3.Core
             } while (matches.Count != 0);
             canSwitchTiles = true;
             IsRefilling = false;
+            // check for deadlock
+            if (boardDeadLock != null)
+            {
+                var isDeadLock = boardDeadLock.IsDeadLocked(allPieces, 3);
+            }
         }
 
         private IEnumerator ClearAndCollapseRoutine(List<GamePiece> gamePieces)
