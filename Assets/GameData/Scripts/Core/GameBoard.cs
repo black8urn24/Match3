@@ -628,13 +628,17 @@ namespace Match3.Core
             }
         }
 
-        private void ClearPieces()
+        private void ClearAllPieces()
         {
             for (int i = 0; i < boardWidth; i++)
             {
                 for (int j = 0; j < boardHeight; j++)
                 {
                     ClearPieceAt(i, j);
+                    if(particleSystemManager != null)
+                    {
+                        particleSystemManager.PlayClearPieceEffect(i, j);
+                    }
                 }
             }
         }
@@ -1104,13 +1108,20 @@ namespace Match3.Core
                 matches = FindAllMatchesOnBoard();
                 yield return new WaitForSeconds(0.5f);
             } while (matches.Count != 0);
-            canSwitchTiles = true;
-            IsRefilling = false;
             // check for deadlock
             if (boardDeadLock != null)
             {
                 var isDeadLock = boardDeadLock.IsDeadLocked(allPieces, 3);
+                if(isDeadLock)
+                {
+                    yield return new WaitForSeconds(1f);
+                    ClearAllPieces();
+                    yield return new WaitForSeconds(1f);
+                    yield return StartCoroutine(RefillRoutine());
+                }
             }
+            canSwitchTiles = true;
+            IsRefilling = false;
         }
 
         private IEnumerator ClearAndCollapseRoutine(List<GamePiece> gamePieces)

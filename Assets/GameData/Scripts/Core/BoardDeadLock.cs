@@ -19,14 +19,14 @@ namespace Match3.Core
             {
                 if (checkRow)
                 {
-                    if (x + i < width && y < height)
+                    if (x + i < width && y < height && allPieces[x + i, y] != null)
                     {
                         piecesList.Add(allPieces[x + i, y]);
                     }
                 }
                 else
                 {
-                    if (x < width && y + i < height)
+                    if (x < width && y + i < height && allPieces[x, y + i] != null)
                     {
                         piecesList.Add(allPieces[x, y + i]);
                     }
