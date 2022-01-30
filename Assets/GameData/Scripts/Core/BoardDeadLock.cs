@@ -101,8 +101,8 @@ namespace Match3.Core
                 }
                 if(matches.Count >= listLength)
                 {
-                    string rowColoumnString = (checkRow) ? "Row" : "Coloumn";
-                    Debug.Log($"Avaiable Move-----> Move {matches[0].PieceType} piece to {unmatchedPiece.XIndex} ,{unmatchedPiece.YIndex} to form Match {rowColoumnString}".ToAqua().ToBold());
+                    //string rowColoumnString = (checkRow) ? "Row" : "Coloumn";
+                    //Debug.Log($"Avaiable Move-----> Move {matches[0].PieceType} piece to {unmatchedPiece.XIndex} ,{unmatchedPiece.YIndex} to form Match {rowColoumnString}".ToAqua().ToBold());
                     return true;
                 }
             }

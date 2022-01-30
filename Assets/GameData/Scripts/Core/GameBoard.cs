@@ -343,6 +343,34 @@ namespace Match3.Core
             }
         }
 
+        private void FillBoardFromList(List<GamePiece> gamePieces)
+        {
+            Queue<GamePiece> unusedPieces = new Queue<GamePiece>(gamePieces);
+            int maxIterations = 100;
+            int currentIterations = 0;
+            for (int i = 0; i < boardWidth; i++)
+            {
+                for (int j = 0; j < boardHeight; j++)
+                {
+                    if (allPieces[i, j] == null && allTiles[i, j].TileType != TileType.Obstacle)
+                    {
+                        allPieces[i, i] = unusedPieces.Dequeue();
+                        currentIterations = 0;
+                        while (HasMatchOnFill(i, j))
+                        {
+                            unusedPieces.Enqueue(allPieces[i, j]);
+                            allPieces[i, i] = unusedPieces.Dequeue();
+                            currentIterations++;
+                            if (currentIterations >= maxIterations)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         private GamePiece FillRandomGamePieceAt(int i, int j, float yOffset = 0f, float fallTime = 0.1f)
         {
             if (IsWithinBounds(i, j))
@@ -638,7 +666,7 @@ namespace Match3.Core
                 for (int j = 0; j < boardHeight; j++)
                 {
                     ClearPieceAt(i, j);
-                    if(particleSystemManager != null)
+                    if (particleSystemManager != null)
                     {
                         particleSystemManager.PlayClearPieceEffect(i, j);
                     }
@@ -709,6 +737,10 @@ namespace Match3.Core
                 if (item != null)
                 {
                     if ((item.transform.position.y - (float)item.YIndex) > 0.001f)
+                    {
+                        return false;
+                    }
+                    if ((item.transform.position.x - (float)item.XIndex) > 0.001f)
                     {
                         return false;
                     }
@@ -995,17 +1027,25 @@ namespace Match3.Core
         private Sprite GetBombSprite(GamePieceType pieceColor)
         {
             Sprite targetSprite = null;
-            if(bombSpriteHolders != null)
+            if (bombSpriteHolders != null)
             {
-                foreach(var item in bombSpriteHolders)
+                foreach (var item in bombSpriteHolders)
                 {
-                    if(item.pieceType == pieceColor)
+                    if (item.pieceType == pieceColor)
                     {
                         targetSprite = item.pieceSprite;
                     }
                 }
             }
             return targetSprite;
+        }
+
+        private void ShuffleBoard()
+        {
+            if (canSwitchTiles)
+            {
+                StartCoroutine(ShuffleBoardRoutine());
+            }
         }
         #endregion
 
@@ -1067,7 +1107,7 @@ namespace Match3.Core
                                 if (!IsColorBomb(clickedBombPiece))
                                 {
                                     Sprite targetSprite = GetBombSprite(targetGamePiece.PieceType);
-                                    if(targetSprite != null)
+                                    if (targetSprite != null)
                                     {
                                         clickedBombPiece.ChangeSprite(targetSprite);
                                         clickedBombPiece.PieceType = targetGamePiece.PieceType;
@@ -1115,10 +1155,11 @@ namespace Match3.Core
             if (boardDeadLock != null)
             {
                 var isDeadLock = boardDeadLock.IsDeadLocked(allPieces, 3);
-                if(isDeadLock)
+                if (isDeadLock)
                 {
                     yield return new WaitForSeconds(1f);
-                    ClearAllPieces();
+                    //ClearAllPieces();
+                    yield return StartCoroutine(ShuffleBoardRoutine());
                     yield return new WaitForSeconds(1f);
                     yield return StartCoroutine(RefillRoutine());
                 }
@@ -1192,6 +1233,25 @@ namespace Match3.Core
         {
             FillBoard(fillYOffset, fallTime);
             yield return null;
+        }
+
+        private IEnumerator ShuffleBoardRoutine()
+        {
+            List<GamePiece> allGamePieces = new List<GamePiece>();
+            foreach (var item in allPieces)
+            {
+                allGamePieces.Add(item);
+            }
+            while (!IsCollapsed(allGamePieces))
+            {
+                yield return null;
+            }
+            List<GamePiece> normalPieces = boardShuffler.RemoveNormalPieces(allPieces);
+            boardShuffler.ShuffleGamePieces(normalPieces);
+            FillBoardFromList(normalPieces);
+            boardShuffler.MovePieces(allPieces);
+            List<GamePiece> matches = FindAllMatchesOnBoard();
+            StartCoroutine(ClearAndRefillBoardRoutine(matches));
         }
         #endregion
 

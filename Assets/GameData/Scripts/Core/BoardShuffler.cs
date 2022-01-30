@@ -34,7 +34,6 @@ namespace Match3.Core
         public void ShuffleGamePieces(List<GamePiece> gamePieces)
         {
             int maxCount = gamePieces.Count;
-            GamePiece temp = null;
             for (int i = 0; i < maxCount - 1; i++)
             {
                 int randomIndex = Random.Range(i, maxCount);
@@ -42,9 +41,9 @@ namespace Match3.Core
                 {
                     continue;
                 }
-                temp = gamePieces[i];
-                gamePieces[i] = gamePieces[randomIndex];
-                gamePieces[randomIndex] = temp;
+                GamePiece temp = gamePieces[randomIndex];
+                gamePieces[randomIndex] = gamePieces[i];
+                gamePieces[i] = temp;
             }
         }
 
