@@ -10,6 +10,7 @@ using UnityEngine.UI;
 namespace Match3.Core
 {
     [RequireComponent(typeof(BoardDeadLock))]
+    [RequireComponent(typeof(BoardShuffler))]
     public class GameBoard : MonoBehaviour
     {
         #region Inspector Variables
@@ -58,6 +59,7 @@ namespace Match3.Core
         private Level currentLevel = null;
         private bool isRefilling = false;
         private BoardDeadLock boardDeadLock = null;
+        private BoardShuffler boardShuffler = null;
         #endregion
 
         #region Properties
@@ -101,6 +103,7 @@ namespace Match3.Core
                 }
             }
             boardDeadLock = GetComponent<BoardDeadLock>();
+            boardShuffler = GetComponent<BoardShuffler>();
         }
 
         private void MakeTile(GameObject prefab, int i, int j, int k)
