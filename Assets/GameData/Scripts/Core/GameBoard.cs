@@ -268,6 +268,7 @@ namespace Match3.Core
                         else
                         {
                             randomPiece = FillRandomGamePieceAt(i, j, falseYOffset, fallTime);
+                            currentIterations = 0;
                             while (HasMatchOnFill(i, j, 3))
                             {
                                 ClearPieceAt(i, j);
@@ -354,12 +355,12 @@ namespace Match3.Core
                 {
                     if (allPieces[i, j] == null && allTiles[i, j].TileType != TileType.Obstacle)
                     {
-                        allPieces[i, i] = unusedPieces.Dequeue();
+                        allPieces[i, j] = unusedPieces.Dequeue();
                         currentIterations = 0;
                         while (HasMatchOnFill(i, j))
                         {
                             unusedPieces.Enqueue(allPieces[i, j]);
-                            allPieces[i, i] = unusedPieces.Dequeue();
+                            allPieces[i, j] = unusedPieces.Dequeue();
                             currentIterations++;
                             if (currentIterations >= maxIterations)
                             {
@@ -708,6 +709,16 @@ namespace Match3.Core
             foreach (var coloumn in coloumns)
             {
                 movingPieces = movingPieces.Union(CollapseColoumn(coloumn)).ToList();
+            }
+            return movingPieces;
+        }
+
+        private List<GamePiece> CollapseColoumn(List<int> columnsToCollapse)
+        {
+            List<GamePiece> movingPieces = new List<GamePiece>();
+            foreach (var item in columnsToCollapse)
+            {
+                movingPieces = movingPieces.Union(CollapseColoumn(item)).ToList();
             }
             return movingPieces;
         }
@@ -1187,8 +1198,9 @@ namespace Match3.Core
                 List<GamePiece> blockers = gamePieces.Intersect(allCollectables).ToList();
                 collectablePieces = collectablePieces.Union(blockers).ToList();
                 currentLevelCollectableCount -= collectablePieces.Count;
-                Debug.Log($"Current collectable count - {currentLevelCollectableCount}".ToAqua().ToBold());
+                //Debug.Log($"Current collectable count - {currentLevelCollectableCount}".ToAqua().ToBold());
                 gamePieces = gamePieces.Union(collectablePieces).ToList();
+                List<int> coloumnsToCollapse = GetColoumns(gamePieces);
                 ClearPieceAt(gamePieces, bombedPieces);
                 BreakTileAt(gamePieces);
                 if (clickedTileBomb != null)
@@ -1202,7 +1214,7 @@ namespace Match3.Core
                     targetTileBomb = null;
                 }
                 yield return new WaitForSeconds(visualDelay / 2f);
-                movingPieces = CollapseColoumn(gamePieces);
+                movingPieces = CollapseColoumn(coloumnsToCollapse);
                 while (!IsCollapsed(movingPieces))
                 {
                     yield return null;

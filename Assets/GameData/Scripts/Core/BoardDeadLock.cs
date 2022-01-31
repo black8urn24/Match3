@@ -41,12 +41,9 @@ namespace Match3.Core
             var groups = gamePieces.GroupBy(n => n.PieceType);
             foreach (var item in groups)
             {
-                if (item != null)
+                if (item.Count() >= minLength && item.Key != GamePieceType.None && item.Key != GamePieceType.Collectable)
                 {
-                    if (item.Count() >= minLength && item.Key != GamePieceType.None && item.Key != GamePieceType.Collectable)
-                    {
-                        matches = item.ToList();
-                    }
+                    matches = item.ToList();
                 }
             }
             return matches;
@@ -61,17 +58,17 @@ namespace Match3.Core
             {
                 new Vector2(-1f, 0f),
                 new Vector2(1f, 0f),
-                new Vector2(0f, -1f),
-                new Vector2(0f, 1f)
+                new Vector2(0f, 1f),
+                new Vector2(0f, -1f)
             };
             foreach (var direction in searchDirections)
             {
-                if (direction != null)
+                if (x + (int)direction.x >= 0 && x + (int)direction.x < width &&
+                   y + (int)direction.y >= 0 && y + (int)direction.y < height)
                 {
-                    if (x + (int)direction.x >= 0 && x + (int)direction.x < width &&
-                       y + (int)direction.y >= 0 && y + (int)direction.y < height)
+                    if (allPieces[x + (int)direction.x, y + (int)direction.y] != null)
                     {
-                        if (allPieces[x + (int)direction.x, y + (int)direction.y] != null && !neighbors.Contains(allPieces[x + (int)direction.x, y + (int)direction.y]))
+                        if (!neighbors.Contains(allPieces[x + (int)direction.x, y + (int)direction.y]))
                         {
                             neighbors.Add(allPieces[x + (int)direction.x, y + (int)direction.y]);
                         }
@@ -86,20 +83,20 @@ namespace Match3.Core
             List<GamePiece> pieces = GetRowOrColoumnList(allPieces, x, y, listLength, checkRow);
             List<GamePiece> matches = GetMinimumMatches(pieces, listLength - 1);
             GamePiece unmatchedPiece = null;
-            if(pieces != null && matches != null)
+            if (pieces != null && matches != null)
             {
-                if(pieces.Count == listLength && matches.Count == listLength - 1)
+                if (pieces.Count == listLength && matches.Count == listLength - 1)
                 {
                     unmatchedPiece = pieces.Except(matches).FirstOrDefault();
                 }
-                if(unmatchedPiece != null)
+                if (unmatchedPiece != null)
                 {
                     List<GamePiece> neighbors = GetNeighbors(allPieces, unmatchedPiece.XIndex, unmatchedPiece.YIndex);
                     neighbors = neighbors.Except(matches).ToList();
                     neighbors = neighbors.FindAll(x => x.PieceType == matches[0].PieceType);
                     matches = matches.Union(neighbors).ToList();
                 }
-                if(matches.Count >= listLength)
+                if (matches.Count >= listLength)
                 {
                     //string rowColoumnString = (checkRow) ? "Row" : "Coloumn";
                     //Debug.Log($"Avaiable Move-----> Move {matches[0].PieceType} piece to {unmatchedPiece.XIndex} ,{unmatchedPiece.YIndex} to form Match {rowColoumnString}".ToAqua().ToBold());
@@ -116,17 +113,17 @@ namespace Match3.Core
             bool isDeadLocked = true;
             int width = allPieces.GetLength(0);
             int height = allPieces.GetLength(1);
-            for(int i = 0; i < width; i++)
+            for (int i = 0; i < width; i++)
             {
-                for(int j = 0; j < height; j++)
+                for (int j = 0; j < height; j++)
                 {
-                    if(HasMoveAt(allPieces, i, j, listLength, true) || HasMoveAt(allPieces, i, j, listLength, false))
+                    if (HasMoveAt(allPieces, i, j, listLength, true) || HasMoveAt(allPieces, i, j, listLength, false))
                     {
                         isDeadLocked = false;
                     }
                 }
             }
-            if(isDeadLocked)
+            if (isDeadLocked)
             {
                 Debug.Log($"-------Board Deadlocked--------".ToRed().ToBold());
             }
