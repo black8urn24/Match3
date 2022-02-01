@@ -8,14 +8,13 @@ using FullSerializer;
 
 namespace Match3.Core
 {
+    [RequireComponent(typeof(LevelGoal))]
     public class GameManager : Singleton<GameManager>
     {
         #region Inspector Variables
         [SerializeField] private ScreenFader initialScreenFader = null;
         [SerializeField] private GameBoard gameBoard = null;
         [SerializeField] private TextMeshProUGUI movesCounterText = null;
-        [SerializeField] private int levelMoves = 30;
-        [SerializeField] private int targetScore = 10000;
         [SerializeField] private Sprite goalSprite = null;
         [SerializeField] private Sprite winSprite = null;
         [SerializeField] private Sprite looseSprite = null;
@@ -30,8 +29,10 @@ namespace Match3.Core
         private bool isGameOver = false;
         private bool isWinner = false;
         private int currentMoves = -1;
+        private int targetScore = 10000;
         private ScoreManager scoreManager = null;
         private Level currentGameLevel = null;
+        private LevelGoal levelGoal = null;
         #endregion
 
         #region Properties
@@ -40,6 +41,12 @@ namespace Match3.Core
         #endregion
 
         #region Unity Methods
+        public override void Awake()
+        {
+            base.Awake();
+            levelGoal = GetComponent<LevelGoal>();
+        }
+
         // Start is called before the first frame update
         void Start()
         {
@@ -51,7 +58,13 @@ namespace Match3.Core
         private void SetInitialReferences()
         {
             scoreManager = ScoreManager.Instance;
-            StartCoroutine(ExecuteGameLoop());
+            if (!loadLevelFromJsonFile)
+            {
+                currentMoves = levelGoal.MovesForLevel;
+                targetScore = levelGoal.ScoreGoals[0];
+                SetMovesText();
+                StartCoroutine(ExecuteGameLoop());
+            }
         }
 
         private void SetMovesText()
@@ -74,9 +87,9 @@ namespace Match3.Core
 
         private IEnumerator StartGameRoutine()
         {
-            if(messageWindow != null)
+            if (messageWindow != null)
             {
-                messageWindow.SetWindow(goalSprite, "Goal : " + targetScore.ToString(), "Start", () => 
+                messageWindow.SetWindow(goalSprite, "Goal : " + targetScore.ToString(), "Start", () =>
                 {
                     isReadyToBegin = true;
                 });
@@ -94,25 +107,23 @@ namespace Match3.Core
             {
                 gameBoard.SetupBoard();
             }
-            currentMoves = levelMoves;
-            SetMovesText();
         }
 
         private IEnumerator PlayGameRoutine()
         {
             while (!IsGameOver)
             {
-                if(scoreManager != null)
+                if (scoreManager != null)
                 {
-                    if(scoreManager.GetCurrentScore() >= targetScore)
+                    if (scoreManager.GetCurrentScore() >= targetScore)
                     {
                         IsGameOver = true;
                         isWinner = true;
                     }
                 }
-                if(currentMoves <= 0)
+                if (currentMoves <= 0)
                 {
-                    if(scoreManager.GetCurrentScore() >= targetScore)
+                    if (scoreManager.GetCurrentScore() >= targetScore)
                     {
                         IsGameOver = true;
                         isWinner = true;
@@ -138,7 +149,7 @@ namespace Match3.Core
                         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                     });
                 }
-                if(AudioManager.Instance != null)
+                if (AudioManager.Instance != null)
                 {
                     AudioManager.Instance.PlayRandomWinClips();
                 }
@@ -167,10 +178,10 @@ namespace Match3.Core
 
         private IEnumerator WaitForBoardRoutine(float delay)
         {
-            if(gameBoard != null)
+            if (gameBoard != null)
             {
                 yield return new WaitForSeconds(gameBoard.GetGamePieceMoveSpeed());
-                while(gameBoard.IsRefilling)
+                while (gameBoard.IsRefilling)
                 {
                     yield return null;
                 }
@@ -183,7 +194,7 @@ namespace Match3.Core
         public void UpdateMoves()
         {
             currentMoves--;
-            if(currentMoves <= 0)
+            if (currentMoves <= 0)
             {
                 currentMoves = 0;
             }
@@ -192,18 +203,19 @@ namespace Match3.Core
 
         public void CheckForLevelLoad()
         {
-            if(loadLevelFromJsonFile)
+            if (loadLevelFromJsonFile)
             {
                 var vFilePath = GlobalConstants.Match3LevelFilePrefix + GlobalConstants.Match3LevelPrefix + levelIndex;
                 if (FileUtilities.FileExists(vFilePath))
                 {
                     currentGameLevel = FileUtilities.LoadJsonFile<Level>(vFilePath);
                 }
-                if(currentGameLevel != null)
+                if (currentGameLevel != null)
                 {
                     currentMoves = currentGameLevel.moves;
                     SetMovesText();
                     targetScore = currentGameLevel.targetScore;
+                    StartCoroutine(ExecuteGameLoop());
                 }
             }
         }
