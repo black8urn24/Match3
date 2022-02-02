@@ -642,7 +642,10 @@ namespace Match3.Core
                         {
                             bonusCounter = 20;
                         }
-                        item.AddScore(scoreMultiplier, bonusCounter);
+                        if (GameManager.Instance != null)
+                        {
+                            GameManager.Instance.AddScore(item, scoreMultiplier, bonusCounter);
+                        }
                         if (particleSystemManager != null)
                         {
                             if (bombedPieces.Contains(item))

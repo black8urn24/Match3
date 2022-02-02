@@ -26,6 +26,8 @@ namespace Match3.Core
         public GamePieceType PieceType { get => pieceType; set => pieceType = value; }
         public int XIndex { get => xIndex; set => xIndex = value; }
         public int YIndex { get => yIndex; set => yIndex = value; }
+        public int ScoreValue { get => scoreValue; private set => scoreValue = value; }
+        public AudioClip PieceBreakSound { get => pieceBreakSound; private set => pieceBreakSound = value; }
         #endregion
 
         #region Unity Methods
@@ -146,11 +148,11 @@ namespace Match3.Core
         {
             if(ScoreManager.Instance != null)
             {
-                ScoreManager.Instance.AddScore(scoreValue * multiplier + bonus);
+                ScoreManager.Instance.AddScore(ScoreValue * multiplier + bonus);
             }
             if(AudioManager.Instance != null)
             {
-                AudioManager.Instance.PlayPieceDestroyClip(pieceBreakSound, PoolObjectsType.SFXAudioSource, false);
+                AudioManager.Instance.PlayPieceDestroyClip(PieceBreakSound, PoolObjectsType.SFXAudioSource, false);
             }
         }
         #endregion

@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using FullSerializer;
+using Match3.Enums;
 
 namespace Match3.Core
 {
@@ -61,7 +62,9 @@ namespace Match3.Core
             if (!loadLevelFromJsonFile)
             {
                 currentMoves = levelGoal.MovesForLevel;
+                levelGoal.MovesLeft = currentMoves;
                 targetScore = levelGoal.ScoreGoals[0];
+                levelGoal.TargetScore = targetScore;
                 SetMovesText();
                 StartCoroutine(ExecuteGameLoop());
             }
@@ -111,29 +114,10 @@ namespace Match3.Core
 
         private IEnumerator PlayGameRoutine()
         {
-            while (!IsGameOver)
+            while (!isGameOver)
             {
-                if (scoreManager != null)
-                {
-                    if (scoreManager.GetCurrentScore() >= targetScore)
-                    {
-                        IsGameOver = true;
-                        isWinner = true;
-                    }
-                }
-                if (currentMoves <= 0)
-                {
-                    if (scoreManager.GetCurrentScore() >= targetScore)
-                    {
-                        IsGameOver = true;
-                        isWinner = true;
-                    }
-                    else
-                    {
-                        IsGameOver = true;
-                        isWinner = false;
-                    }
-                }
+                isGameOver = levelGoal.IsGameOver();
+                isWinner = levelGoal.IsWinner();
                 yield return null;
             }
         }
@@ -198,7 +182,27 @@ namespace Match3.Core
             {
                 currentMoves = 0;
             }
+            levelGoal.MovesLeft = currentMoves;
             SetMovesText();
+        }
+
+        public void AddScore(GamePiece gamePiece, int multiplier = 1, int bonus = 0)
+        {
+            if (gamePiece != null)
+            {
+                if (scoreManager != null)
+                {
+                    scoreManager.AddScore(gamePiece.ScoreValue * multiplier + bonus);
+                    levelGoal.UpdateScoreStars(scoreManager.GetCurrentScore());
+                }
+                if (AudioManager.Instance != null)
+                {
+                    if (gamePiece.PieceBreakSound != null)
+                    {
+                        AudioManager.Instance.PlayPieceDestroyClip(gamePiece.PieceBreakSound, PoolObjectsType.SFXAudioSource, false);
+                    }
+                }
+            }
         }
 
         public void CheckForLevelLoad()
@@ -213,8 +217,10 @@ namespace Match3.Core
                 if (currentGameLevel != null)
                 {
                     currentMoves = currentGameLevel.moves;
+                    levelGoal.MovesLeft = currentMoves;
                     SetMovesText();
                     targetScore = currentGameLevel.targetScore;
+                    levelGoal.TargetScore = targetScore;
                     StartCoroutine(ExecuteGameLoop());
                 }
             }

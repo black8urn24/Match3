@@ -5,7 +5,7 @@ using Match3.Utilities;
 
 namespace Match3.Core
 {
-    public class LevelGoal : Singleton<LevelGoal>
+    public abstract class LevelGoal : Singleton<LevelGoal>
     {
         #region Inspector Variables
         [SerializeField] private int scoreStars = 0;
@@ -14,24 +14,28 @@ namespace Match3.Core
         #endregion
 
         #region Variables
-        public int ScoreStars { get => scoreStars; set => scoreStars = value; }
-        public int[] ScoreGoals { get => scoreGoals; set => scoreGoals = value; }
-        public int MovesForLevel { get => movesForLevel; set => movesForLevel = value; }
+        private int targetScore = 0;
+        private int currentMoves = 0;
         #endregion
 
         #region Properties
+        public int ScoreStars { get => scoreStars; set => scoreStars = value; }
+        public int[] ScoreGoals { get => scoreGoals; set => scoreGoals = value; }
+        public int MovesForLevel { get => movesForLevel; set => movesForLevel = value; }
+        public int TargetScore { get => targetScore; set => targetScore = value; }
+        public int MovesLeft { get => currentMoves; set => currentMoves = value; }
         #endregion
 
         #region Unity Methods
         // Start is called before the first frame update
         void Start()
         {
-
+            Init();
         }
         #endregion
 
-        #region Public Methods
-        public void Init()
+        #region Private Methods
+        private void Init()
         {
             ScoreStars = 0;
             for (int i = 1; i < ScoreGoals.Length; i++)
@@ -43,18 +47,25 @@ namespace Match3.Core
             }
         }
 
-        public int UpdateScore(int score)
+        private int UpdateScore(int score)
         {
-            for(int i = 0; i < ScoreGoals.Length; i++)
+            for (int i = 0; i < ScoreGoals.Length; i++)
             {
-                if(score < ScoreGoals[i])
+                if (score < ScoreGoals[i])
                 {
                     return i;
                 }
             }
             return ScoreGoals.Length;
         }
+        #endregion
 
+        #region Abstract Declerations
+        public abstract bool IsWinner();
+        public abstract bool IsGameOver();
+        #endregion
+
+        #region Public Methods
         public void UpdateScoreStars(int score)
         {
             ScoreStars = UpdateScore(score);

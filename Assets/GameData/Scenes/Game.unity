@@ -2059,12 +2059,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1389591279}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 895b6e3ee0d3cb245998a5bc82dc0891, type: 3}
+  m_Script: {fileID: 11500000, guid: 83b7372e22b1c0c45a3e6b187f74488c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   scoreStars: 0
-  scoreGoals: c4090000881300004c1d0000
-  movesForLevel: 30
+  scoreGoals: f40100005802000020030000
+  movesForLevel: 8
 --- !u!1 &1413666274
 GameObject:
   m_ObjectHideFlags: 0
