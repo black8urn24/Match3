@@ -9,6 +9,11 @@ namespace Match3.Core
         #region Abstract Implementation
         public override bool IsGameOver()
         {
+            int maxScore = ScoreGoals[ScoreGoals.Length - 1];
+            if (ScoreManager.Instance != null)
+            {
+                return ScoreManager.Instance.GetCurrentScore() >= maxScore;
+            }
             return MovesLeft <= 0;
         }
 
