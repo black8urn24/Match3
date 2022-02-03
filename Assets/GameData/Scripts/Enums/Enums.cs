@@ -46,6 +46,7 @@ namespace Match3.Enums
         SFXAudioSource,
         WinAudioSource,
         LooseAudioSource,
+        ScoreStarAudioSource,
         None
     }
 

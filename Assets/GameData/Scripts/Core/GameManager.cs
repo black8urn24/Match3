@@ -20,6 +20,7 @@ namespace Match3.Core
         [SerializeField] private Sprite winSprite = null;
         [SerializeField] private Sprite looseSprite = null;
         [SerializeField] private MessageWindowManager messageWindow = null;
+        [SerializeField] private ScoreMeter scoreMeter = null;
         [Header("Testing")]
         [SerializeField] private bool loadLevelFromJsonFile = false;
         [SerializeField] private int levelIndex = -1;
@@ -66,6 +67,10 @@ namespace Match3.Core
                 targetScore = levelGoal.ScoreGoals[0];
                 levelGoal.TargetScore = targetScore;
                 SetMovesText();
+                if(scoreMeter != null)
+                {
+                    scoreMeter.SetLevelGoal(levelGoal);
+                }
                 StartCoroutine(ExecuteGameLoop());
             }
         }
@@ -194,6 +199,10 @@ namespace Match3.Core
                 {
                     scoreManager.AddScore(gamePiece.ScoreValue * multiplier + bonus);
                     levelGoal.UpdateScoreStars(scoreManager.GetCurrentScore());
+                    if(scoreMeter != null)
+                    {
+                        scoreMeter.UpdateScoreMeter(scoreManager.GetCurrentScore(), levelGoal.ScoreStars);
+                    }
                 }
                 if (AudioManager.Instance != null)
                 {
@@ -221,6 +230,10 @@ namespace Match3.Core
                     SetMovesText();
                     targetScore = currentGameLevel.targetScore;
                     levelGoal.TargetScore = targetScore;
+                    if (scoreMeter != null)
+                    {
+                        scoreMeter.SetLevelGoal(levelGoal);
+                    }
                     StartCoroutine(ExecuteGameLoop());
                 }
             }

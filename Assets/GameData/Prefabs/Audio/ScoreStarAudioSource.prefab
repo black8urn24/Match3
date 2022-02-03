@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4787403409036221035}
   - component: {fileID: 5870122508580003764}
   m_Layer: 0
-  m_Name: WinAudioSource
+  m_Name: ScoreStarAudioSource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

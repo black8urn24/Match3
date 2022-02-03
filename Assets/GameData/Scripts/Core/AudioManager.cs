@@ -125,6 +125,11 @@ namespace Match3.Core
         {
             PlayClip(audioClip, sfxVolume, poolObjectsType, loop);
         }
+
+        public void PlaySingleClip(AudioClip audioClip, PoolObjectsType poolObjectsType = PoolObjectsType.None, bool loop = false)
+        {
+            PlayClip(audioClip, sfxVolume, poolObjectsType, loop);
+        }
         #endregion
     }
 }
