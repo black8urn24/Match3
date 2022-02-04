@@ -11,6 +11,7 @@ namespace Match3.Core
         [SerializeField] private int scoreStars = 0;
         [SerializeField] private int[] scoreGoals = new int[3];
         [SerializeField] private int movesForLevel = 30;
+        [SerializeField] private int timeLeft = 60;
         #endregion
 
         #region Variables
@@ -24,6 +25,7 @@ namespace Match3.Core
         public int MovesForLevel { get => movesForLevel; set => movesForLevel = value; }
         public int TargetScore { get => targetScore; set => targetScore = value; }
         public int MovesLeft { get => currentMoves; set => currentMoves = value; }
+        public int TimeLeft { get => timeLeft; set => timeLeft = value; }
         #endregion
 
         #region Unity Methods

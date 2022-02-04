@@ -35,6 +35,7 @@ namespace Match3.Core
         private ScoreManager scoreManager = null;
         private Level currentGameLevel = null;
         private LevelGoal levelGoal = null;
+        private TimeLevelGoal timeLevelGoal = null;
         #endregion
 
         #region Properties
@@ -47,6 +48,7 @@ namespace Match3.Core
         {
             base.Awake();
             levelGoal = GetComponent<LevelGoal>();
+            timeLevelGoal = GetComponent<TimeLevelGoal>();
         }
 
         // Start is called before the first frame update
@@ -119,6 +121,10 @@ namespace Match3.Core
 
         private IEnumerator PlayGameRoutine()
         {
+            if(timeLevelGoal != null)
+            {
+                timeLevelGoal.StartCountdown();
+            }
             while (!isGameOver)
             {
                 isGameOver = levelGoal.IsGameOver();
@@ -182,13 +188,24 @@ namespace Match3.Core
         #region Public Methods
         public void UpdateMoves()
         {
-            currentMoves--;
-            if (currentMoves <= 0)
+            if(timeLevelGoal == null)
             {
-                currentMoves = 0;
+                currentMoves--;
+                if (currentMoves <= 0)
+                {
+                    currentMoves = 0;
+                }
+                levelGoal.MovesLeft = currentMoves;
+                SetMovesText();
             }
-            levelGoal.MovesLeft = currentMoves;
-            SetMovesText();
+            else
+            {
+                if(movesCounterText != null)
+                {
+                    movesCounterText.text = "\u221E";
+                    movesCounterText.fontSize = 70;
+                }
+            }
         }
 
         public void AddScore(GamePiece gamePiece, int multiplier = 1, int bonus = 0)
