@@ -11454,6 +11454,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timerText: {fileID: 101050660}
   clockImage: {fileID: 2134628557}
+  flashtimeLimit: 10
+  flashInterval: 1
+  beepClip: {fileID: 8300000, guid: 3235eb35ca4de45b9901ea9ccbff8d77, type: 3}
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &713793229
 GameObject:
   m_ObjectHideFlags: 0
@@ -12279,6 +12283,10 @@ MonoBehaviour:
     maxPoolCount: 10
     pooledObjects: []
     poolObjectsType: 9
+  - objectToPool: {fileID: 8426724108054224820, guid: 755d65ff33cccc94b9bcd15f1369fb06, type: 3}
+    maxPoolCount: 10
+    pooledObjects: []
+    poolObjectsType: 10
 --- !u!4 &1041282006
 Transform:
   m_ObjectHideFlags: 0
@@ -12689,7 +12697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreStars: 0
-  scoreGoals: 20030000dc050000c4090000
+  scoreGoals: 20030000dc050000d0070000
   movesForLevel: 30
   timeLeft: 60
   levelTimeUi: {fileID: 701976551}

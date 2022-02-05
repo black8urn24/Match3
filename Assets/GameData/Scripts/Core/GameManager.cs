@@ -69,9 +69,17 @@ namespace Match3.Core
                 targetScore = levelGoal.ScoreGoals[0];
                 levelGoal.TargetScore = targetScore;
                 SetMovesText();
-                if(scoreMeter != null)
+                if (scoreMeter != null)
                 {
                     scoreMeter.SetLevelGoal(levelGoal);
+                }
+                if (timeLevelGoal != null)
+                {
+                    if (movesCounterText != null)
+                    {
+                        movesCounterText.text = "\u221E";
+                        movesCounterText.fontSize = 70;
+                    }
                 }
                 StartCoroutine(ExecuteGameLoop());
             }
@@ -121,7 +129,7 @@ namespace Match3.Core
 
         private IEnumerator PlayGameRoutine()
         {
-            if(timeLevelGoal != null)
+            if (timeLevelGoal != null)
             {
                 timeLevelGoal.StartCountdown();
             }
@@ -173,6 +181,13 @@ namespace Match3.Core
 
         private IEnumerator WaitForBoardRoutine(float delay)
         {
+            if (timeLevelGoal != null)
+            {
+                if (timeLevelGoal.LevelTimeUi != null)
+                {
+                    timeLevelGoal.LevelTimeUi.IsPaused = true;
+                }
+            }
             if (gameBoard != null)
             {
                 yield return new WaitForSeconds(gameBoard.GetGamePieceMoveSpeed());
@@ -188,7 +203,7 @@ namespace Match3.Core
         #region Public Methods
         public void UpdateMoves()
         {
-            if(timeLevelGoal == null)
+            if (timeLevelGoal == null)
             {
                 currentMoves--;
                 if (currentMoves <= 0)
@@ -200,7 +215,7 @@ namespace Match3.Core
             }
             else
             {
-                if(movesCounterText != null)
+                if (movesCounterText != null)
                 {
                     movesCounterText.text = "\u221E";
                     movesCounterText.fontSize = 70;
@@ -216,7 +231,7 @@ namespace Match3.Core
                 {
                     scoreManager.AddScore(gamePiece.ScoreValue * multiplier + bonus);
                     levelGoal.UpdateScoreStars(scoreManager.GetCurrentScore());
-                    if(scoreMeter != null)
+                    if (scoreMeter != null)
                     {
                         scoreMeter.UpdateScoreMeter(scoreManager.GetCurrentScore(), levelGoal.ScoreStars);
                     }
@@ -250,6 +265,14 @@ namespace Match3.Core
                     if (scoreMeter != null)
                     {
                         scoreMeter.SetLevelGoal(levelGoal);
+                    }
+                    if(timeLevelGoal != null)
+                    {
+                        if (movesCounterText != null)
+                        {
+                            movesCounterText.text = "\u221E";
+                            movesCounterText.fontSize = 70;
+                        }
                     }
                     StartCoroutine(ExecuteGameLoop());
                 }

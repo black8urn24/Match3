@@ -47,6 +47,7 @@ namespace Match3.Enums
         WinAudioSource,
         LooseAudioSource,
         ScoreStarAudioSource,
+        ClockTickAudioSource,
         None
     }
 

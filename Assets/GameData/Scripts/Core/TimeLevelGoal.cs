@@ -10,12 +10,16 @@ namespace Match3.Core
         [SerializeField] private LevelTimeUiManager levelTimeUi = null;
         #endregion
 
+        #region Properties
+        public LevelTimeUiManager LevelTimeUi { get => levelTimeUi; set => levelTimeUi = value; }
+        #endregion
+
         #region Unity Methods
         private void Start()
         {
-            if(levelTimeUi != null)
+            if (LevelTimeUi != null)
             {
-                levelTimeUi.InitTimer(TimeLeft);
+                LevelTimeUi.InitTimer(TimeLeft);
             }
         }
         #endregion
@@ -34,9 +38,9 @@ namespace Match3.Core
             {
                 yield return new WaitForSeconds(1f);
                 TimeLeft--;
-                if(levelTimeUi != null)
+                if (LevelTimeUi != null)
                 {
-                    levelTimeUi.UpdateTimer(TimeLeft);
+                    LevelTimeUi.UpdateTimer(TimeLeft);
                 }
             }
         }
@@ -57,7 +61,10 @@ namespace Match3.Core
             int maxScore = ScoreGoals[ScoreGoals.Length - 1];
             if (ScoreManager.Instance != null)
             {
-                return ScoreManager.Instance.GetCurrentScore() >= maxScore;
+                if (ScoreManager.Instance.GetCurrentScore() >= maxScore)
+                {
+                    return true;
+                }
             }
             return (TimeLeft <= 0);
         }
