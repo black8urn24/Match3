@@ -6,6 +6,20 @@ namespace Match3.Core
 {
     public class TimeLevelGoal : LevelGoal
     {
+        #region Inspector Variables
+        [SerializeField] private LevelTimeUiManager levelTimeUi = null;
+        #endregion
+
+        #region Unity Methods
+        private void Start()
+        {
+            if(levelTimeUi != null)
+            {
+                levelTimeUi.InitTimer(TimeLeft);
+            }
+        }
+        #endregion
+
         #region Public Methods
         public void StartCountdown()
         {
@@ -20,6 +34,10 @@ namespace Match3.Core
             {
                 yield return new WaitForSeconds(1f);
                 TimeLeft--;
+                if(levelTimeUi != null)
+                {
+                    levelTimeUi.UpdateTimer(TimeLeft);
+                }
             }
         }
         #endregion
