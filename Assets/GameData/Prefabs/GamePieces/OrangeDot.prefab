@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4000012086094444}
   - component: {fileID: 212000014023979558}
   - component: {fileID: 114000010068937326}
+  - component: {fileID: 2088170734212352905}
   m_Layer: 7
   m_Name: OrangeDot
   m_TagString: Untagged
@@ -99,3 +100,16 @@ MonoBehaviour:
   interpolationType: 1
   scoreValue: 20
   pieceBreakSound: {fileID: 8300000, guid: 6dce900c6b57748dbb2ee112588b2bd9, type: 3}
+--- !u!114 &2088170734212352905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013021690232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 983237b49f2ca5c498714b51442895b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bonusValue: 1

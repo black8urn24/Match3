@@ -645,6 +645,11 @@ namespace Match3.Core
                         if (GameManager.Instance != null)
                         {
                             GameManager.Instance.AddScore(item, scoreMultiplier, bonusCounter);
+                            TimeBonus timeBonus = item.GetComponent<TimeBonus>();
+                            if(timeBonus != null)
+                            {
+                                GameManager.Instance.Addtime(timeBonus.BonusValue);
+                            }
                         }
                         if (particleSystemManager != null)
                         {

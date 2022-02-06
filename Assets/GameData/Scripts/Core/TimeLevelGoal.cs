@@ -10,6 +10,10 @@ namespace Match3.Core
         [SerializeField] private LevelTimeUiManager levelTimeUi = null;
         #endregion
 
+        #region Variables
+        private int maxTime = 0;
+        #endregion
+
         #region Properties
         public LevelTimeUiManager LevelTimeUi { get => levelTimeUi; set => levelTimeUi = value; }
         #endregion
@@ -27,7 +31,18 @@ namespace Match3.Core
         #region Public Methods
         public void StartCountdown()
         {
+            maxTime = TimeLeft;
             StartCoroutine(CountdownRoutine());
+        }
+
+        public void Addtime(int value)
+        {
+            TimeLeft += value;
+            TimeLeft = Mathf.Clamp(TimeLeft, 0, maxTime);
+            if(LevelTimeUi != null)
+            {
+                LevelTimeUi.UpdateTimer(TimeLeft);
+            }
         }
         #endregion
 

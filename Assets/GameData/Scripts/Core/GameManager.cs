@@ -246,6 +246,14 @@ namespace Match3.Core
             }
         }
 
+        public void Addtime(int value)
+        {
+            if(timeLevelGoal != null)
+            {
+                timeLevelGoal.Addtime(value);
+            }
+        }
+
         public void CheckForLevelLoad()
         {
             if (loadLevelFromJsonFile)
