@@ -12,6 +12,7 @@ namespace Match3.Core
         [SerializeField] [Range(0f, 1f)] private float chanceForBonus = 0.1f;
         [SerializeField] private GameObject bonusGlow = null;
         [SerializeField] private GameObject ringGlow = null;
+        [SerializeField] private List<Material> bonusMaterials = new List<Material>();
         #endregion
 
         #region Properties
@@ -26,7 +27,18 @@ namespace Match3.Core
             {
                 BonusValue = 0;
             }
+            if(GameManager.Instance != null)
+            {
+                if(GameManager.Instance.TimeLevelGoal == null)
+                {
+                    BonusValue = 0;
+                }
+            }
             SetState(BonusValue != 0);
+            if(bonusValue != 0)
+            {
+                SetMaterial(bonusValue - 1, bonusGlow);
+            }
         }
         #endregion
 
@@ -40,6 +52,19 @@ namespace Match3.Core
             if(ringGlow != null)
             {
                 ringGlow.SetActive(state);
+            }
+        }
+
+        private void SetMaterial(int index, GameObject bonusGlow)
+        {
+            int targetIndex = Mathf.Clamp(index, 0, bonusMaterials.Count - 1);
+            if(bonusGlow != null && bonusMaterials[targetIndex] != null)
+            {
+                ParticleSystemRenderer renderer = bonusGlow.GetComponent<ParticleSystemRenderer>();
+                if(renderer != null)
+                {
+                    renderer.material = bonusMaterials[targetIndex];
+                }
             }
         }
         #endregion

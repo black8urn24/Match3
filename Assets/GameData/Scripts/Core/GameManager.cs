@@ -41,6 +41,7 @@ namespace Match3.Core
         #region Properties
         public Level CurrentGameLevel { get => currentGameLevel; set => currentGameLevel = value; }
         public bool IsGameOver { get => isGameOver; set => isGameOver = value; }
+        public TimeLevelGoal TimeLevelGoal { get => timeLevelGoal; set => timeLevelGoal = value; }
         #endregion
 
         #region Unity Methods
@@ -48,7 +49,7 @@ namespace Match3.Core
         {
             base.Awake();
             levelGoal = GetComponent<LevelGoal>();
-            timeLevelGoal = GetComponent<TimeLevelGoal>();
+            TimeLevelGoal = GetComponent<TimeLevelGoal>();
         }
 
         // Start is called before the first frame update
@@ -73,7 +74,7 @@ namespace Match3.Core
                 {
                     scoreMeter.SetLevelGoal(levelGoal);
                 }
-                if (timeLevelGoal != null)
+                if (TimeLevelGoal != null)
                 {
                     if (movesCounterText != null)
                     {
@@ -129,9 +130,9 @@ namespace Match3.Core
 
         private IEnumerator PlayGameRoutine()
         {
-            if (timeLevelGoal != null)
+            if (TimeLevelGoal != null)
             {
-                timeLevelGoal.StartCountdown();
+                TimeLevelGoal.StartCountdown();
             }
             while (!isGameOver)
             {
@@ -181,11 +182,11 @@ namespace Match3.Core
 
         private IEnumerator WaitForBoardRoutine(float delay)
         {
-            if (timeLevelGoal != null)
+            if (TimeLevelGoal != null)
             {
-                if (timeLevelGoal.LevelTimeUi != null)
+                if (TimeLevelGoal.LevelTimeUi != null)
                 {
-                    timeLevelGoal.LevelTimeUi.IsPaused = true;
+                    TimeLevelGoal.LevelTimeUi.IsPaused = true;
                 }
             }
             if (gameBoard != null)
@@ -203,7 +204,7 @@ namespace Match3.Core
         #region Public Methods
         public void UpdateMoves()
         {
-            if (timeLevelGoal == null)
+            if (TimeLevelGoal == null)
             {
                 currentMoves--;
                 if (currentMoves <= 0)
@@ -248,9 +249,9 @@ namespace Match3.Core
 
         public void Addtime(int value)
         {
-            if(timeLevelGoal != null)
+            if(TimeLevelGoal != null)
             {
-                timeLevelGoal.Addtime(value);
+                TimeLevelGoal.Addtime(value);
             }
         }
 
@@ -274,7 +275,7 @@ namespace Match3.Core
                     {
                         scoreMeter.SetLevelGoal(levelGoal);
                     }
-                    if(timeLevelGoal != null)
+                    if(TimeLevelGoal != null)
                     {
                         if (movesCounterText != null)
                         {
