@@ -6,6 +6,7 @@ using Match3.Utilities;
 
 namespace Match3.Core
 {
+    [RequireComponent(typeof(SpriteRenderer))]
     public class GamePiece : MonoBehaviour
     {
         #region Inspector Variables
