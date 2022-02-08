@@ -49,6 +49,11 @@ namespace Match3.Core
                 }
             }
         }
+
+        public int GetCurrentItemCount()
+        {
+            return numberToCollect;
+        }
         #endregion
     }
 }

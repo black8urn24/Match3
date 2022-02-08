@@ -650,6 +650,7 @@ namespace Match3.Core
                             {
                                 GameManager.Instance.Addtime(timeBonus.BonusValue);
                             }
+                            GameManager.Instance.CheckForCollectionGoals(item);
                         }
                         if (particleSystemManager != null)
                         {

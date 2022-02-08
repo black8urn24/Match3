@@ -36,6 +36,7 @@ namespace Match3.Core
         private Level currentGameLevel = null;
         private LevelGoal levelGoal = null;
         private TimeLevelGoal timeLevelGoal = null;
+        private LevelGoalCollected levelGoalCollected = null;
         #endregion
 
         #region Properties
@@ -50,6 +51,7 @@ namespace Match3.Core
             base.Awake();
             levelGoal = GetComponent<LevelGoal>();
             TimeLevelGoal = GetComponent<TimeLevelGoal>();
+            levelGoalCollected = GetComponent<LevelGoalCollected>();
         }
 
         // Start is called before the first frame update
@@ -252,6 +254,14 @@ namespace Match3.Core
             if(TimeLevelGoal != null)
             {
                 TimeLevelGoal.Addtime(value);
+            }
+        }
+
+        public void CheckForCollectionGoals(GamePiece gamePiece)
+        {
+            if(levelGoalCollected != null)
+            {
+                levelGoalCollected.UpdateGoals(gamePiece);
             }
         }
 
