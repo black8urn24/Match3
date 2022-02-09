@@ -1085,6 +1085,7 @@ namespace Match3.Core
                         yield return new WaitForSeconds(gamePieceMoveSpeed);
                         List<GamePiece> clickedPieceMatches = FindMatchesAt(clickedTile.XIndex, clickedTile.YIndex);
                         List<GamePiece> targetPieceMatches = FindMatchesAt(targetTile.XIndex, targetTile.YIndex);
+                        #region Color Matches
                         List<GamePiece> coloredMatches = new List<GamePiece>();
                         if (IsColorBomb(clickedGamePiece) && !IsColorBomb(targetGamePiece))
                         {
@@ -1106,6 +1107,7 @@ namespace Match3.Core
                                 }
                             }
                         }
+                        #endregion
                         if (clickedPieceMatches.Count == 0 && targetPieceMatches.Count == 0 && coloredMatches.Count == 0)
                         {
                             clickedGamePiece.MovePiece(clickedTile.XIndex, clickedTile.YIndex, gamePieceMoveSpeed);
@@ -1113,12 +1115,9 @@ namespace Match3.Core
                         }
                         else
                         {
-                            if (GameManager.Instance != null)
-                            {
-                                GameManager.Instance.UpdateMoves();
-                            }
                             yield return new WaitForSeconds(gamePieceMoveSpeed);
                             Vector2 swipeDirection = new Vector2(targetTile.XIndex - clickedTile.XIndex, targetTile.YIndex - clickedTile.YIndex);
+                            #region Bombs
                             clickedTileBomb = DropBomb(clickedTile.XIndex, clickedTile.YIndex, swipeDirection, clickedPieceMatches);
                             targetTileBomb = DropBomb(targetTile.XIndex, targetTile.YIndex, swipeDirection, targetPieceMatches);
                             if (clickedTileBomb != null && targetGamePiece != null)
@@ -1149,7 +1148,13 @@ namespace Match3.Core
                                     //targetBombPiece.ChangeColor(clickedGamePiece);
                                 }
                             }
-                            ClearAndRefillBoard(clickedPieceMatches.Union(targetPieceMatches).ToList().Union(coloredMatches).ToList());
+                            #endregion
+                            List<GamePiece> piecesToClear = clickedPieceMatches.Union(targetPieceMatches).ToList().Union(coloredMatches).ToList();
+                            yield return StartCoroutine(ClearAndRefillBoardRoutine(piecesToClear));
+                            if (GameManager.Instance != null)
+                            {
+                                GameManager.Instance.UpdateMoves();
+                            }
                         }
                     }
                 }
