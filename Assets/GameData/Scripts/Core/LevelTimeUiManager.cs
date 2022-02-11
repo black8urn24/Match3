@@ -57,6 +57,18 @@ namespace Match3.Core
                 yield return new WaitForSeconds(flashInterval * 0.2f);
             }
         }
+
+        private IEnumerator FlashRoutine(TextMeshProUGUI targetText, Color targetColor, float interval = 1f)
+        {
+            if(targetText != null)
+            {
+                Color orginalColor = targetText.color;
+                targetText.color = targetColor;
+                yield return new WaitForSeconds(interval * 0.5f);
+                targetText.color = orginalColor;
+                yield return new WaitForSeconds(interval * 0.5f);
+            }
+        }
         #endregion
 
         #region Public Methods
@@ -78,18 +90,30 @@ namespace Match3.Core
             {
                 return;
             }
-            if(clockImage != null)
+            #region For Clock Image
+            //if(clockImage != null)
+            //{
+            //    clockImage.fillAmount = (float)currentTime / (float)maxTime;
+            //    if(currentTime <= flashtimeLimit)
+            //    {
+            //        flashCoroutine = StartCoroutine(FlashRoutine(clockImage, flashColor, flashInterval));
+            //        if(AudioManager.Instance != null)
+            //        {
+            //            AudioManager.Instance.PlaySingleClip(beepClip, Enums.PoolObjectsType.ClockTickAudioSource, false);
+            //        }
+            //    }
+            //}
+            #endregion
+            #region For Timer Text
+            if (currentTime <= flashtimeLimit)
             {
-                clockImage.fillAmount = (float)currentTime / (float)maxTime;
-                if(currentTime <= flashtimeLimit)
+                flashCoroutine = StartCoroutine(FlashRoutine(timerText, flashColor, flashInterval));
+                if (AudioManager.Instance != null)
                 {
-                    flashCoroutine = StartCoroutine(FlashRoutine(clockImage, flashColor, flashInterval));
-                    if(AudioManager.Instance != null)
-                    {
-                        AudioManager.Instance.PlaySingleClip(beepClip, Enums.PoolObjectsType.ClockTickAudioSource, false);
-                    }
+                    AudioManager.Instance.PlaySingleClip(beepClip, Enums.PoolObjectsType.ClockTickAudioSource, false);
                 }
             }
+            #endregion
             SetTimerText(currentTime);
         }
         #endregion
