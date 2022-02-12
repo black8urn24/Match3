@@ -36,7 +36,7 @@ namespace Match3.Core
         private Level currentGameLevel = null;
         private LevelGoal levelGoal = null;
         private TimeLevelGoal timeLevelGoal = null;
-        private LevelGoalCollected levelGoalCollected = null;
+        private CollectionLevelGoal levelGoalCollected = null;
         #endregion
 
         #region Properties
@@ -51,7 +51,7 @@ namespace Match3.Core
             base.Awake();
             levelGoal = GetComponent<LevelGoal>();
             TimeLevelGoal = GetComponent<TimeLevelGoal>();
-            levelGoalCollected = GetComponent<LevelGoalCollected>();
+            levelGoalCollected = GetComponent<CollectionLevelGoal>();
         }
 
         // Start is called before the first frame update
@@ -83,6 +83,14 @@ namespace Match3.Core
                         movesCounterText.text = "\u221E";
                         movesCounterText.fontSize = 70;
                     }
+                }
+                if(levelGoalCollected != null)
+                {
+                    if(UiManager.Instance != null)
+                    {
+                        UiManager.Instance.SetupCollectionGoalLayout(levelGoalCollected.GetCollectionGoals());
+                    }
+                    //levelGoalCollected.SetupGoalUI();
                 }
                 StartCoroutine(ExecuteGameLoop());
             }

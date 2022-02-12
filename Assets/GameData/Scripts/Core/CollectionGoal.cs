@@ -54,6 +54,11 @@ namespace Match3.Core
         {
             return numberToCollect;
         }
+
+        public Sprite GetCurrentGoalSprite()
+        {
+            return spriteRenderer.sprite;
+        }
         #endregion
     }
 }

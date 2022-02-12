@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Match3.Core
 {
-    public class LevelGoalCollected : LevelGoal
+    public class CollectionLevelGoal : LevelGoal
     {
         #region Inspector Variables
         [SerializeField] private List<CollectionGoal> collectionGoals = null;
@@ -48,6 +48,20 @@ namespace Match3.Core
                     }
                 }
             }
+            UpdateUI();
+        }
+
+        public void UpdateUI()
+        {
+            if(UiManager.Instance != null)
+            {
+                UiManager.Instance.UpdateCollectionGoalLayout();
+            }
+        }
+
+        public List<CollectionGoal> GetCollectionGoals()
+        {
+            return collectionGoals;
         }
         #endregion
 
