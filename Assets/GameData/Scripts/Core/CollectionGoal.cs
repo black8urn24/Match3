@@ -57,7 +57,7 @@ namespace Match3.Core
 
         public Sprite GetCurrentGoalSprite()
         {
-            return spriteRenderer.sprite;
+            return spriteRenderer != null ? spriteRenderer.sprite : prefabToCollect.GetComponent<SpriteRenderer>().sprite;
         }
         #endregion
     }

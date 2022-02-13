@@ -34,8 +34,8 @@ namespace Match3.Utilities
 		void OnGUI()
 		{
 			GUIStyle style = new GUIStyle();
-			style.fontSize = 45;
-			GUI.Label(new Rect(10, (Screen.height - 50), 100, 100), label.ToCyan().ToBold(), style);
+			style.fontSize = 30;
+			GUI.Label(new Rect(10, (Screen.height - 35), 100, 100), label.ToGreen().ToBold(), style);
 		}
         #endregion
     }

@@ -1573,6 +1573,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collectionLayout: {fileID: 1330108044}
   collectionGoalBaseWidth: 125
+  initialScreenFader: {fileID: 330686634}
+  movesCounterText: {fileID: 555587083}
+  messageWindow: {fileID: 1261965427}
+  scoreMeter: {fileID: 1465061707}
+  movesParent: {fileID: 2059385874}
+  timeCountDownParent: {fileID: 701976549}
 --- !u!1 &444122836
 GameObject:
   m_ObjectHideFlags: 0
@@ -12098,7 +12104,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &701976550
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13475,14 +13481,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f189b5787678f0408a49e3c73134f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialScreenFader: {fileID: 330686634}
   gameBoard: {fileID: 328346191}
-  movesCounterText: {fileID: 555587083}
   goalSprite: {fileID: 21300000, guid: 2086c3827731d4f469e2442e58174822, type: 3}
   winSprite: {fileID: 21300000, guid: 9aaaf00d25f0afa4f92c183a16db1fb7, type: 3}
   looseSprite: {fileID: 21300000, guid: ab187236ae3e0614c815329cb9c26663, type: 3}
-  messageWindow: {fileID: 1261965427}
-  scoreMeter: {fileID: 1465061707}
   loadLevelFromJsonFile: 0
   levelIndex: 1
 --- !u!114 &1389591282
