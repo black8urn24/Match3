@@ -29,7 +29,7 @@ namespace Match3.Core
             }
             if(GameManager.Instance != null)
             {
-                if(GameManager.Instance.TimeLevelGoal == null)
+                if(GameManager.Instance.LevelGoal.LevelCounterType == Enums.LevelCounterType.Moves)
                 {
                     BonusValue = 0;
                 }

@@ -11,9 +11,9 @@ namespace Match3.Core
 
         #region Unity Methods
         // Start is called before the first frame update
-        void Start()
+        public override void Start()
         {
-
+            base.Start();
         }
         #endregion
 
@@ -76,7 +76,7 @@ namespace Match3.Core
                     return true;
                 }
             }
-            return MovesLeft <= 0;
+            return LevelCounterType == Enums.LevelCounterType.Moves ? MovesLeft <= 0 : TimeLeft <= 0;
         }
 
         public override bool IsWinner()

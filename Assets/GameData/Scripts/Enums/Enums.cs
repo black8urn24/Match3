@@ -79,4 +79,10 @@ namespace Match3.Enums
         Yellow,
         None
     }
+
+    public enum LevelCounterType
+    {
+        Moves,
+        Timer
+    }
 }

@@ -1579,6 +1579,7 @@ MonoBehaviour:
   scoreMeter: {fileID: 1465061707}
   movesParent: {fileID: 2059385874}
   timeCountDownParent: {fileID: 701976549}
+  levelTimer: {fileID: 701976551}
 --- !u!1 &444122836
 GameObject:
   m_ObjectHideFlags: 0
@@ -13503,6 +13504,7 @@ MonoBehaviour:
   scoreGoals: 20030000dc050000d0070000
   movesForLevel: 30
   timeLeft: 60
+  levelCounterType: 1
   collectionGoals:
   - {fileID: 1780064499}
   - {fileID: 1767472903}

@@ -18,6 +18,7 @@ namespace Match3.Core
         [SerializeField] private ScoreMeter scoreMeter = null;
         [SerializeField] private GameObject movesParent = null;
         [SerializeField] private GameObject timeCountDownParent = null;
+        [SerializeField] private LevelTimeUiManager levelTimer = null;
         #endregion
 
         #region Variables
@@ -31,6 +32,7 @@ namespace Match3.Core
         public ScoreMeter ScoreMeter { get => scoreMeter; set => scoreMeter = value; }
         public GameObject MovesParent { get => movesParent; set => movesParent = value; }
         public GameObject TimeCountDownParent { get => timeCountDownParent; set => timeCountDownParent = value; }
+        public LevelTimeUiManager LevelTimer { get => levelTimer; set => levelTimer = value; }
         #endregion
 
         #region Unity Methods

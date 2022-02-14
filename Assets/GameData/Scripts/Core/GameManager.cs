@@ -31,22 +31,20 @@ namespace Match3.Core
         private ScoreManager scoreManager = null;
         private Level currentGameLevel = null;
         private LevelGoal levelGoal = null;
-        private TimeLevelGoal timeLevelGoal = null;
         private CollectionLevelGoal levelGoalCollected = null;
         #endregion
 
         #region Properties
         public Level CurrentGameLevel { get => currentGameLevel; set => currentGameLevel = value; }
         public bool IsGameOver { get => isGameOver; set => isGameOver = value; }
-        public TimeLevelGoal TimeLevelGoal { get => timeLevelGoal; set => timeLevelGoal = value; }
+        public LevelGoal LevelGoal { get => levelGoal; set => levelGoal = value; }
         #endregion
 
         #region Unity Methods
         public override void Awake()
         {
             base.Awake();
-            levelGoal = GetComponent<LevelGoal>();
-            TimeLevelGoal = GetComponent<TimeLevelGoal>();
+            LevelGoal = GetComponent<LevelGoal>();
             levelGoalCollected = GetComponent<CollectionLevelGoal>();
         }
 
@@ -68,29 +66,32 @@ namespace Match3.Core
                 targetScore = levelGoal.ScoreGoals[0];
                 levelGoal.TargetScore = targetScore;
                 SetMovesText();
-                if (UiManager.Instance != null && UiManager.Instance.ScoreMeter != null)
+                if (UiManager.Instance != null)
                 {
-                    UiManager.Instance.ScoreMeter.SetLevelGoal(levelGoal);
-                }
-                if (TimeLevelGoal != null)
-                {
-                    if (UiManager.Instance != null && UiManager.Instance.MovesCounterText != null)
+                    if (UiManager.Instance.ScoreMeter != null)
                     {
-                        UiManager.Instance.MovesCounterText.text = "\u221E";
-                        UiManager.Instance.MovesCounterText.fontSize = 70;
-                        UiManager.Instance.TimeCountDownParent.SetActive(true);
-                        UiManager.Instance.MovesParent.SetActive(false);
+                        UiManager.Instance.ScoreMeter.SetLevelGoal(levelGoal);
                     }
-                }
-                if(levelGoalCollected != null)
-                {
-                    if(UiManager.Instance != null)
+                    if (LevelGoal.LevelCounterType == LevelCounterType.Timer)
                     {
-                        UiManager.Instance.MovesParent.SetActive(true);
+                        if (UiManager.Instance.MovesCounterText != null)
+                        {
+                            UiManager.Instance.MovesCounterText.text = "\u221E";
+                            UiManager.Instance.MovesCounterText.fontSize = 70;
+                            UiManager.Instance.TimeCountDownParent.SetActive(true);
+                            UiManager.Instance.MovesParent.SetActive(false);
+                        }
+                    }
+                    else
+                    {
                         UiManager.Instance.TimeCountDownParent.SetActive(false);
-                        UiManager.Instance.SetupCollectionGoalLayout(levelGoalCollected.GetCollectionGoals());
+                        UiManager.Instance.MovesParent.SetActive(true);
                     }
-                    //levelGoalCollected.SetupGoalUI();
+                    if (levelGoalCollected != null)
+                    {
+                        UiManager.Instance.SetupCollectionGoalLayout(levelGoalCollected.GetCollectionGoals());
+                        //levelGoalCollected.SetupGoalUI();
+                    }
                 }
                 StartCoroutine(ExecuteGameLoop());
             }
@@ -116,7 +117,7 @@ namespace Match3.Core
 
         private IEnumerator StartGameRoutine()
         {
-            if(UiManager.Instance != null && UiManager.Instance.MessageWindow != null)
+            if (UiManager.Instance != null && UiManager.Instance.MessageWindow != null)
             {
                 UiManager.Instance.MessageWindow.SetWindow(goalSprite, "Goal : " + targetScore.ToString(), "Start", () =>
                 {
@@ -140,9 +141,9 @@ namespace Match3.Core
 
         private IEnumerator PlayGameRoutine()
         {
-            if (TimeLevelGoal != null)
+            if (LevelGoal.LevelCounterType == LevelCounterType.Timer)
             {
-                TimeLevelGoal.StartCountdown();
+                LevelGoal.StartCountdown();
             }
             while (!isGameOver)
             {
@@ -192,11 +193,11 @@ namespace Match3.Core
 
         private IEnumerator WaitForBoardRoutine(float delay)
         {
-            if (TimeLevelGoal != null)
+            if (LevelGoal.LevelCounterType != LevelCounterType.Timer)
             {
-                if (TimeLevelGoal.LevelTimeUi != null)
+                if (UiManager.Instance != null && UiManager.Instance.LevelTimer != null)
                 {
-                    TimeLevelGoal.LevelTimeUi.IsPaused = true;
+                    UiManager.Instance.LevelTimer.IsPaused = true;
                 }
             }
             if (gameBoard != null)
@@ -214,7 +215,7 @@ namespace Match3.Core
         #region Public Methods
         public void UpdateMoves()
         {
-            if (TimeLevelGoal == null)
+            if (LevelGoal.LevelCounterType == LevelCounterType.Moves)
             {
                 currentMoves--;
                 if (currentMoves <= 0)
@@ -259,15 +260,15 @@ namespace Match3.Core
 
         public void Addtime(int value)
         {
-            if(TimeLevelGoal != null)
+            if (LevelGoal.LevelCounterType == LevelCounterType.Timer)
             {
-                TimeLevelGoal.Addtime(value);
+                LevelGoal.Addtime(value);
             }
         }
 
         public void CheckForCollectionGoals(GamePiece gamePiece)
         {
-            if(levelGoalCollected != null)
+            if (levelGoalCollected != null)
             {
                 levelGoalCollected.UpdateGoals(gamePiece);
             }
@@ -289,26 +290,29 @@ namespace Match3.Core
                     SetMovesText();
                     targetScore = currentGameLevel.targetScore;
                     levelGoal.TargetScore = targetScore;
-                    if (UiManager.Instance != null && UiManager.Instance.ScoreMeter != null)
+                    if (UiManager.Instance != null)
                     {
-                        UiManager.Instance.ScoreMeter.SetLevelGoal(levelGoal);
-                    }
-                    if(TimeLevelGoal != null)
-                    {
-                        if (UiManager.Instance != null && UiManager.Instance.MovesCounterText != null)
+                        if (UiManager.Instance.ScoreMeter != null)
                         {
-                            UiManager.Instance.MovesCounterText.text = "\u221E";
-                            UiManager.Instance.MovesCounterText.fontSize = 70;
-                            UiManager.Instance.TimeCountDownParent.SetActive(true);
-                            UiManager.Instance.MovesParent.SetActive(false);
+                            UiManager.Instance.ScoreMeter.SetLevelGoal(levelGoal);
                         }
-                    }
-                    if (levelGoalCollected != null)
-                    {
-                        if (UiManager.Instance != null)
+                        if (LevelGoal.LevelCounterType == LevelCounterType.Timer)
                         {
-                            UiManager.Instance.MovesParent.SetActive(true);
+                            if (UiManager.Instance.MovesCounterText != null)
+                            {
+                                UiManager.Instance.MovesCounterText.text = "\u221E";
+                                UiManager.Instance.MovesCounterText.fontSize = 70;
+                                UiManager.Instance.TimeCountDownParent.SetActive(true);
+                                UiManager.Instance.MovesParent.SetActive(false);
+                            }
+                        }
+                        else
+                        {
                             UiManager.Instance.TimeCountDownParent.SetActive(false);
+                            UiManager.Instance.MovesParent.SetActive(true);
+                        }
+                        if (levelGoalCollected != null)
+                        {
                             UiManager.Instance.SetupCollectionGoalLayout(levelGoalCollected.GetCollectionGoals());
                         }
                     }

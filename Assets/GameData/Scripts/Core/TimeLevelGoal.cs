@@ -7,56 +7,22 @@ namespace Match3.Core
     public class TimeLevelGoal : LevelGoal
     {
         #region Inspector Variables
-        [SerializeField] private LevelTimeUiManager levelTimeUi = null;
         #endregion
 
         #region Variables
-        private int maxTime = 0;
         #endregion
 
         #region Properties
-        public LevelTimeUiManager LevelTimeUi { get => levelTimeUi; set => levelTimeUi = value; }
         #endregion
 
         #region Unity Methods
-        private void Start()
+        public override void Start()
         {
-            if (LevelTimeUi != null)
+            base.Start();
+            LevelCounterType = Enums.LevelCounterType.Timer;
+            if (UiManager.Instance != null && UiManager.Instance.LevelTimer != null)
             {
-                LevelTimeUi.InitTimer(TimeLeft);
-            }
-        }
-        #endregion
-
-        #region Public Methods
-        public void StartCountdown()
-        {
-            maxTime = TimeLeft;
-            StartCoroutine(CountdownRoutine());
-        }
-
-        public void Addtime(int value)
-        {
-            TimeLeft += value;
-            TimeLeft = Mathf.Clamp(TimeLeft, 0, maxTime);
-            if(LevelTimeUi != null)
-            {
-                LevelTimeUi.UpdateTimer(TimeLeft);
-            }
-        }
-        #endregion
-
-        #region Coroutines
-        private IEnumerator CountdownRoutine()
-        {
-            while (TimeLeft > 0)
-            {
-                yield return new WaitForSeconds(1f);
-                TimeLeft--;
-                if (LevelTimeUi != null)
-                {
-                    LevelTimeUi.UpdateTimer(TimeLeft);
-                }
+                UiManager.Instance.LevelTimer.InitTimer(TimeLeft);
             }
         }
         #endregion
