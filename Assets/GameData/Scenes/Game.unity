@@ -13230,6 +13230,9 @@ MonoBehaviour:
   buttonText: {fileID: 713793231}
   messageIconImage: {fileID: 1680424444}
   clickButton: {fileID: 2013218208}
+  goalSprite: {fileID: 21300000, guid: 2086c3827731d4f469e2442e58174822, type: 3}
+  winSprite: {fileID: 21300000, guid: 9aaaf00d25f0afa4f92c183a16db1fb7, type: 3}
+  looseSprite: {fileID: 21300000, guid: ab187236ae3e0614c815329cb9c26663, type: 3}
 --- !u!1 &1300744893
 GameObject:
   m_ObjectHideFlags: 0
@@ -13483,9 +13486,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameBoard: {fileID: 328346191}
-  goalSprite: {fileID: 21300000, guid: 2086c3827731d4f469e2442e58174822, type: 3}
-  winSprite: {fileID: 21300000, guid: 9aaaf00d25f0afa4f92c183a16db1fb7, type: 3}
-  looseSprite: {fileID: 21300000, guid: ab187236ae3e0614c815329cb9c26663, type: 3}
   loadLevelFromJsonFile: 0
   levelIndex: 1
 --- !u!114 &1389591282

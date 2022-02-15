@@ -14,9 +14,6 @@ namespace Match3.Core
     {
         #region Inspector Variables
         [SerializeField] private GameBoard gameBoard = null;
-        [SerializeField] private Sprite goalSprite = null;
-        [SerializeField] private Sprite winSprite = null;
-        [SerializeField] private Sprite looseSprite = null;
         [Header("Testing")]
         [SerializeField] private bool loadLevelFromJsonFile = false;
         [SerializeField] private int levelIndex = -1;
@@ -119,7 +116,7 @@ namespace Match3.Core
         {
             if (UiManager.Instance != null && UiManager.Instance.MessageWindow != null)
             {
-                UiManager.Instance.MessageWindow.SetWindow(goalSprite, "Goal : " + targetScore.ToString(), "Start", () =>
+                UiManager.Instance.MessageWindow.SetTargetMessageWindow(levelGoal.ScoreGoals[levelGoal.ScoreGoals.Length - 1], () =>
                 {
                     isReadyToBegin = true;
                 });
@@ -159,7 +156,7 @@ namespace Match3.Core
             {
                 if (UiManager.Instance != null && UiManager.Instance.MessageWindow != null)
                 {
-                    UiManager.Instance.MessageWindow.SetWindow(winSprite, "You Win", "Okay", () =>
+                    UiManager.Instance.MessageWindow.SetWinMessageWindow(() =>
                     {
                         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                     });
@@ -173,7 +170,7 @@ namespace Match3.Core
             {
                 if (UiManager.Instance != null && UiManager.Instance.MessageWindow != null)
                 {
-                    UiManager.Instance.MessageWindow.SetWindow(looseSprite, "You loose", "Okay", () =>
+                    UiManager.Instance.MessageWindow.SetLooseMessageWindow(() =>
                     {
                         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                     });

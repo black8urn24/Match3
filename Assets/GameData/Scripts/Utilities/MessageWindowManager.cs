@@ -18,7 +18,10 @@ namespace Match3.Utilities
         [SerializeField] private TextMeshProUGUI messageText = null;
         [SerializeField] private Text buttonText = null;
         [SerializeField] private Image messageIconImage = null;
-        [SerializeField] private Button clickButton = null; 
+        [SerializeField] private Button clickButton = null;
+        [SerializeField] private Sprite goalSprite = null;
+        [SerializeField] private Sprite winSprite = null;
+        [SerializeField] private Sprite looseSprite = null;
         #endregion
 
         #region Variables
@@ -144,9 +147,21 @@ namespace Match3.Utilities
         #endregion
 
         #region Public Methods
-        public void SetWindow(Sprite iconSprite, string messageString, string buttonString, Action buttonClickAction = null)
+        public void SetTargetMessageWindow(int targetScore, Action buttonAction)
         {
-            SetMessageDetails(iconSprite, messageString, buttonString, buttonClickAction);
+            SetMessageDetails(goalSprite, "Goal : " + targetScore.ToString(), "Start", buttonAction);
+            MoveIn();
+        }
+
+        public void SetWinMessageWindow(Action buttonAction)
+        {
+            SetMessageDetails(winSprite, "You Win", "Okay", buttonAction);
+            MoveIn();
+        }
+
+        public void SetLooseMessageWindow(Action buttonAction)
+        {
+            SetMessageDetails(looseSprite, "You loose", "Okay", buttonAction);
             MoveIn();
         }
         #endregion
