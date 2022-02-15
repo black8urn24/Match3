@@ -18,12 +18,8 @@ namespace Match3.Core
         #region Unity Methods
         public override void Start()
         {
-            base.Start();
             LevelCounterType = Enums.LevelCounterType.Timer;
-            if (UiManager.Instance != null && UiManager.Instance.LevelTimer != null)
-            {
-                UiManager.Instance.LevelTimer.InitTimer(TimeLeft);
-            }
+            base.Start();
         }
         #endregion
 

@@ -40,6 +40,10 @@ namespace Match3.Core
             if (LevelCounterType == LevelCounterType.Timer)
             {
                 maxTime = TimeLeft;
+                if (UiManager.Instance != null && UiManager.Instance.LevelTimer != null)
+                {
+                    UiManager.Instance.LevelTimer.InitTimer(TimeLeft);
+                }
             }
         }
         #endregion

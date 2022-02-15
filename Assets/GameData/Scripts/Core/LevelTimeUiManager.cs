@@ -20,7 +20,6 @@ namespace Match3.Core
         #region Variables
         private int maxTime = 60;
         private bool isPaused = false;
-        private Coroutine flashCoroutine = null;
         #endregion
 
         #region Properties
@@ -107,7 +106,7 @@ namespace Match3.Core
             #region For Timer Text
             if (currentTime <= flashtimeLimit)
             {
-                flashCoroutine = StartCoroutine(FlashRoutine(timerText, flashColor, flashInterval));
+                StartCoroutine(FlashRoutine(timerText, flashColor, flashInterval));
                 if (AudioManager.Instance != null)
                 {
                     AudioManager.Instance.PlaySingleClip(beepClip, Enums.PoolObjectsType.ClockTickAudioSource, false);
