@@ -22,6 +22,11 @@ namespace Match3.Utilities
         [SerializeField] private Sprite goalSprite = null;
         [SerializeField] private Sprite winSprite = null;
         [SerializeField] private Sprite looseSprite = null;
+        [SerializeField] private Sprite collectionSprite = null;
+        [SerializeField] private Sprite timerSprite = null;
+        [SerializeField] private Sprite movesSprite = null;
+        [SerializeField] private Image targetImage = null;
+        [SerializeField] private TextMeshProUGUI targetText = null;
         #endregion
 
         #region Variables
@@ -78,7 +83,7 @@ namespace Match3.Utilities
 
         private void MoveWindow(Vector3 startPosition, Vector3 endposition, float animationDuration = 1f, bool movingIn = true)
         {
-            if(isMoving == false)
+            if (isMoving == false)
             {
                 StartCoroutine(MoveWindowRoutine(startPosition, endposition, animationDuration, movingIn));
             }
@@ -118,13 +123,25 @@ namespace Match3.Utilities
                 });
             }
         }
+
+        private void SetGoalDetails(string caption = "", Sprite icon = null)
+        {
+            if(targetText != null && caption != "")
+            {
+                targetText.text = caption;
+            }
+            if(targetImage != null && icon != null)
+            {
+                targetImage.sprite = icon;
+            }
+        }
         #endregion
 
         #region Coroutines
         private IEnumerator MoveWindowRoutine(Vector3 startPosition, Vector3 endPosition, float animationDuration = 1f, bool movingIn = true)
         {
             isMoving = true;
-            if(movingIn == true)
+            if (movingIn == true)
             {
                 ShowMessageWindow?.Invoke();
             }
@@ -163,6 +180,21 @@ namespace Match3.Utilities
         {
             SetMessageDetails(looseSprite, "You loose", "Okay", buttonAction);
             MoveIn();
+        }
+
+        public void SetTimerGoal(int timer)
+        {
+            SetGoalDetails(timer.ToString() + " Seconds", timerSprite);
+        }
+
+        public void SetMovesGoal(int moves)
+        {
+            SetGoalDetails(moves.ToString() + " Moves", movesSprite);
+        }
+
+        public void SetCollectionGoal()
+        {
+            SetGoalDetails("", collectionSprite);
         }
         #endregion
     }

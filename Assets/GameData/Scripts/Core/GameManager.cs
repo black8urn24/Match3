@@ -120,6 +120,18 @@ namespace Match3.Core
                 {
                     isReadyToBegin = true;
                 });
+                if(levelGoal.LevelCounterType == LevelCounterType.Timer)
+                {
+                    UiManager.Instance.MessageWindow.SetTimerGoal(levelGoal.TimeLeft);
+                }
+                else if(levelGoal.LevelCounterType == LevelCounterType.Moves)
+                {
+                    UiManager.Instance.MessageWindow.SetMovesGoal(LevelGoal.MovesLeft);
+                }
+                if(levelGoalCollected != null)
+                {
+                    UiManager.Instance.MessageWindow.SetCollectionGoal();
+                }
             }
             while (!isReadyToBegin)
             {
