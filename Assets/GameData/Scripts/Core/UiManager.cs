@@ -39,11 +39,11 @@ namespace Match3.Core
         public override void Awake()
         {
             base.Awake();
-            if(MessageWindow != null)
+            if (MessageWindow != null)
             {
                 MessageWindow.gameObject.SetActive(true);
             }
-            if(InitialScreenFader != null)
+            if (InitialScreenFader != null)
             {
                 InitialScreenFader.gameObject.SetActive(true);
             }
@@ -66,37 +66,54 @@ namespace Match3.Core
         #endregion
 
         #region Public Methods
-        public void SetupCollectionGoalLayout(List<CollectionGoal> collectionGoals)
+        public void SetupCollectionGoalLayout(List<CollectionGoal> collectionGoals, GameObject goalLayout, int spaceWidth)
         {
-            if(collectionLayout != null && collectionGoals != null && collectionGoals.Count != 0)
+            if (goalLayout != null && collectionGoals != null && collectionGoals.Count != 0)
             {
-                collectionLayout.sizeDelta = new Vector2(collectionGoals.Count * collectionGoalBaseWidth, collectionLayout.sizeDelta.y);
-                collectionGoalsPanels = collectionLayout.gameObject.GetComponentsInChildren<CollectionGoalPanel>();
-            }
-            for(int i = 0; i < collectionGoalsPanels.Length; i++)
-            {
-                if (i < collectionGoals.Count && collectionGoals[i] != null)
+                collectionLayout.sizeDelta = new Vector2(collectionGoals.Count * spaceWidth, collectionLayout.sizeDelta.y);
+                CollectionGoalPanel[] panels = goalLayout.GetComponentsInChildren<CollectionGoalPanel>();
+                for (int i = 0; i < panels.Length; i++)
                 {
-                    collectionGoalsPanels[i].gameObject.SetActive(true);
-                    collectionGoalsPanels[i].SetCollectionGoal(collectionGoals[i]);
-                    collectionGoalsPanels[i].SetupPanel();
-                }
-                else
-                {
-                    collectionGoalsPanels[i].gameObject.SetActive(false);
+                    if (i < collectionGoals.Count && collectionGoals[i] != null)
+                    {
+                        panels[i].gameObject.SetActive(true);
+                        panels[i].SetCollectionGoal(collectionGoals[i]);
+                        panels[i].SetupPanel();
+                    }
+                    else
+                    {
+                        panels[i].gameObject.SetActive(false);
+                    }
                 }
             }
         }
 
+        public void SetupCollectionGoalLayout(List<CollectionGoal> collectionGoals)
+        {
+            SetupCollectionGoalLayout(collectionGoals, collectionLayout.gameObject, collectionGoalBaseWidth);
+        }
+
         public void UpdateCollectionGoalLayout()
         {
-            foreach (var item in collectionGoalsPanels)
+            UpdateCollectionGoalLayout(collectionLayout.gameObject);
+        }
+
+        public void UpdateCollectionGoalLayout(GameObject goalLayout)
+        {
+            if(goalLayout != null)
             {
-                if(item != null)
+                CollectionGoalPanel[] panels = goalLayout.GetComponentsInChildren<CollectionGoalPanel>();
+                if(panels != null && panels.Length != 0)
                 {
-                    if(item.gameObject.activeInHierarchy)
+                    foreach (var item in panels)
                     {
-                        item.UpdatePanel();
+                        if (item != null)
+                        {
+                            if (item.gameObject.activeInHierarchy)
+                            {
+                                item.UpdatePanel();
+                            }
+                        }
                     }
                 }
             }

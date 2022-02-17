@@ -27,6 +27,7 @@ namespace Match3.Utilities
         [SerializeField] private Sprite movesSprite = null;
         [SerializeField] private Image targetImage = null;
         [SerializeField] private TextMeshProUGUI targetText = null;
+        [SerializeField] private GameObject collectionGoalLayout = null;
         #endregion
 
         #region Variables
@@ -126,11 +127,11 @@ namespace Match3.Utilities
 
         private void SetGoalDetails(string caption = "", Sprite icon = null)
         {
-            if(targetText != null && caption != "")
+            if (targetText != null && caption != "")
             {
                 targetText.text = caption;
             }
-            if(targetImage != null && icon != null)
+            if (targetImage != null && icon != null)
             {
                 targetImage.sprite = icon;
             }
@@ -192,9 +193,21 @@ namespace Match3.Utilities
             SetGoalDetails(moves.ToString() + " Moves", movesSprite);
         }
 
-        public void SetCollectionGoal()
+        public void SetCollectionGoal(bool state = true)
         {
-            SetGoalDetails("", collectionSprite);
+            if (collectionGoalLayout != null)
+            {
+                collectionGoalLayout.SetActive(state);
+            }
+            if (state)
+            {
+                SetGoalDetails("", collectionSprite);
+            }
+        }
+
+        public GameObject GetColletionGoalLayout()
+        {
+            return collectionGoalLayout;
         }
         #endregion
     }

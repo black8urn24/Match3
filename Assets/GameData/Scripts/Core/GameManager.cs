@@ -130,7 +130,12 @@ namespace Match3.Core
                 }
                 if(levelGoalCollected != null)
                 {
-                    UiManager.Instance.MessageWindow.SetCollectionGoal();
+                    UiManager.Instance.MessageWindow.SetCollectionGoal(true);
+                    GameObject goalLayout = UiManager.Instance.MessageWindow.GetColletionGoalLayout();
+                    if(goalLayout != null)
+                    {
+                        UiManager.Instance.SetupCollectionGoalLayout(levelGoalCollected.GetCollectionGoals(), goalLayout, 80);
+                    }
                 }
             }
             while (!isReadyToBegin)
