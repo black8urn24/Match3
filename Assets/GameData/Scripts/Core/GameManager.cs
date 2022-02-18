@@ -177,6 +177,10 @@ namespace Match3.Core
                     {
                         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                     });
+                    UiManager.Instance.MessageWindow.SetCollectionGoal(false);
+                    string score = "You Scored - \n"  + scoreManager.GetCurrentScore();
+                    UiManager.Instance.MessageWindow.SetGoalDescription(score, 0, 70);
+                    UiManager.Instance.MessageWindow.SetGoalImage(UiManager.Instance.MessageWindow.GetGoalWinSprite());
                 }
                 if (AudioManager.Instance != null)
                 {
@@ -191,6 +195,10 @@ namespace Match3.Core
                     {
                         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                     });
+                    UiManager.Instance.MessageWindow.SetCollectionGoal(false);
+                    string score = levelGoal.LevelCounterType == LevelCounterType.Moves ? "Out of Moves" : "Out of Time";
+                    UiManager.Instance.MessageWindow.SetGoalDescription(score, 0, 70);
+                    UiManager.Instance.MessageWindow.SetGoalImage(UiManager.Instance.MessageWindow.GetGoalFailSprite());
                 }
                 if (AudioManager.Instance != null)
                 {

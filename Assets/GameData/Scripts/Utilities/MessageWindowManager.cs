@@ -28,6 +28,8 @@ namespace Match3.Utilities
         [SerializeField] private Image targetImage = null;
         [SerializeField] private TextMeshProUGUI targetText = null;
         [SerializeField] private GameObject collectionGoalLayout = null;
+        [SerializeField] private Sprite goalCompletionSprite = null;
+        [SerializeField] private Sprite goalFailSprite = null;
         #endregion
 
         #region Variables
@@ -129,13 +131,15 @@ namespace Match3.Utilities
         {
             if (targetText != null && caption != "")
             {
-                targetText.text = caption;
+                SetGoalDescription(caption);
             }
             if (targetImage != null && icon != null)
             {
-                targetImage.sprite = icon;
+                SetGoalImage(icon);
             }
         }
+
+        
         #endregion
 
         #region Coroutines
@@ -161,7 +165,6 @@ namespace Match3.Utilities
                 HideMessageWindow?.Invoke();
             }
         }
-
         #endregion
 
         #region Public Methods
@@ -208,6 +211,41 @@ namespace Match3.Utilities
         public GameObject GetColletionGoalLayout()
         {
             return collectionGoalLayout;
+        }
+        public void SetGoalDescription(string description = "", int xOffset = 0, int yOffset = 0)
+        {
+            if(targetText != null && description != "")
+            {
+                targetText.text = description;
+                RectTransform transform = targetText.GetComponent<RectTransform>();
+                if (transform != null)
+                {
+                    transform.anchoredPosition += new Vector2(xOffset, yOffset);
+                }
+            }
+        }
+
+        public void SetGoalImage(Sprite sprite = null)
+        {
+            if (sprite != null)
+            {
+                targetImage.sprite = sprite;
+                targetImage.gameObject.SetActive(true);
+            }
+            else
+            {
+                targetImage.gameObject.SetActive(false);
+            }
+        }
+
+        public Sprite GetGoalWinSprite()
+        {
+            return goalCompletionSprite;
+        }
+
+        public Sprite GetGoalFailSprite()
+        {
+            return goalFailSprite;
         }
         #endregion
     }
