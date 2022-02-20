@@ -120,19 +120,19 @@ namespace Match3.Core
                 {
                     isReadyToBegin = true;
                 });
-                if(levelGoal.LevelCounterType == LevelCounterType.Timer)
+                if (levelGoal.LevelCounterType == LevelCounterType.Timer)
                 {
                     UiManager.Instance.MessageWindow.SetTimerGoal(levelGoal.TimeLeft);
                 }
-                else if(levelGoal.LevelCounterType == LevelCounterType.Moves)
+                else if (levelGoal.LevelCounterType == LevelCounterType.Moves)
                 {
                     UiManager.Instance.MessageWindow.SetMovesGoal(LevelGoal.MovesLeft);
                 }
-                if(levelGoalCollected != null)
+                if (levelGoalCollected != null)
                 {
                     UiManager.Instance.MessageWindow.SetCollectionGoal(true);
                     GameObject goalLayout = UiManager.Instance.MessageWindow.GetColletionGoalLayout();
-                    if(goalLayout != null)
+                    if (goalLayout != null)
                     {
                         UiManager.Instance.SetupCollectionGoalLayout(levelGoalCollected.GetCollectionGoals(), goalLayout, 80);
                     }
@@ -178,7 +178,7 @@ namespace Match3.Core
                         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                     });
                     UiManager.Instance.MessageWindow.SetCollectionGoal(false);
-                    string score = "You Scored - \n"  + scoreManager.GetCurrentScore();
+                    string score = "You Scored - \n" + scoreManager.GetCurrentScore();
                     UiManager.Instance.MessageWindow.SetGoalDescription(score, 0, 70);
                     UiManager.Instance.MessageWindow.SetGoalImage(UiManager.Instance.MessageWindow.GetGoalWinSprite());
                 }
@@ -341,6 +341,11 @@ namespace Match3.Core
                     StartCoroutine(ExecuteGameLoop());
                 }
             }
+        }
+
+        public GameBoard GetGameBoard()
+        {
+            return gameBoard;
         }
         #endregion
     }

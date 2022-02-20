@@ -12873,7 +12873,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &786776261
 RectTransform:
@@ -13791,6 +13791,7 @@ GameObject:
   - component: {fileID: 1151957241}
   - component: {fileID: 1151957240}
   - component: {fileID: 1151957239}
+  - component: {fileID: 1151957242}
   m_Layer: 5
   m_Name: Booster2
   m_TagString: Untagged
@@ -13900,6 +13901,29 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1151957237}
   m_CullTransparentMesh: 1
+--- !u!114 &1151957242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151957237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffe93556e35f9e94d929c93f7e79febb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  descriptionText: {fileID: 1586493152}
+  description: Adds specific amount of time
+  isEnabled: 0
+  isDraggable: 0
+  isLocked: 0
+  canvasGroups: []
+  boostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  timeBonus: 15
+  boosterButton: {fileID: 1151957239}
 --- !u!1 &1161883439
 GameObject:
   m_ObjectHideFlags: 0
@@ -14004,6 +14028,7 @@ GameObject:
   - component: {fileID: 1215166894}
   - component: {fileID: 1215166893}
   - component: {fileID: 1215166895}
+  - component: {fileID: 1215166896}
   m_Layer: 5
   m_Name: Booster1
   m_TagString: Untagged
@@ -14113,6 +14138,29 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1215166896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215166891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffe93556e35f9e94d929c93f7e79febb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  descriptionText: {fileID: 1586493152}
+  description: Clears a selected game piece
+  isEnabled: 0
+  isDraggable: 0
+  isLocked: 0
+  canvasGroups: []
+  boostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  timeBonus: 15
+  boosterButton: {fileID: 1215166895}
 --- !u!1 &1239080558
 GameObject:
   m_ObjectHideFlags: 0
@@ -14125,6 +14173,7 @@ GameObject:
   - component: {fileID: 1239080562}
   - component: {fileID: 1239080561}
   - component: {fileID: 1239080560}
+  - component: {fileID: 1239080563}
   m_Layer: 5
   m_Name: Booster3
   m_TagString: Untagged
@@ -14234,6 +14283,29 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1239080558}
   m_CullTransparentMesh: 1
+--- !u!114 &1239080563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239080558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffe93556e35f9e94d929c93f7e79febb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  descriptionText: {fileID: 1586493152}
+  description: Adds a color bomb at desired location
+  isEnabled: 0
+  isDraggable: 0
+  isLocked: 0
+  canvasGroups: []
+  boostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  timeBonus: 15
+  boosterButton: {fileID: 1239080560}
 --- !u!1 &1241979766
 GameObject:
   m_ObjectHideFlags: 0
