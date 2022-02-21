@@ -20,14 +20,15 @@ namespace Match3.Core
         [SerializeField] private UnityEvent boostEvent = null;
         [SerializeField] private int timeBonus = 15;
         [SerializeField] private Button boosterButton = null;
+        [SerializeField] private Image boosterImage = null;
         #endregion
 
         #region Variables
-        private Image boosterImage = null;
         private RectTransform rectTransform = null;
         private Vector3 startPosition = Vector3.zero;
         private GameBoard gameBoard = null;
         private GameTile targetTile = null;
+        private Camera mainCamera = null;
         public static GameObject activeGameBooster = null;
         #endregion
 
@@ -44,7 +45,7 @@ namespace Match3.Core
         {
             gameBoard = GameManager.Instance.GetGameBoard();
             rectTransform = GetComponent<RectTransform>();
-            boosterImage = GetComponent<Image>();
+            mainCamera = Camera.main;
             EnableBooster(false);
             if(boosterButton != null)
             {
@@ -84,14 +85,57 @@ namespace Match3.Core
         #region Interface Implementation
         public void OnBeginDrag(PointerEventData eventData)
         {
+            if(isEnabled && isDraggable && !isLocked)
+            {
+                startPosition = gameObject.transform.position;
+            }
         }
 
         public void OnDrag(PointerEventData eventData)
         {
+            if(isEnabled && isDraggable && !isLocked && mainCamera != null)
+            {
+                Vector3 onScreenPosition;
+                RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position, mainCamera, out onScreenPosition);
+                boosterImage.transform.position = onScreenPosition;
+                RaycastHit2D hit2D = Physics2D.Raycast(onScreenPosition, Vector3.forward, Mathf.Infinity);
+                if (hit2D.collider != null)
+                {
+                    GameTile tile = hit2D.collider.GetComponent<GameTile>();
+                    if (tile != null)
+                    {
+                        targetTile = tile;
+                    }
+                    else
+                    {
+                        targetTile = null;
+                    }
+                }
+                else
+                {
+                    targetTile = null;
+                }
+            }
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            if(isEnabled && isDraggable && !isLocked)
+            {
+                boosterImage.transform.position = startPosition;
+                if(gameBoard != null && gameBoard.IsRefilling)
+                {
+                    return;
+                }
+                if(targetTile != null)
+                {
+                    if(boostEvent != null)
+                    {
+                        boostEvent.Invoke();
+                    }
+                    EnableBooster(false);
+                }
+            }
         }
         #endregion
     }
