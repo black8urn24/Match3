@@ -98,6 +98,8 @@ namespace Match3.Core
                             boostEvent.Invoke();
                         }
                         EnableBooster(false);
+                        targetTile = null;
+                        Booster.activeGameBooster = null;
                     }
                 }
             }
@@ -128,6 +130,30 @@ namespace Match3.Core
                 {
                     descriptionText.text = description;
                 }
+            }
+        }
+
+        public void RemoveSelectedTile()
+        {
+            if(gameBoard != null && targetTile != null)
+            {
+                gameBoard.ClearAndRefillBoard(targetTile.XIndex, targetTile.YIndex);
+            }
+        }
+
+        public void AddTimer()
+        {
+            if(GameManager.Instance != null)
+            {
+                GameManager.Instance.Addtime(timeBonus);
+            }
+        }
+
+        public void MakeColorBomb()
+        {
+            if(gameBoard != null && targetTile != null)
+            {
+                gameBoard.MakeColorBomb(targetTile.XIndex, targetTile.YIndex);
             }
         }
         #endregion

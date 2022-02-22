@@ -1352,6 +1352,31 @@ namespace Match3.Core
         {
             return gamePieceMoveSpeed;
         }
+
+        public void ClearAndRefillBoard(int x, int y)
+        {
+            if(IsWithinBounds(x,y))
+            {
+                GamePiece pieceToClear = allPieces[x, y];
+                List<GamePiece> gamePieces = new List<GamePiece>();
+                gamePieces.Add(pieceToClear);
+                ClearAndRefillBoard(gamePieces);
+            }
+        }
+
+        public void MakeColorBomb(int x, int y)
+        {
+            if(IsWithinBounds(x,y))
+            {
+                GamePiece gamePiece = allPieces[x, y];
+                if(gamePiece != null)
+                {
+                    ClearPieceAt(x, y);
+                    GameObject bombObject = MakeBomb(colorBombPrefab, x, y);
+                    ActivateBomb(bombObject);
+                }
+            }
+        }
         #endregion
     }
 

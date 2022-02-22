@@ -14116,7 +14116,19 @@ MonoBehaviour:
   canvasGroups: []
   boostEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1151957242}
+        m_TargetAssemblyTypeName: Match3.Core.Booster, Assembly-CSharp
+        m_MethodName: AddTimer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   timeBonus: 15
   boosterButton: {fileID: 83490459}
   boosterImage: {fileID: 913775886}
@@ -14309,7 +14321,19 @@ MonoBehaviour:
   canvasGroups: []
   boostEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1215166896}
+        m_TargetAssemblyTypeName: Match3.Core.Booster, Assembly-CSharp
+        m_MethodName: RemoveSelectedTile
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   timeBonus: 15
   boosterButton: {fileID: 956812703}
   boosterImage: {fileID: 1581277085}
@@ -14410,7 +14434,19 @@ MonoBehaviour:
   canvasGroups: []
   boostEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1239080563}
+        m_TargetAssemblyTypeName: Match3.Core.Booster, Assembly-CSharp
+        m_MethodName: MakeColorBomb
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   timeBonus: 15
   boosterButton: {fileID: 1711597428}
   boosterImage: {fileID: 1509352177}
