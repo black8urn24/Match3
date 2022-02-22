@@ -14,6 +14,7 @@ namespace Match3.Core
     {
         #region Inspector Variables
         [SerializeField] private GameBoard gameBoard = null;
+        [SerializeField] private GameObject boosterBg = null;
         [Header("Testing")]
         [SerializeField] private bool loadLevelFromJsonFile = false;
         [SerializeField] private int levelIndex = -1;
@@ -346,6 +347,14 @@ namespace Match3.Core
         public GameBoard GetGameBoard()
         {
             return gameBoard;
+        }
+
+        public void HandleBoosterBg(bool state)
+        {
+            if(boosterBg != null)
+            {
+                boosterBg.SetActive(state);
+            }
         }
         #endregion
     }
